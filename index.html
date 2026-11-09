@@ -62,7 +62,7 @@ button:hover{background:var(--a);transform:translateY(-1px)}
 #msg{min-height:1.6em;margin:2.4rem 0 0;padding:0 6vw;font-size:.9rem;color:var(--a)}#msg.warn{color:#9a3528;font-weight:600}
 section{padding:7rem 6vw 0;content-visibility:auto;contain-intrinsic-size:auto 600px}
 .big{font:300 clamp(1.6rem,3.4vw,2.9rem)/1.2 var(--fd);letter-spacing:-.015em;max-width:26em}
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;margin-top:4rem;list-style:none}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:2rem;margin-top:4rem;list-style:none}
 .steps li{border-top:1px solid var(--tx);padding-top:1rem;color:var(--mu);font-size:.95rem}
 .steps b{display:block;color:var(--tx);font:500 1.4rem var(--fd);margin:.1rem 0 .3rem}.steps span{font-size:.85rem;color:var(--t)}
 .cols{display:grid;grid-template-columns:1fr 1.1fr;gap:4rem;margin-left:12vw;align-items:start}
@@ -93,10 +93,64 @@ footer p{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;fon
 .folio-card{background:var(--bg);border:2px solid var(--gold);border-radius:12px;padding:1.6rem;max-width:960px;width:100%;box-shadow:0 25px 60px rgba(0,0,0,0.65)}
 .folio-card img{width:100%;border:1px solid var(--bd);border-radius:6px;display:block;margin:1rem 0;box-shadow:0 10px 30px rgba(0,0,0,0.3)}
 
+/* The Resonance Canvas: Harmonograph & Scriptorium Studio */
+.res-section{padding:5rem 6vw 3rem;border-top:1px solid var(--bd);background:rgba(217,200,174,0.18)}
+.res-intro{max-width:52rem;margin-bottom:2.2rem}
+.res-intro h2{margin-bottom:.6rem}
+.res-intro .lead{font:300 clamp(1.2rem,2.2vw,1.6rem)/1.4 var(--fd);color:var(--tx);margin-bottom:.8rem}
+.res-intro .res-sub{font-size:.92rem;color:var(--mu);line-height:1.6}
+
+.res-layout{display:grid;grid-template-columns:1.35fr 1fr;gap:2.2rem;align-items:start}
+
+.res-canvas-wrap{position:relative;background:#d8c4a4;border:2px solid var(--gold);border-radius:10px;overflow:hidden;box-shadow:0 20px 45px -15px rgba(34,20,10,0.5);aspect-ratio:12/7}
+#res-cv{width:100%;height:100%;display:block;cursor:crosshair;touch-action:none}
+
+.res-overlay-hud{position:absolute;top:.9rem;left:.9rem;right:.9rem;display:flex;justify-content:space-between;align-items:center;pointer-events:none;font-size:.76rem;font-weight:600;letter-spacing:.03em;gap:.5rem;flex-wrap:wrap}
+.res-hud-tag{background:rgba(34,20,10,0.8);color:#ebe0ce;padding:.3rem .75rem;border-radius:99px;backdrop-filter:blur(4px);display:inline-flex;align-items:center;gap:.45rem;border:1px solid rgba(212,175,55,0.4)}
+.res-live-dot{width:7px;height:7px;border-radius:50%;background:#4cd964;box-shadow:0 0 6px #4cd964;animation:resPulse 2s infinite}
+@keyframes resPulse{0%,100%{opacity:1}50%{opacity:.3}}
+.res-hud-status{background:rgba(34,20,10,0.8);color:var(--gold);padding:.3rem .75rem;border-radius:99px;backdrop-filter:blur(4px);border:1px solid rgba(212,175,55,0.4)}
+.res-canvas-hint{position:absolute;bottom:.75rem;left:0;right:0;text-align:center;font-size:.74rem;color:rgba(34,20,10,0.7);pointer-events:none;letter-spacing:.02em;background:rgba(216,196,164,0.75);backdrop-filter:blur(2px);padding:.2rem .6rem}
+
+.res-panel{display:flex;flex-direction:column;gap:1.3rem;background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:1.5rem}
+.res-lbl{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;font-weight:600;color:var(--mu);display:block;margin-bottom:.4rem}
+.res-preset-pills{display:flex;flex-wrap:wrap;gap:.35rem}
+.res-pill{font:500 .76rem var(--fb);padding:.32rem .7rem;border-radius:99px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);cursor:pointer;transition:all .18s}
+.res-pill:hover{border-color:var(--gold);transform:translateY(-1px)}
+.res-pill.active{background:var(--tx);color:var(--gold);border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+
+.res-sliders-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.res-slider-unit{background:rgba(255,255,255,0.32);padding:.55rem .75rem;border-radius:6px;border:1px solid rgba(190,170,142,0.45)}
+.res-slider-hdr{display:flex;justify-content:space-between;font-size:.74rem;color:var(--tx);margin-bottom:.25rem}
+.res-slider-hdr b{color:var(--a);font-family:monospace}
+.res-slider-unit input[type=range]{width:100%;accent-color:var(--a);cursor:pointer}
+
+.res-controls-footer{display:flex;flex-direction:column;gap:.9rem;border-top:1px solid var(--bd);padding-top:1.1rem}
+.res-ink-selection{display:flex;align-items:center;gap:.8rem}
+.res-ink-options{display:flex;gap:.45rem}
+.res-ink-dot{width:22px;height:22px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.res-ink-dot:hover{transform:scale(1.15)}
+.res-ink-dot.active{border-color:var(--tx);box-shadow:0 0 0 2px var(--gold)}
+
+.res-button-cluster{display:flex;flex-wrap:wrap;gap:.45rem}
+.res-action-btn{font:600 .76rem var(--fb);min-height:36px;padding:0 .85rem;border-radius:99px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);cursor:pointer;transition:all .18s}
+.res-action-btn:hover{background:var(--tx);color:var(--bg);border-color:transparent;transform:translateY(-1px)}
+.res-action-btn.primary{background:linear-gradient(135deg,#844c1c,#b38600);color:#fff;border-color:transparent}
+.res-action-btn.primary:hover{background:linear-gradient(135deg,#9a3528,#d4af37)}
+
+.res-export-cluster{display:flex;flex-direction:column;gap:.45rem;margin-top:.3rem}
+.res-imprint-btn{font:600 .82rem var(--fb);min-height:40px;padding:0 1rem;border-radius:8px;border:1px solid var(--gold);background:linear-gradient(135deg,#1b5e5a,#287a74);color:#fff;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.res-imprint-btn:hover{background:linear-gradient(135deg,#287a74,#38a3a5);transform:translateY(-1px);box-shadow:0 6px 16px rgba(27,94,90,0.35)}
+.res-export-btn{font:600 .78rem var(--fb);min-height:36px;padding:0 .85rem;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:.4rem}
+.res-export-btn:hover{background:var(--tx);color:var(--gold);border-color:var(--gold);transform:translateY(-1px)}
+
+@media(max-width:1020px){.res-layout{grid-template-columns:1fr}}
+@media(max-width:600px){.res-sliders-grid{grid-template-columns:1fr}}
+
 @media(max-width:820px){.studio-bar{flex-direction:column;align-items:flex-start}.vals li,.ab{grid-template-columns:1fr}.vals li{gap:.4rem}.ab{gap:2.5rem}.hero,.cols{grid-template-columns:1fr;margin-left:0}.steps{grid-template-columns:1fr 1fr}.fld{grid-template-columns:1fr}.wl{margin:0}.sf{width:calc(100% - 2rem);left:1rem}.folio-modal{padding:1rem}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
 </style></head><body>
-<nav><a class="lk" href="#" aria-label="Qweirdo, back to top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true"><defs><mask id="nd"><rect width="100" height="100" fill="#fff"/><g fill="#000"><path d="M19.9 48.0L21.4 48.2L22.9 48.5L24.4 48.9L25.9 49.3L27.5 49.7L29.1 50.2L30.7 50.8L32.3 51.4L33.9 52.0L35.5 52.6L37.1 53.2L38.8 53.9L40.4 54.6L42.0 55.2L43.6 55.9L45.2 56.5L46.8 57.1L48.4 57.7L49.9 58.3L51.5 58.8L52.8 59.1L53.9 59.2L55.0 59.2L56.0 59.2L57.0 59.1L57.9 58.9L58.8 58.6L59.6 58.2L60.3 57.8L61.0 57.3L61.6 56.7L62.1 56.0L62.5 55.2L62.7 54.3L62.7 53.4L62.5 52.5L62.1 51.6L61.6 50.9L60.9 50.2L60.2 49.6L59.3 49.1L58.4 48.8L57.4 48.6L56.4 48.6L55.5 48.7L54.6 49.0L53.7 49.4L52.9 50.0L52.3 50.6L51.7 51.5L51.3 52.4L51.0 53.3L50.8 54.4L50.8 55.5L51.0 56.6L51.3 57.7L51.8 58.8L52.4 60.0L53.2 61.1L54.2 62.4L55.4 63.3L56.3 64.0L57.2 64.7L58.2 65.4L59.1 66.1L60.1 66.8L61.0 67.5L62.0 68.2L63.0 68.9L63.9 69.7L64.9 70.4L65.9 71.2L66.9 72.0L67.8 72.8L68.8 73.6L69.8 74.5L70.8 75.4L71.7 76.3L72.7 77.3L73.7 78.3L74.4 79.1L75.2 79.8L75.9 80.6L76.7 81.4L77.4 82.2L78.2 83.0L79.0 83.8L79.9 84.6L80.7 85.3L81.6 86.0L82.5 86.8L83.4 87.4L84.4 88.1L85.5 88.7L86.5 89.3L87.6 89.8L88.8 90.3L90.0 90.7L91.2 91.0L92.3 91.2L93.7 83.8L92.7 83.6L92.0 83.5L91.2 83.2L90.4 83.0L89.7 82.7L88.9 82.3L88.2 81.9L87.4 81.5L86.7 81.0L85.9 80.5L85.2 79.9L84.4 79.3L83.6 78.7L82.9 78.0L82.1 77.3L81.4 76.6L80.6 75.9L79.8 75.2L79.1 74.4L78.3 73.7L77.2 72.6L76.1 71.6L74.9 70.7L73.8 69.8L72.7 68.9L71.6 68.0L70.5 67.2L69.5 66.4L68.4 65.7L67.3 65.0L66.3 64.2L65.2 63.6L64.2 62.9L63.2 62.2L62.2 61.6L61.3 60.9L60.3 60.3L59.4 59.7L58.5 59.1L57.8 58.6L57.2 58.0L56.7 57.2L56.2 56.6L56.0 56.0L55.8 55.4L55.7 55.0L55.6 54.6L55.7 54.3L55.7 54.0L55.8 53.8L55.9 53.6L56.0 53.5L56.2 53.3L56.3 53.2L56.5 53.2L56.7 53.1L57.0 53.1L57.2 53.1L57.5 53.2L57.8 53.4L58.1 53.6L58.3 53.7L58.4 53.8L58.4 53.9L58.4 53.9L58.5 53.8L58.5 53.8L58.4 53.9L58.4 54.0L58.2 54.2L58.0 54.4L57.7 54.6L57.3 54.8L56.8 55.0L56.2 55.2L55.6 55.3L54.9 55.3L54.1 55.4L53.3 55.3L52.5 55.2L51.0 54.8L49.5 54.3L48.0 53.8L46.4 53.3L44.8 52.8L43.1 52.2L41.5 51.6L39.8 51.0L38.2 50.5L36.5 49.9L34.8 49.4L33.1 48.8L31.5 48.3L29.8 47.8L28.1 47.4L26.5 47.0L24.9 46.7L23.3 46.4L21.7 46.2L20.1 46.0Z"/><path d="M22.0 47.3C27.5 57.2 69.8 69.3 57.4 74.3M22.5 47.4C26.4 58.0 49.2 79.7 35.4 74.5M24.2 47.7C23.2 56.8 13.7 46.7 20.0 59.1M21.6 47.2C14.1 43.1 20.3 23.1 16.1 37.2M21.9 47.2C29.1 33.1 21.0 25.0 30.9 19.4M22.4 47.3C31.6 35.8 48.5 13.8 57.1 17.2M22.7 47.4C37.0 41.7 79.8 44.5 74.5 32.9" stroke="#000" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M17.6 35.4C20.5 32.1 21.1 29.0 23.9 26.4M31.2 36.4C34.6 35.8 36.8 36.1 39.7 35.4M53.1 42.7C55.6 40.8 56.0 38.3 58.4 37.0" stroke="#000" stroke-width="1" stroke-linecap="round" fill="none"/></g></mask></defs><circle cx="46" cy="46" r="34" fill="#22140a" mask="url(#nd)"/><path d="M71.5 68.2L72.5 69.1L73.6 70.0L74.7 71.0L75.8 71.9L76.9 73.0L78.0 74.0L78.7 74.8L79.5 75.6L80.2 76.3L81.0 77.0L81.7 77.8L82.4 78.5L83.2 79.2L83.9 79.8L84.7 80.5L85.4 81.1L86.2 81.6L87.0 82.1L87.7 82.6L88.5 83.1L89.3 83.5L90.1 83.8L90.9 84.1" stroke="#b38600" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M70.3 69.7L71.4 70.5L72.4 71.4L73.5 72.3L74.5 73.3L75.6 74.3L76.7 75.3L77.4 76.1L78.2 76.9L78.9 77.6L79.7 78.4L80.4 79.1L81.2 79.8L82.0 80.5L82.7 81.2L83.5 81.9L84.3 82.5L85.1 83.1L85.9 83.7L86.8 84.2L87.6 84.7L88.5 85.2L89.4 85.5L90.3 85.9L91.2 86.2L92.2 86.4L93.2 86.6" stroke="#844c1c" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M69.1 71.1L70.2 72.0L71.2 72.8L72.2 73.7L73.3 74.7L74.3 75.6L75.3 76.7L76.1 77.4L76.8 78.2L77.6 78.9L78.4 79.7L79.1 80.4L79.9 81.2L80.7 81.9L81.5 82.6L82.3 83.3L83.2 84.0L84.0 84.6L84.9 85.2L85.8 85.8L86.7 86.3L87.7 86.8L88.7 87.3L89.7 87.6L90.7 88.0" stroke="#d4af37" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M68.0 72.6L69.0 73.4L70.0 74.2L71.0 75.1L72.0 76.0L73.0 77.0L74.0 78.0L74.8 78.7L75.5 79.5L76.3 80.2L77.1 81.0L77.9 81.8L78.7 82.5L79.5 83.3L80.3 84.0L81.2 84.7L82.1 85.4L83.0 86.1L83.9 86.8L84.9 87.4L85.9 88.0L86.9 88.5L88.0 89.0" stroke="#9a3528" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span aria-hidden="true">weirdo</span></a><div><a href="#ethos">Ethos</a><a href="#about">About</a><a href="#credits">Credits</a><a href="#archive">Archive</a></div></nav>
+<nav><a class="lk" href="#" aria-label="Qweirdo, back to top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true"><defs><mask id="nd"><rect width="100" height="100" fill="#fff"/><g fill="#000"><path d="M19.9 48.0L21.4 48.2L22.9 48.5L24.4 48.9L25.9 49.3L27.5 49.7L29.1 50.2L30.7 50.8L32.3 51.4L33.9 52.0L35.5 52.6L37.1 53.2L38.8 53.9L40.4 54.6L42.0 55.2L43.6 55.9L45.2 56.5L46.8 57.1L48.4 57.7L49.9 58.3L51.5 58.8L52.8 59.1L53.9 59.2L55.0 59.2L56.0 59.2L57.0 59.1L57.9 58.9L58.8 58.6L59.6 58.2L60.3 57.8L61.0 57.3L61.6 56.7L62.1 56.0L62.5 55.2L62.7 54.3L62.7 53.4L62.5 52.5L62.1 51.6L61.6 50.9L60.9 50.2L60.2 49.6L59.3 49.1L58.4 48.8L57.4 48.6L56.4 48.6L55.5 48.7L54.6 49.0L53.7 49.4L52.9 50.0L52.3 50.6L51.7 51.5L51.3 52.4L51.0 53.3L50.8 54.4L50.8 55.5L51.0 56.6L51.3 57.7L51.8 58.8L52.4 60.0L53.2 61.1L54.2 62.4L55.4 63.3L56.3 64.0L57.2 64.7L58.2 65.4L59.1 66.1L60.1 66.8L61.0 67.5L62.0 68.2L63.0 68.9L63.9 69.7L64.9 70.4L65.9 71.2L66.9 72.0L67.8 72.8L68.8 73.6L69.8 74.5L70.8 75.4L71.7 76.3L72.7 77.3L73.7 78.3L74.4 79.1L75.2 79.8L75.9 80.6L76.7 81.4L77.4 82.2L78.2 83.0L79.0 83.8L79.9 84.6L80.7 85.3L81.6 86.0L82.5 86.8L83.4 87.4L84.4 88.1L85.5 88.7L86.5 89.3L87.6 89.8L88.8 90.3L90.0 90.7L91.2 91.0L92.3 91.2L93.7 83.8L92.7 83.6L92.0 83.5L91.2 83.2L90.4 83.0L89.7 82.7L88.9 82.3L88.2 81.9L87.4 81.5L86.7 81.0L85.9 80.5L85.2 79.9L84.4 79.3L83.6 78.7L82.9 78.0L82.1 77.3L81.4 76.6L80.6 75.9L79.8 75.2L79.1 74.4L78.3 73.7L77.2 72.6L76.1 71.6L74.9 70.7L73.8 69.8L72.7 68.9L71.6 68.0L70.5 67.2L69.5 66.4L68.4 65.7L67.3 65.0L66.3 64.2L65.2 63.6L64.2 62.9L63.2 62.2L62.2 61.6L61.3 60.9L60.3 60.3L59.4 59.7L58.5 59.1L57.8 58.6L57.2 58.0L56.7 57.2L56.2 56.6L56.0 56.0L55.8 55.4L55.7 55.0L55.6 54.6L55.7 54.3L55.7 54.0L55.8 53.8L55.9 53.6L56.0 53.5L56.2 53.3L56.3 53.2L56.5 53.2L56.7 53.1L57.0 53.1L57.2 53.1L57.5 53.2L57.8 53.4L58.1 53.6L58.3 53.7L58.4 53.8L58.4 53.9L58.4 53.9L58.5 53.8L58.5 53.8L58.4 53.9L58.4 54.0L58.2 54.2L58.0 54.4L57.7 54.6L57.3 54.8L56.8 55.0L56.2 55.2L55.6 55.3L54.9 55.3L54.1 55.4L53.3 55.3L52.5 55.2L51.0 54.8L49.5 54.3L48.0 53.8L46.4 53.3L44.8 52.8L43.1 52.2L41.5 51.6L39.8 51.0L38.2 50.5L36.5 49.9L34.8 49.4L33.1 48.8L31.5 48.3L29.8 47.8L28.1 47.4L26.5 47.0L24.9 46.7L23.3 46.4L21.7 46.2L20.1 46.0Z"/><path d="M22.0 47.3C27.5 57.2 69.8 69.3 57.4 74.3M22.5 47.4C26.4 58.0 49.2 79.7 35.4 74.5M24.2 47.7C23.2 56.8 13.7 46.7 20.0 59.1M21.6 47.2C14.1 43.1 20.3 23.1 16.1 37.2M21.9 47.2C29.1 33.1 21.0 25.0 30.9 19.4M22.4 47.3C31.6 35.8 48.5 13.8 57.1 17.2M22.7 47.4C37.0 41.7 79.8 44.5 74.5 32.9" stroke="#000" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M17.6 35.4C20.5 32.1 21.1 29.0 23.9 26.4M31.2 36.4C34.6 35.8 36.8 36.1 39.7 35.4M53.1 42.7C55.6 40.8 56.0 38.3 58.4 37.0" stroke="#000" stroke-width="1" stroke-linecap="round" fill="none"/></g></mask></defs><circle cx="46" cy="46" r="34" fill="#22140a" mask="url(#nd)"/><path d="M71.5 68.2L72.5 69.1L73.6 70.0L74.7 71.0L75.8 71.9L76.9 73.0L78.0 74.0L78.7 74.8L79.5 75.6L80.2 76.3L81.0 77.0L81.7 77.8L82.4 78.5L83.2 79.2L83.9 79.8L84.7 80.5L85.4 81.1L86.2 81.6L87.0 82.1L87.7 82.6L88.5 83.1L89.3 83.5L90.1 83.8L90.9 84.1" stroke="#b38600" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M70.3 69.7L71.4 70.5L72.4 71.4L73.5 72.3L74.5 73.3L75.6 74.3L76.7 75.3L77.4 76.1L78.2 76.9L78.9 77.6L79.7 78.4L80.4 79.1L81.2 79.8L82.0 80.5L82.7 81.2L83.5 81.9L84.3 82.5L85.1 83.1L85.9 83.7L86.8 84.2L87.6 84.7L88.5 85.2L89.4 85.5L90.3 85.9L91.2 86.2L92.2 86.4L93.2 86.6" stroke="#844c1c" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M69.1 71.1L70.2 72.0L71.2 72.8L72.2 73.7L73.3 74.7L74.3 75.6L75.3 76.7L76.1 77.4L76.8 78.2L77.6 78.9L78.4 79.7L79.1 80.4L79.9 81.2L80.7 81.9L81.5 82.6L82.3 83.3L83.2 84.0L84.0 84.6L84.9 85.2L85.8 85.8L86.7 86.3L87.7 86.8L88.7 87.3L89.7 87.6L90.7 88.0" stroke="#d4af37" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M68.0 72.6L69.0 73.4L70.0 74.2L71.0 75.1L72.0 76.0L73.0 77.0L74.0 78.0L74.8 78.7L75.5 79.5L76.3 80.2L77.1 81.0L77.9 81.8L78.7 82.5L79.5 83.3L80.3 84.0L81.2 84.7L82.1 85.4L83.0 86.1L83.9 86.8L84.9 87.4L85.9 88.0L86.9 88.5L88.0 89.0" stroke="#9a3528" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span aria-hidden="true">weirdo</span></a><div><a href="#resonance">Resonance</a><a href="#ethos">Ethos</a><a href="#about">About</a><a href="#credits">Credits</a><a href="#archive">Archive</a></div></nav>
 <main>
 <div class="hero"><div><p class="kick">Charted by Chaos; Ordered by Code</p><h1>Boundless pathways<br><em>| Creative pistes</em></h1></div>
 <div class="hr"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Qweirdo logo: a looping thread whose tail splits into four coloured strands"><defs><mask id="hd"><rect width="100" height="100" fill="#fff"/><g fill="#000"><path d="M19.9 47.6L21.4 47.8L22.9 48.1L24.5 48.4L26.0 48.8L27.6 49.3L29.2 49.8L30.8 50.3L32.4 50.9L34.1 51.5L35.7 52.1L37.3 52.8L38.9 53.4L40.6 54.1L42.2 54.7L43.8 55.3L45.4 56.0L47.0 56.6L48.6 57.1L50.1 57.7L51.7 58.2L52.9 58.4L53.9 58.6L55.0 58.6L55.9 58.6L56.9 58.4L57.7 58.3L58.5 58.0L59.3 57.7L60.0 57.3L60.6 56.8L61.1 56.3L61.5 55.7L61.8 55.0L62.0 54.2L62.0 53.5L61.9 52.7L61.5 52.0L61.1 51.3L60.5 50.7L59.8 50.2L59.0 49.8L58.2 49.5L57.3 49.3L56.5 49.3L55.6 49.4L54.8 49.7L54.1 50.0L53.4 50.5L52.8 51.1L52.3 51.8L52.0 52.6L51.7 53.5L51.6 54.4L51.6 55.4L51.7 56.4L52.0 57.4L52.5 58.5L53.0 59.5L53.8 60.6L54.8 61.8L55.8 62.6L56.8 63.3L57.7 64.0L58.6 64.7L59.6 65.4L60.5 66.1L61.5 66.8L62.5 67.5L63.5 68.2L64.4 69.0L65.4 69.7L66.4 70.5L67.4 71.3L68.4 72.1L69.4 72.9L70.4 73.8L71.4 74.7L72.4 75.6L73.4 76.6L74.4 77.6L75.1 78.4L75.8 79.2L76.6 79.9L77.4 80.7L78.1 81.5L78.9 82.3L79.7 83.0L80.5 83.8L81.4 84.5L82.2 85.2L83.1 85.9L84.0 86.6L85.0 87.2L86.0 87.8L87.0 88.3L88.0 88.8L89.1 89.3L90.2 89.6L91.4 89.9L92.5 90.2L93.5 84.8L92.5 84.7L91.7 84.5L90.8 84.3L90.0 84.0L89.2 83.6L88.4 83.3L87.6 82.8L86.8 82.3L86.1 81.8L85.3 81.3L84.5 80.7L83.7 80.1L83.0 79.4L82.2 78.7L81.4 78.0L80.7 77.3L79.9 76.6L79.2 75.9L78.4 75.1L77.6 74.4L76.5 73.3L75.4 72.3L74.3 71.4L73.2 70.5L72.1 69.6L71.1 68.8L70.0 67.9L68.9 67.2L67.9 66.4L66.8 65.7L65.8 65.0L64.8 64.3L63.7 63.6L62.7 62.9L61.8 62.3L60.8 61.6L59.8 61.0L58.9 60.3L58.0 59.7L57.2 59.2L56.6 58.4L56.0 57.7L55.5 56.9L55.2 56.2L55.0 55.6L54.9 55.1L54.9 54.6L54.9 54.1L55.0 53.8L55.2 53.4L55.3 53.2L55.6 52.9L55.8 52.7L56.1 52.6L56.4 52.5L56.7 52.4L57.0 52.4L57.4 52.5L57.8 52.6L58.2 52.8L58.6 53.0L58.8 53.3L59.0 53.5L59.1 53.6L59.1 53.8L59.1 53.9L59.1 54.1L59.0 54.2L58.9 54.5L58.7 54.7L58.4 55.0L58.0 55.2L57.5 55.4L57.0 55.6L56.4 55.8L55.7 55.9L54.9 56.0L54.1 56.0L53.2 55.9L52.3 55.8L50.9 55.4L49.3 54.9L47.8 54.4L46.2 53.8L44.6 53.3L42.9 52.7L41.3 52.1L39.6 51.5L38.0 51.0L36.3 50.4L34.6 49.8L33.0 49.3L31.3 48.8L29.7 48.3L28.0 47.8L26.4 47.4L24.8 47.1L23.2 46.8L21.6 46.6L20.1 46.4Z"/><path d="M21.2 47.1C30.8 52.4 69.0 68.3 57.3 73.1M21.6 47.2C30.0 49.3 34.7 78.5 49.3 76.9M20.7 47.1C30.8 55.2 21.0 66.9 32.6 72.7M24.3 47.7C22.1 56.5 18.1 61.5 24.5 67.9M22.7 47.4C17.8 60.2 19.6 64.8 16.6 54.7M23.0 47.4C13.5 35.4 16.2 27.1 14.7 42.9M23.1 47.5C21.7 36.8 14.8 37.8 22.6 27.8M22.7 47.4C30.9 36.2 17.3 27.4 29.6 19.7M24.2 47.7C34.9 41.9 62.1 17.6 47.1 17.0M22.0 47.3C32.6 45.8 68.2 20.7 56.4 16.5M23.9 47.6C35.9 41.1 66.2 19.0 72.7 29.7M23.9 47.6C33.8 40.3 72.9 28.5 75.3 39.7" stroke="#000" stroke-width="0.9" stroke-linecap="round" fill="none"/><path d="M34.1 53.5C35.0 57.6 37.7 59.6 37.9 63.2M36.8 69.4C39.9 69.9 41.9 70.4 44.6 70.8M25.4 54.4C29.0 58.7 33.4 59.3 35.9 63.5M26.0 59.2C28.5 63.6 30.4 66.1 32.6 70.0M18.4 60.1C19.1 57.1 19.8 55.3 20.4 52.6M19.9 38.5C20.0 34.2 21.7 31.6 21.4 27.9M25.5 39.1C22.4 37.1 21.7 34.2 18.8 33.0M24.1 28.7C27.5 25.1 30.3 23.4 33.1 20.1M33.6 41.1C37.1 42.5 40.2 40.8 42.9 42.6M34.7 40.3C34.7 35.7 34.2 32.9 34.3 29.0M49.0 31.8C49.4 26.2 51.3 22.9 51.3 18.1M45.4 34.6C50.0 35.4 53.1 34.7 57.1 35.7M60.0 28.1C63.5 29.2 65.4 30.8 68.6 31.5M37.0 39.8C39.0 37.4 38.6 34.6 40.7 32.9M59.2 35.5C63.8 37.1 66.1 39.6 70.3 40.5M48.0 37.8C53.1 39.6 55.9 41.9 60.5 43.2" stroke="#000" stroke-width="0.6" stroke-linecap="round" fill="none"/><path d="M37.1 60.1C36.9 62.7 35.8 64.2 35.9 66.5M41.4 70.2C43.1 71.9 43.8 73.3 45.3 74.7M31.9 59.5C34.3 58.7 35.9 58.4 37.9 57.6M29.5 64.9C31.8 66.0 33.9 65.3 35.7 66.6M19.9 54.7C21.8 53.0 24.2 53.5 25.6 51.7M36.5 41.7C38.3 44.1 41.1 44.3 42.1 46.7M34.5 36.1C35.5 33.4 37.0 32.0 37.5 29.6M50.3 24.9C49.8 22.9 49.2 21.7 48.9 20.0M50.7 35.1C51.8 36.9 53.0 37.7 53.8 39.4M65.4 30.4C67.5 32.2 67.7 34.4 69.7 35.7M38.4 37.2C40.3 36.1 41.0 34.8 42.8 34.0M63.7 37.6C65.6 36.4 67.5 36.8 68.9 35.5M53.4 40.2C54.7 41.9 55.6 43.0 56.7 44.6" stroke="#000" stroke-width="0.42" stroke-linecap="round" fill="none"/><path d="M36.8 61.8C35.8 62.4 34.8 62.3 34.0 63.0M42.4 71.3C42.6 73.0 42.3 74.0 42.6 75.4M34.4 58.8C36.1 58.9 37.1 59.5 38.6 59.5M34.4 66.0C35.1 67.3 35.6 68.1 36.2 69.2M22.9 53.3C23.8 51.8 25.2 51.5 25.7 50.2M39.2 44.0C40.2 43.7 40.9 44.0 41.8 43.6M35.3 34.4C35.0 33.3 35.1 32.6 34.8 31.7M50.0 23.7C48.9 23.3 48.4 22.7 47.5 22.5M51.5 36.3C53.1 36.3 54.0 37.2 55.3 37.0M67.4 33.0C67.0 34.7 67.4 35.9 66.8 37.4M41.2 35.0C42.6 35.6 43.6 35.3 44.7 35.9M66.7 36.5C67.3 35.6 68.2 35.5 68.5 34.7" stroke="#000" stroke-width="0.3" stroke-linecap="round" fill="none"/></g></mask></defs><circle cx="46" cy="46" r="34" fill="#22140a" mask="url(#hd)"/><path d="M70.8 69.1L71.9 69.9L72.9 70.8L74.0 71.7L75.1 72.7L76.1 73.7L77.2 74.8L78.0 75.5L78.7 76.3L79.5 77.0L80.2 77.8L81.0 78.5L81.7 79.2L82.5 79.9L83.3 80.6L84.0 81.3L84.8 81.9L85.6 82.5L86.4 83.0L87.2 83.5L88.0 84.0L88.8 84.4L89.7 84.8L90.5 85.1" stroke="#b38600" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M70.1 70.0L71.1 70.8L72.2 71.7L73.2 72.6L74.3 73.6L75.3 74.6L76.4 75.6L77.2 76.3L77.9 77.1L78.7 77.9L79.4 78.6L80.2 79.4L80.9 80.1L81.7 80.8L82.5 81.5L83.3 82.2L84.1 82.8L84.9 83.4L85.7 84.0L86.6 84.5L87.5 85.0L88.3 85.5L89.2 85.9L90.2 86.2L91.1 86.5L92.1 86.8L93.1 86.9" stroke="#844c1c" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M69.4 70.9L70.4 71.7L71.4 72.6L72.5 73.5L73.5 74.4L74.6 75.4L75.6 76.4L76.3 77.2L77.1 77.9L77.9 78.7L78.6 79.4L79.4 80.2L80.2 80.9L81.0 81.6L81.8 82.4L82.6 83.0L83.4 83.7L84.2 84.3L85.1 84.9L86.0 85.5L86.9 86.0L87.8 86.5L88.8 86.9L89.8 87.3L90.8 87.6" stroke="#d4af37" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M68.7 71.8L69.7 72.6L70.7 73.4L71.7 74.3L72.7 75.3L73.8 76.2L74.8 77.2L75.5 78.0L76.3 78.7L77.0 79.5L77.8 80.3L78.6 81.0L79.4 81.8L80.2 82.5L81.0 83.2L81.8 83.9L82.7 84.6L83.6 85.3L84.5 85.9L85.4 86.5L86.4 87.0L87.3 87.5L88.4 88.0" stroke="#9a3528" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><p>Sketch with generative machinations. Inspect with Scribe's Loupe. Inscribe and export archival folios on aged manuscript vellum.</p></div></div>
@@ -147,15 +201,109 @@ footer p{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;fon
   </div>
 </div>
 
+<!-- The Resonance Canvas: Kinetic Harmonograph & Guilloché Scriptorium -->
+<section id="resonance" class="res-section">
+  <div class="res-intro">
+    <p class="kick">Alternative Canvas Paradigm</p>
+    <h2>The <em>Resonance Canvas</em></h2>
+    <p class="lead">A rethink of the canvas. Here, art is not drawn by arbitrary strokes, but sculpted by the physical geometry of gravity, coupled harmonic pendulums, and musical intervals.</p>
+    <p class="res-sub">Suspended above the parchment, three orthogonal pendulums swing through space. As friction slowly dissipates their kinetic energy, the virtual stylus traces the geometry of acoustic harmony—creating sacred Guilloché rosettes, Lissajous figures, and orbital precessions.</p>
+  </div>
+
+  <div class="res-layout">
+    <div class="res-canvas-wrap">
+      <canvas id="res-cv" width="1200" height="700" aria-label="Harmonic Resonance Drawing Table"></canvas>
+      <div class="res-overlay-hud">
+        <div class="res-hud-tag"><span class="res-live-dot"></span> <span id="resRatioLabel">Harmonic Ratio: 3:2 (Perfect Fifth)</span></div>
+        <div class="res-hud-status"><span id="resEnergyLabel">Oscillator Energy: 100%</span></div>
+      </div>
+      <div class="res-canvas-hint">Drag pendulum bob on canvas to impart kinetic deflection · Release to swing</div>
+    </div>
+
+    <div class="res-panel">
+      <!-- Archetypes / Presets -->
+      <div class="res-control-box">
+        <label class="res-lbl">Harmonic Archetypes (Ratios & Orbits)</label>
+        <div class="res-preset-pills">
+          <button type="button" class="res-pill active" data-preset="fifth">3:2 Perfect Fifth</button>
+          <button type="button" class="res-pill" data-preset="octave">2:1 Celestial Octave</button>
+          <button type="button" class="res-pill" data-preset="fourth">4:3 Pythagorean Fourth</button>
+          <button type="button" class="res-pill" data-preset="third">5:4 Major Third</button>
+          <button type="button" class="res-pill" data-preset="rose">5:6 Cathedral Rose</button>
+          <button type="button" class="res-pill" data-preset="guilloche">11:12 Banknote Guilloché</button>
+          <button type="button" class="res-pill" data-preset="golden">1.618:1 Golden Spiral (Φ)</button>
+          <button type="button" class="res-pill" data-preset="nebula">3.01:2.00 Galactic Precession</button>
+        </div>
+      </div>
+
+      <!-- Oscillation Sliders -->
+      <div class="res-sliders-grid">
+        <div class="res-slider-unit">
+          <div class="res-slider-hdr"><span>Pendulum X (Lateral)</span><b id="valF1">3.00</b></div>
+          <input type="range" id="sliderF1" min="1.0" max="8.0" step="0.01" value="3.00" aria-label="Frequency 1">
+        </div>
+        <div class="res-slider-unit">
+          <div class="res-slider-hdr"><span>Pendulum Y (Transverse)</span><b id="valF2">2.00</b></div>
+          <input type="range" id="sliderF2" min="1.0" max="8.0" step="0.01" value="2.00" aria-label="Frequency 2">
+        </div>
+        <div class="res-slider-unit">
+          <div class="res-slider-hdr"><span>Rotary Precession (Table)</span><b id="valF3">0.00</b></div>
+          <input type="range" id="sliderF3" min="-2.0" max="2.0" step="0.01" value="0.00" aria-label="Rotary Precession">
+        </div>
+        <div class="res-slider-unit">
+          <div class="res-slider-hdr"><span>Phase Delta θ</span><b id="valPhase">90°</b></div>
+          <input type="range" id="sliderPhase" min="0" max="360" step="1" value="90" aria-label="Phase Delta">
+        </div>
+        <div class="res-slider-unit">
+          <div class="res-slider-hdr"><span>Damping Decay</span><b id="valDamp">0.0014</b></div>
+          <input type="range" id="sliderDamp" min="0.0003" max="0.0040" step="0.0001" value="0.0014" aria-label="Damping">
+        </div>
+        <div class="res-slider-unit">
+          <div class="res-slider-hdr"><span>Ink Stroke Weight</span><b id="valWidth">1.2px</b></div>
+          <input type="range" id="sliderWidth" min="0.5" max="3.5" step="0.1" value="1.2" aria-label="Stroke Weight">
+        </div>
+      </div>
+
+      <!-- Inks & Action Controls -->
+      <div class="res-controls-footer">
+        <div class="res-ink-selection">
+          <span class="res-lbl">Mineral Ink:</span>
+          <div class="res-ink-options">
+            <button type="button" class="res-ink-dot active" data-ink="gold" style="background:linear-gradient(135deg,#d4af37,#aa7c11)" title="Oxidized Gold Leaf"></button>
+            <button type="button" class="res-ink-dot" data-ink="oxblood" style="background:linear-gradient(135deg,#8b1c28,#5a0f1d)" title="Oxblood Carmine"></button>
+            <button type="button" class="res-ink-dot" data-ink="lapis" style="background:linear-gradient(135deg,#264380,#142345)" title="Ultramarine Lapis"></button>
+            <button type="button" class="res-ink-dot" data-ink="verdigris" style="background:linear-gradient(135deg,#1b5e5a,#0f3634)" title="Verdigris Teal"></button>
+            <button type="button" class="res-ink-dot" data-ink="bichrome" style="background:linear-gradient(135deg,#d4af37 50%,#8b1c28 50%)" title="Bichrome (Gold & Oxblood)"></button>
+          </div>
+        </div>
+
+        <div class="res-button-cluster">
+          <button type="button" id="btnResFling" class="res-action-btn primary" title="Impart kinetic momentum to pendulums">⚡ Fling Pendulums</button>
+          <button type="button" id="btnResInstant" class="res-action-btn" title="Instantly render complete mathematical curve">✦ Instant Inscribe</button>
+          <button type="button" id="btnResClear" class="res-action-btn" title="Clear current slate">Clear</button>
+          <button type="button" id="btnResAudio" class="res-action-btn" title="Toggle Sympathetic Web Audio Chimes">🔊 Chimes: Off</button>
+        </div>
+
+        <div class="res-export-cluster">
+          <button type="button" id="btnResImprint" class="res-imprint-btn" title="Imprint this harmonic geometry onto the Living Canvas above as an illuminated watermark">✨ Imprint onto Living Canvas</button>
+          <button type="button" id="btnResSvg" class="res-export-btn" title="Download Scalable Vector Graphics (.svg) for pen-plotters and digital art">🖋 Export Vector SVG</button>
+          <button type="button" id="btnResPng" class="res-export-btn" title="Download High-Resolution Archival PNG">📥 Export PNG</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="ethos"><p class="big">This is art made slowly, and together. Colour gathers the way memory does, layer on layer, on aged manuscript vellum. Your cursor leaves <em>currents</em>. Your words leave <em>weather</em>. No one hand finishes a canvas.</p>
 <ul class="vals"><li><b>Slow</b><span>A deliberate, meditative tempo. Ambient strokes gather quietly across long intervals, preserving negative space and giving your marks enduring presence.</span></li><li><b>Kind</b><span>Generous words glow brighter in gold and lapis. Cruel terms are never repeated, only softened into quiet abstract geometry.</span></li><li><b>Open</b><span>Free to enter, free to leave. Not for profit, local-first privacy, with nothing sold.</span></li></ul>
 <p class="kick hw">How it works</p>
-<ol class="steps"><li><span>01</span><b>Unified Sketching</b>Drag across the canvas to sketch directly into the manuscript. Strokes breathe with slow, graceful filigrees, gentle embers, and crystalline fractures.</li><li><span>02</span><b>Custom Graffiti Tags</b>Stamp calligraphic tags of your choice anywhere on the vellum, embossed in oxblood red, teal, sage, and burnished gold.</li><li><span>03</span><b>Lumen & Loupe</b>Witness gold leaf glisten under interactive candlelight. Inspect microscopic rag fibers and ink craquelure with the Scribe's Loupe.</li><li><span>04</span><b>Archival Folio Press</b>Inscribe and export full-fidelity 3200×1600 broadside prints complete with astronomical colophon and hot-wax provenance seal.</li></ol></section>
+<ol class="steps"><li><span>01</span><b>Unified Sketching</b>Drag across the canvas to sketch directly into the manuscript. Strokes breathe with slow, graceful filigrees, gentle embers, and crystalline fractures.</li><li><span>02</span><b>Custom Graffiti Tags</b>Stamp calligraphic tags of your choice anywhere on the vellum, embossed in oxblood red, teal, sage, and burnished gold.</li><li><span>03</span><b>Lumen & Loupe</b>Witness gold leaf glisten under interactive candlelight. Inspect microscopic rag fibers and ink craquelure with the Scribe's Loupe.</li><li><span>04</span><b>Archival Folio Press</b>Inscribe and export full-fidelity 3200×1600 broadside prints complete with astronomical colophon and hot-wax provenance seal.</li><li><span>05</span><b>The Resonance Canvas</b>Sculpt sacred guilloché and harmonograph geometry using coupled physical pendulums, export vector SVGs, and imprint celestial watermarks.</li></ol></section>
 
 <section id="about"><h2>About <em>Qweirdo</em></h2>
 <div class="ab"><div>
 <p class="lead">Qweirdo is a not-for-profit generative art installation and digital humanities experiment in slow, collective authorship.</p>
 <p><b>Unified Living Manuscript.</b> Sketches, custom street-manuscript graffiti tags, and topographic biomes coexist seamlessly on a single, continuous aged parchment canvas. Freehand strokes soak organically into the paper grain without digital clutter.</p>
+<p><b>The Resonance Canvas (Harmonograph Scriptorium).</b> Rethinking the canvas as a physical resonance table. Coupled gravitational oscillators trace musical intervals into hypnotic Guilloché rosettes with live Web Audio chimes, vector SVG export, and live watermark imprinting.</p>
 <p><b>Lumen Antiqua (Directional Illumination).</b> Real-time directional candlelight casts warm specular caustics across gold leaf and embossed rims, mimicking traditional medieval illumination that reacts dynamically as light shifts across the page.</p>
 <p><b>Scribe's Palimpsest Loupe.</b> An interactive 2.5x magnifying lens equipped with an antique brass astrolabe bezel reveals microscopic rag paper fibers, capillary ink seeps, and gilded leaf craquelure.</p>
 <p><b>Carta Manuscripta (Folio Press).</b> Visitors can export high-resolution museum broadsides (3200×1600) complete with illuminated acanthus borders, Scribe Colophon, astronomical solar timestamps, and hot-wax embossed seals.</p>
@@ -1457,6 +1605,666 @@ const stopDrawing=e=>{
 C.addEventListener('pointerup',stopDrawing);
 C.addEventListener('pointercancel',stopDrawing);
 C.addEventListener('pointerleave',()=>{hoverPos=null;stopDrawing({});});
+
+// ==========================================
+// THE RESONANCE CANVAS · SCRIPTORIUM HARMONOGRAPH
+// ==========================================
+(function() {
+  const rcv = document.getElementById('res-cv');
+  if(!rcv) return;
+  const rx = rcv.getContext('2d');
+  const RW = 1200, RH = 700;
+  rcv.width = RW; rcv.height = RH;
+  const CX = RW / 2, CY = RH / 2;
+
+  // Harmonograph Physics Parameters
+  let f1 = 3.00, f2 = 2.00, f3 = 0.00;
+  let p1 = Math.PI / 2, p2 = 0;
+  let damp = 0.0014;
+  let strokeWidth = 1.2;
+  let inkKey = 'gold'; // gold, oxblood, lapis, verdigris, bichrome
+  let activeRatioName = "3:2 (Perfect Fifth)";
+
+  // Amplitudes
+  let ampX = 330, ampY = 220;
+
+  // Simulation State
+  let simTime = 0;
+  let maxTime = 1600;
+  let dt = 0.015;
+  let isSimulating = false;
+  let simSpeed = 16; // points per animation frame
+  let allPoints = [];
+  let prevPt = null;
+  let animId = null;
+
+  // Dragging State
+  let isDragging = false;
+  let dragPt = { x: CX, y: CY };
+
+  // Web Audio Context & Chimes
+  let audioCtx = null;
+  let audioEnabled = false;
+  let osc1 = null, osc2 = null, osc3 = null, masterGain = null;
+
+  // Presets definition
+  const PRESETS = {
+    fifth:    { f1: 3.00, f2: 2.00, f3: 0.00, p1: 90, damp: 0.0014, name: "3:2 Perfect Fifth" },
+    octave:   { f1: 2.00, f2: 1.00, f3: 0.00, p1: 90, damp: 0.0012, name: "2:1 Celestial Octave" },
+    fourth:   { f1: 4.00, f2: 3.00, f3: 0.00, p1: 0,  damp: 0.0015, name: "4:3 Pythagorean Fourth" },
+    third:    { f1: 5.00, f2: 4.00, f3: 0.00, p1: 90, damp: 0.0016, name: "5:4 Major Third" },
+    rose:     { f1: 5.00, f2: 6.00, f3: -1.00, p1: 0, damp: 0.0010, name: "5:6 Cathedral Rose" },
+    guilloche:{ f1: 11.00,f2: 12.00,f3: -1.00, p1: 45,damp: 0.0008, name: "11:12 Banknote Guilloché" },
+    golden:   { f1: 1.618,f2: 1.00, f3: 0.01, p1: 90, damp: 0.0006, name: "1.618:1 Golden Spiral (Φ)" },
+    nebula:   { f1: 3.01, f2: 2.00, f3: 0.04, p1: 60, damp: 0.0011, name: "3.01:2.00 Galactic Precession" }
+  };
+
+  // Color mapping
+  const INKS = {
+    gold:      { stroke: '#d4af37', shadow: 'rgba(212,175,55,0.4)', name: 'Oxidized Gold Leaf' },
+    oxblood:   { stroke: '#8b1c28', shadow: 'rgba(139,28,40,0.35)', name: 'Oxblood Carmine' },
+    lapis:     { stroke: '#264380', shadow: 'rgba(38,67,128,0.35)', name: 'Ultramarine Lapis' },
+    verdigris: { stroke: '#1b5e5a', shadow: 'rgba(27,94,90,0.35)',  name: 'Verdigris Teal' },
+    bichrome:  { stroke: '#d4af37', alt: '#8b1c28', shadow: 'rgba(212,175,55,0.3)', name: 'Bichrome (Gold & Oxblood)' }
+  };
+
+  // DOM Elements
+  const lblRatio = document.getElementById('resRatioLabel');
+  const lblEnergy = document.getElementById('resEnergyLabel');
+  const sF1 = document.getElementById('sliderF1');
+  const sF2 = document.getElementById('sliderF2');
+  const sF3 = document.getElementById('sliderF3');
+  const sPhase = document.getElementById('sliderPhase');
+  const sDamp = document.getElementById('sliderDamp');
+  const sWidth = document.getElementById('sliderWidth');
+  const valF1 = document.getElementById('valF1');
+  const valF2 = document.getElementById('valF2');
+  const valF3 = document.getElementById('valF3');
+  const valPhase = document.getElementById('valPhase');
+  const valDamp = document.getElementById('valDamp');
+  const valWidth = document.getElementById('valWidth');
+  const btnAudio = document.getElementById('btnResAudio');
+
+  // Background Vellum Renderer
+  function renderPlateBackground() {
+    rx.fillStyle = '#d8c4a4';
+    rx.fillRect(0, 0, RW, RH);
+
+    // Subtle laid lines
+    rx.strokeStyle = 'rgba(190, 170, 142, 0.25)';
+    rx.lineWidth = 0.5;
+    rx.beginPath();
+    for (let y = 30; y < RH; y += 36) {
+      rx.moveTo(25, y); rx.lineTo(RW - 25, y);
+    }
+    for (let x = 40; x < RW; x += 120) {
+      rx.moveTo(x, 25); rx.lineTo(x, RH - 25);
+    }
+    rx.stroke();
+
+    // Antique double border
+    rx.strokeStyle = 'rgba(132, 76, 28, 0.4)';
+    rx.lineWidth = 1.2;
+    rx.strokeRect(20, 20, RW - 40, RH - 40);
+    rx.strokeStyle = 'rgba(212, 175, 55, 0.5)';
+    rx.lineWidth = 0.6;
+    rx.strokeRect(25, 25, RW - 50, RH - 50);
+
+    // Corner rosette accents
+    const corners = [[25, 25], [RW - 25, 25], [25, RH - 25], [RW - 25, RH - 25]];
+    rx.fillStyle = 'rgba(212, 175, 55, 0.7)';
+    corners.forEach(([cx, cy]) => {
+      rx.beginPath(); rx.arc(cx, cy, 3, 0, Math.PI * 2); rx.fill();
+    });
+  }
+
+  // Calculate Coordinate at time t
+  function calcPoint(t) {
+    const decay = Math.exp(-damp * t);
+    const xBase = ampX * Math.sin(f1 * t + p1) * decay;
+    const yBase = ampY * Math.sin(f2 * t + p2) * decay;
+    const alpha = f3 * t * 0.2;
+    const x = xBase * Math.cos(alpha) - yBase * Math.sin(alpha) + CX;
+    const y = xBase * Math.sin(alpha) + yBase * Math.cos(alpha) + CY;
+    return { x, y, decay };
+  }
+
+  // Web Audio System
+  function initAudio() {
+    if (audioCtx) return;
+    try {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
+      audioCtx = new AC();
+      masterGain = audioCtx.createGain();
+      masterGain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(700, audioCtx.currentTime);
+
+      masterGain.connect(filter);
+      filter.connect(audioCtx.destination);
+    } catch(e) {}
+  }
+
+  function startChimes() {
+    if (!audioEnabled) return;
+    initAudio();
+    if (!audioCtx) return;
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+
+    stopChimes();
+    try {
+      const now = audioCtx.currentTime;
+      masterGain.gain.cancelScheduledValues(now);
+      masterGain.gain.setValueAtTime(0.0001, now);
+      masterGain.gain.exponentialRampToValueAtTime(0.08, now + 0.3);
+
+      const baseFreq = 164.81; // E3
+
+      osc1 = audioCtx.createOscillator();
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(baseFreq * (f1 / 2), now);
+
+      osc2 = audioCtx.createOscillator();
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(baseFreq * (f2 / 2), now);
+
+      osc1.connect(masterGain);
+      osc2.connect(masterGain);
+
+      if (Math.abs(f3) > 0.05) {
+        osc3 = audioCtx.createOscillator();
+        osc3.type = 'triangle';
+        osc3.frequency.setValueAtTime(baseFreq * 1.5, now);
+        osc3.connect(masterGain);
+        osc3.start(now);
+      }
+
+      osc1.start(now);
+      osc2.start(now);
+    } catch(e) {}
+  }
+
+  function updateChimeEnergy(decay) {
+    if (!audioEnabled || !audioCtx || !masterGain) return;
+    try {
+      const now = audioCtx.currentTime;
+      const targetGain = Math.max(0.0001, 0.08 * decay);
+      masterGain.gain.setValueAtTime(targetGain, now);
+    } catch(e) {}
+  }
+
+  function stopChimes() {
+    if (!audioCtx) return;
+    try {
+      const now = audioCtx.currentTime;
+      if (masterGain) {
+        masterGain.gain.cancelScheduledValues(now);
+        masterGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
+      }
+      setTimeout(() => {
+        if (osc1) { try { osc1.stop(); osc1.disconnect(); } catch(e){} osc1 = null; }
+        if (osc2) { try { osc2.stop(); osc2.disconnect(); } catch(e){} osc2 = null; }
+        if (osc3) { try { osc3.stop(); osc3.disconnect(); } catch(e){} osc3 = null; }
+      }, 550);
+    } catch(e) {}
+  }
+
+  // Simulation Loop
+  function stepSimulation() {
+    if (!isSimulating) return;
+
+    rx.save();
+    rx.lineWidth = strokeWidth;
+    rx.lineCap = 'round';
+    rx.lineJoin = 'round';
+
+    const ink = INKS[inkKey] || INKS.gold;
+    rx.shadowColor = ink.shadow;
+    rx.shadowBlur = 2;
+
+    let lastDecay = 1;
+
+    for (let s = 0; s < simSpeed; s++) {
+      simTime += dt;
+      const pt = calcPoint(simTime);
+      allPoints.push([Math.round(pt.x * 10) / 10, Math.round(pt.y * 10) / 10]);
+      lastDecay = pt.decay;
+
+      if (prevPt) {
+        rx.beginPath();
+        if (inkKey === 'bichrome') {
+          rx.strokeStyle = (Math.floor(allPoints.length / 40) % 2 === 0) ? ink.stroke : ink.alt;
+        } else {
+          rx.strokeStyle = ink.stroke;
+        }
+        rx.moveTo(prevPt.x, prevPt.y);
+        rx.lineTo(pt.x, pt.y);
+        rx.stroke();
+      }
+      prevPt = pt;
+
+      if (pt.decay < 0.015 || simTime >= maxTime) {
+        isSimulating = false;
+        break;
+      }
+    }
+    rx.restore();
+
+    updateChimeEnergy(lastDecay);
+
+    if (lblEnergy) {
+      if (isSimulating) {
+        lblEnergy.textContent = 'Energy: ' + Math.max(1, Math.round(lastDecay * 100)) + '%';
+      } else {
+        lblEnergy.textContent = 'Harmonic Equilibrium Reached';
+      }
+    }
+
+    if (isSimulating) {
+      animId = requestAnimationFrame(stepSimulation);
+    } else {
+      stopChimes();
+    }
+  }
+
+  // Start / Restart Simulation
+  function launchSimulation() {
+    if (animId) cancelAnimationFrame(animId);
+    renderPlateBackground();
+    simTime = 0;
+    allPoints = [];
+    prevPt = null;
+    isSimulating = true;
+
+    const pt0 = calcPoint(0);
+    prevPt = pt0;
+    allPoints.push([Math.round(pt0.x * 10) / 10, Math.round(pt0.y * 10) / 10]);
+
+    if (lblRatio) lblRatio.textContent = 'Harmonic Ratio: ' + f1.toFixed(2) + ':' + f2.toFixed(2) + ' (' + activeRatioName + ')';
+    if (lblEnergy) lblEnergy.textContent = 'Energy: 100%';
+
+    startChimes();
+    animId = requestAnimationFrame(stepSimulation);
+  }
+
+  // Instant Inscribe (Synchronously compute & render all points)
+  function instantInscribe() {
+    if (animId) cancelAnimationFrame(animId);
+    isSimulating = false;
+    stopChimes();
+    renderPlateBackground();
+
+    allPoints = [];
+    rx.save();
+    rx.lineWidth = strokeWidth;
+    rx.lineCap = 'round';
+    rx.lineJoin = 'round';
+
+    const ink = INKS[inkKey] || INKS.gold;
+    rx.shadowColor = ink.shadow;
+    rx.shadowBlur = 2;
+
+    const totalSteps = 6000;
+    let p = calcPoint(0);
+    allPoints.push([Math.round(p.x * 10) / 10, Math.round(p.y * 10) / 10]);
+
+    for (let i = 1; i < totalSteps; i++) {
+      const t = i * dt;
+      const next = calcPoint(t);
+      allPoints.push([Math.round(next.x * 10) / 10, Math.round(next.y * 10) / 10]);
+
+      rx.beginPath();
+      if (inkKey === 'bichrome') {
+        rx.strokeStyle = (Math.floor(i / 40) % 2 === 0) ? ink.stroke : ink.alt;
+      } else {
+        rx.strokeStyle = ink.stroke;
+      }
+      rx.moveTo(p.x, p.y);
+      rx.lineTo(next.x, next.y);
+      rx.stroke();
+
+      p = next;
+      if (p.decay < 0.015) break;
+    }
+    rx.restore();
+
+    if (lblEnergy) lblEnergy.textContent = 'Instant Inscription Complete';
+  }
+
+  // Apply Preset Configuration
+  function applyPreset(key) {
+    const p = PRESETS[key];
+    if (!p) return;
+    f1 = p.f1; f2 = p.f2; f3 = p.f3;
+    p1 = (p.p1 * Math.PI) / 180;
+    damp = p.damp;
+    activeRatioName = p.name;
+
+    if (sF1) { sF1.value = f1; if (valF1) valF1.textContent = f1.toFixed(2); }
+    if (sF2) { sF2.value = f2; if (valF2) valF2.textContent = f2.toFixed(2); }
+    if (sF3) { sF3.value = f3; if (valF3) valF3.textContent = f3.toFixed(2); }
+    if (sPhase) { sPhase.value = p.p1; if (valPhase) valPhase.textContent = p.p1 + '°'; }
+    if (sDamp) { sDamp.value = damp; if (valDamp) valDamp.textContent = damp.toFixed(4); }
+
+    document.querySelectorAll('.res-pill').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.preset === key);
+    });
+
+    launchSimulation();
+  }
+
+  // Direct Interactive Dragging of Pendulum Bob
+  rcv.addEventListener('pointerdown', e => {
+    const rect = rcv.getBoundingClientRect();
+    const x = (e.clientX - rect.left) * (RW / rect.width);
+    const y = (e.clientY - rect.top) * (RH / rect.height);
+
+    isDragging = true;
+    dragPt = { x, y };
+    if (animId) cancelAnimationFrame(animId);
+    isSimulating = false;
+    stopChimes();
+    try { rcv.setPointerCapture(e.pointerId); } catch(err) {}
+  });
+
+  rcv.addEventListener('pointermove', e => {
+    if (!isDragging) return;
+    const rect = rcv.getBoundingClientRect();
+    dragPt = {
+      x: (e.clientX - rect.left) * (RW / rect.width),
+      y: (e.clientY - rect.top) * (RH / rect.height)
+    };
+
+    // Render tether line & brass bob over current drawing
+    renderPlateBackground();
+    if (allPoints.length > 1) {
+      rx.save();
+      rx.lineWidth = strokeWidth * 0.75;
+      rx.strokeStyle = 'rgba(132, 76, 28, 0.4)';
+      rx.beginPath();
+      rx.moveTo(allPoints[0][0], allPoints[0][1]);
+      for (let i = 1; i < allPoints.length; i++) rx.lineTo(allPoints[i][0], allPoints[i][1]);
+      rx.stroke();
+      rx.restore();
+    }
+
+    // Draw suspension tether & bob
+    rx.save();
+    rx.strokeStyle = 'rgba(212, 175, 55, 0.7)';
+    rx.lineWidth = 1.5;
+    rx.setLineDash([4, 4]);
+    rx.beginPath();
+    rx.moveTo(CX, CY);
+    rx.lineTo(dragPt.x, dragPt.y);
+    rx.stroke();
+    rx.setLineDash([]);
+
+    // Glowing brass bob
+    rx.fillStyle = '#d4af37';
+    rx.shadowColor = '#d4af37';
+    rx.shadowBlur = 10;
+    rx.beginPath();
+    rx.arc(dragPt.x, dragPt.y, 11, 0, Math.PI * 2);
+    rx.fill();
+    rx.fillStyle = '#22140a';
+    rx.beginPath();
+    rx.arc(dragPt.x, dragPt.y, 3, 0, Math.PI * 2);
+    rx.fill();
+    rx.restore();
+  });
+
+  const stopDrag = e => {
+    if (!isDragging) return;
+    isDragging = false;
+    try { rcv.releasePointerCapture(e.pointerId); } catch(err) {}
+
+    const dx = dragPt.x - CX;
+    const dy = dragPt.y - CY;
+    ampX = Math.min(Math.max(Math.abs(dx), 60), 480);
+    ampY = Math.min(Math.max(Math.abs(dy), 60), 300);
+
+    const rad = Math.atan2(dy, dx);
+    p1 = rad;
+
+    launchSimulation();
+  };
+
+  rcv.addEventListener('pointerup', stopDrag);
+  rcv.addEventListener('pointercancel', stopDrag);
+
+  // Sliders Input Listeners
+  if (sF1) sF1.addEventListener('input', e => {
+    f1 = parseFloat(e.target.value);
+    if (valF1) valF1.textContent = f1.toFixed(2);
+    activeRatioName = 'Custom (' + f1.toFixed(2) + ':' + f2.toFixed(2) + ')';
+    launchSimulation();
+  });
+  if (sF2) sF2.addEventListener('input', e => {
+    f2 = parseFloat(e.target.value);
+    if (valF2) valF2.textContent = f2.toFixed(2);
+    activeRatioName = 'Custom (' + f1.toFixed(2) + ':' + f2.toFixed(2) + ')';
+    launchSimulation();
+  });
+  if (sF3) sF3.addEventListener('input', e => {
+    f3 = parseFloat(e.target.value);
+    if (valF3) valF3.textContent = f3.toFixed(2);
+    launchSimulation();
+  });
+  if (sPhase) sPhase.addEventListener('input', e => {
+    const deg = parseFloat(e.target.value);
+    p1 = (deg * Math.PI) / 180;
+    if (valPhase) valPhase.textContent = deg + '°';
+    launchSimulation();
+  });
+  if (sDamp) sDamp.addEventListener('input', e => {
+    damp = parseFloat(e.target.value);
+    if (valDamp) valDamp.textContent = damp.toFixed(4);
+    launchSimulation();
+  });
+  if (sWidth) sWidth.addEventListener('input', e => {
+    strokeWidth = parseFloat(e.target.value);
+    if (valWidth) valWidth.textContent = strokeWidth.toFixed(1) + 'px';
+  });
+
+  // Presets Buttons
+  document.querySelectorAll('.res-pill').forEach(btn => {
+    btn.addEventListener('click', () => applyPreset(btn.dataset.preset));
+  });
+
+  // Mineral Ink Selection
+  document.querySelectorAll('.res-ink-dot').forEach(btn => {
+    btn.addEventListener('click', () => {
+      inkKey = btn.dataset.ink;
+      document.querySelectorAll('.res-ink-dot').forEach(b => b.classList.toggle('active', b === btn));
+      launchSimulation();
+    });
+  });
+
+  // Action Buttons
+  const btnFling = document.getElementById('btnResFling');
+  if (btnFling) btnFling.addEventListener('click', () => {
+    ampX = 240 + Math.random() * 180;
+    ampY = 160 + Math.random() * 120;
+    p1 = Math.random() * Math.PI * 2;
+    launchSimulation();
+  });
+
+  const btnInstant = document.getElementById('btnResInstant');
+  if (btnInstant) btnInstant.addEventListener('click', instantInscribe);
+
+  const btnClear = document.getElementById('btnResClear');
+  if (btnClear) btnClear.addEventListener('click', () => {
+    if (animId) cancelAnimationFrame(animId);
+    isSimulating = false;
+    stopChimes();
+    renderPlateBackground();
+    allPoints = [];
+    if (lblEnergy) lblEnergy.textContent = 'Plate Cleared';
+  });
+
+  if (btnAudio) btnAudio.addEventListener('click', () => {
+    audioEnabled = !audioEnabled;
+    btnAudio.textContent = audioEnabled ? '🔊 Chimes: On' : '🔈 Chimes: Off';
+    btnAudio.style.background = audioEnabled ? 'linear-gradient(135deg,#1b5e5a,#287a74)' : 'var(--bg)';
+    btnAudio.style.color = audioEnabled ? '#fff' : 'var(--tx)';
+    if (audioEnabled) {
+      initAudio();
+      if (isSimulating) startChimes();
+    } else {
+      stopChimes();
+    }
+  });
+
+  // ==========================================
+  // EXPORT UTILITIES & LIVING CANVAS IMPRINTING
+  // ==========================================
+
+  // 1. Export Scalable Vector Graphics (SVG)
+  const btnSvg = document.getElementById('btnResSvg');
+  if (btnSvg) btnSvg.addEventListener('click', () => {
+    if (allPoints.length < 2) instantInscribe();
+
+    let pathD = 'M ' + allPoints[0][0] + ' ' + allPoints[0][1];
+    for (let i = 1; i < allPoints.length; i++) {
+      pathD += ' L ' + allPoints[i][0] + ' ' + allPoints[i][1];
+    }
+
+    const strokeColor = (INKS[inkKey] || INKS.gold).stroke;
+    const svgContent = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${RW} ${RH}" width="${RW}" height="${RH}">
+  <!-- Project Qweirdo · Harmonia Mundi · Resonance Canvas -->
+  <rect width="100%" height="100%" fill="#ebe0ce"/>
+  <rect x="20" y="20" width="${RW - 40}" height="${RH - 40}" fill="none" stroke="#beaa8e" stroke-width="1.2"/>
+  <path d="${pathD}" fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="32" y="${RH - 32}" font-family="'Fraunces', Georgia, serif" font-size="14" fill="#634e3a">Project Qweirdo · ${activeRatioName} · Harmonic Harmonograph</text>
+</svg>`;
+
+    const blob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `qweirdo-resonance-${f1.toFixed(2)}-${f2.toFixed(2)}.svg`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    if (typeof msg === 'function') msg(`✦ Vector SVG exported: ${activeRatioName} (${allPoints.length} nodes).`);
+  });
+
+  // 2. Export High-Resolution Archival PNG
+  const btnPng = document.getElementById('btnResPng');
+  if (btnPng) btnPng.addEventListener('click', () => {
+    if (allPoints.length < 2) instantInscribe();
+
+    const oc = document.createElement('canvas');
+    oc.width = 2400; oc.height = 1400;
+    const ox = oc.getContext('2d');
+    const scale = 2;
+
+    // Rich parchment wash
+    ox.fillStyle = '#ebe0ce';
+    ox.fillRect(0, 0, oc.width, oc.height);
+
+    // Gilded double frame
+    ox.strokeStyle = '#d4af37';
+    ox.lineWidth = 3;
+    ox.strokeRect(40, 40, oc.width - 80, oc.height - 80);
+    ox.strokeStyle = '#844c1c';
+    ox.lineWidth = 1;
+    ox.strokeRect(48, 48, oc.width - 96, oc.height - 96);
+
+    // Draw scaled path
+    ox.save();
+    ox.lineWidth = strokeWidth * scale;
+    ox.lineCap = 'round';
+    ox.lineJoin = 'round';
+    const ink = INKS[inkKey] || INKS.gold;
+    ox.shadowColor = ink.shadow;
+    ox.shadowBlur = 4;
+
+    ox.beginPath();
+    ox.moveTo(allPoints[0][0] * scale, allPoints[0][1] * scale);
+    for (let i = 1; i < allPoints.length; i++) {
+      if (inkKey === 'bichrome') {
+        ox.strokeStyle = (Math.floor(i / 40) % 2 === 0) ? ink.stroke : ink.alt;
+      } else {
+        ox.strokeStyle = ink.stroke;
+      }
+      ox.lineTo(allPoints[i][0] * scale, allPoints[i][1] * scale);
+    }
+    ox.strokeStyle = ink.stroke;
+    ox.stroke();
+    ox.restore();
+
+    // Colophon typography
+    ox.fillStyle = '#22140a';
+    ox.font = '300 32px "Fraunces", Georgia, serif';
+    ox.fillText('HARMONIA MUNDI · RESONANCE FOLIO', 70, oc.height - 70);
+    ox.font = '400 18px "Hanken Grotesk", sans-serif';
+    ox.fillStyle = '#634e3a';
+    ox.fillText(`Ratio ${f1.toFixed(2)}:${f2.toFixed(2)} (${activeRatioName}) · Scriptorium Digitalis · Project Qweirdo`, 70, oc.height - 40);
+
+    const a = document.createElement('a');
+    a.href = oc.toDataURL('image/png');
+    a.download = `qweirdo-resonance-${f1.toFixed(2)}-${f2.toFixed(2)}.png`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    if (typeof msg === 'function') msg(`✦ High-res PNG exported: ${activeRatioName}.`);
+  });
+
+  // 3. Imprint onto Living Canvas as Illuminated Watermark
+  const btnImprint = document.getElementById('btnResImprint');
+  if (btnImprint) btnImprint.addEventListener('click', () => {
+    if (allPoints.length < 2) instantInscribe();
+    if (typeof saveUndo === 'function') saveUndo();
+
+    // Scale and center points onto the 1600x800 main canvas C (context X)
+    X.save();
+    X.globalCompositeOperation = 'source-over';
+    X.globalAlpha = 0.65;
+    X.lineWidth = strokeWidth * 1.1;
+    X.lineCap = 'round';
+    X.lineJoin = 'round';
+
+    const ink = INKS[inkKey] || INKS.gold;
+    X.strokeStyle = ink.stroke;
+    X.shadowColor = ink.shadow;
+    X.shadowBlur = 4;
+
+    const scaleX = 1600 / RW;
+    const scaleY = 800 / RH;
+    const scale = Math.min(scaleX, scaleY) * 0.95;
+    const offX = (1600 - RW * scale) / 2;
+    const offY = (800 - RH * scale) / 2;
+
+    X.beginPath();
+    X.moveTo(allPoints[0][0] * scale + offX, allPoints[0][1] * scale + offY);
+    for (let i = 1; i < allPoints.length; i++) {
+      X.lineTo(allPoints[i][0] * scale + offX, allPoints[i][1] * scale + offY);
+    }
+    X.stroke();
+
+    // Rubrication stamp
+    X.font = '500 13px "Fraunces", Georgia, serif';
+    X.fillStyle = ink.stroke;
+    X.fillText(`✦ RES · ${activeRatioName}`, 1600 - 320, 770);
+    X.restore();
+
+    steps += 100;
+    if (typeof prog === 'function') prog();
+    if (typeof msg === 'function') msg(`✦ Harmonic geometry (${activeRatioName}) imprinted onto Living Canvas as celestial watermark.`);
+
+    C.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  // Initial draw
+  renderPlateBackground();
+  launchSimulation();
+})();
 
 // Global Keyboard Shortcuts
 window.addEventListener('keydown',e=>{
