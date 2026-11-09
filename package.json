@@ -1,0 +1,23 @@
+{
+  "name": "project-qweirdo",
+  "version": "1.0.0",
+  "description": "The Palimpsest Wall: Digitally Aided Graffiti Canvas & Manifesto Archive",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test_server.js"
+  },
+  "keywords": [
+    "graffiti",
+    "digital-humanities",
+    "aerosol-canvas",
+    "subway-art",
+    "realtime-canvas",
+    "nft-provenance"
+  ],
+  "author": "Project Qweirdo",
+  "license": "AGPL-3.0-or-later",
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

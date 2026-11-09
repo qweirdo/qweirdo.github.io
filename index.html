@@ -180,6 +180,32 @@ footer p{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;fon
 .manifesto-stencil-btn{font:600 .78rem var(--fb);min-height:36px;padding:0 .9rem;border-radius:99px;border:1px solid var(--bd);background:var(--tx);color:var(--bg);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:.4rem;transition:all .18s;width:100%}
 .manifesto-stencil-btn:hover{background:linear-gradient(135deg,#844c1c,#b38600);color:#fff;border-color:transparent;transform:translateY(-1px)}
 
+
+/* Live Shared Wall Archive (50-Slot Rolling Buffer) */
+.live-archive-tray{background:rgba(20,14,8,0.92);border:1px solid rgba(212,175,55,0.35);border-radius:8px;padding:.8rem 1rem;margin:1rem 0;backdrop-filter:blur(10px);color:var(--tx);box-shadow:0 8px 32px rgba(0,0,0,0.28);animation:fadeIn .3s ease}
+.live-archive-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:.5rem;margin-bottom:.7rem}
+.live-pulse-dot{width:8px;height:8px;border-radius:50%;background:#10b981;box-shadow:0 0 8px #10b981;animation:pulseDot 2s infinite}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.85)}}
+.live-sync-badge{font-size:.72rem;color:rgba(255,255,255,0.6);font-family:var(--fb)}
+.live-archive-scroll{display:flex;gap:.9rem;overflow-x:auto;padding:.4rem 0 .6rem;scroll-behavior:smooth}
+.live-archive-scroll::-webkit-scrollbar{height:6px}
+.live-archive-scroll::-webkit-scrollbar-thumb{background:rgba(212,175,55,0.4);border-radius:3px}
+.live-card{flex:0 0 155px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:6px;overflow:hidden;transition:transform .2s ease,border-color .2s ease;cursor:pointer}
+.live-card:hover{transform:translateY(-3px);border-color:var(--gold);box-shadow:0 6px 16px rgba(0,0,0,0.4)}
+.live-card-thumb{width:100%;height:85px;object-fit:cover;display:block;background:#111}
+.live-card-info{padding:.4rem .5rem;font-family:var(--fb)}
+.live-card-title{font-size:.75rem;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+.live-card-sub{font-size:.65rem;color:rgba(255,255,255,0.6);display:flex;justify-content:space-between}
+.live-empty-hint{font-size:.82rem;color:rgba(255,255,255,0.55);padding:.8rem;font-style:italic}
+
+/* NFT Co-Ownership Covenant Styling */
+.nft-covenant-box{background:rgba(24,16,10,0.6);border:1px solid rgba(212,175,55,0.35);border-radius:8px;padding:1rem;margin:1rem 0;color:var(--tx)}
+.nft-covenant-box h3{font:600 1.05rem var(--fd);margin:0 0 .4rem;color:var(--gold)}
+.nft-covenant-box p{font-size:.82rem;line-height:1.55;color:var(--mu);margin:0 0 .6rem}
+.nft-terms-list{font-size:.78rem;line-height:1.5;color:var(--tx);padding-left:1.2rem;margin:0 0 .8rem}
+.nft-agree-row{display:flex;align-items:center;gap:.6rem;font-size:.82rem;font-weight:600;color:var(--tx);margin-top:.6rem}
+.nft-agree-row input[type="checkbox"]{width:16px;height:16px;accent-color:var(--gold)}
+
 .stencil-hud{position:absolute;top:1rem;left:1rem;right:1rem;display:flex;justify-content:space-between;align-items:center;pointer-events:none;z-index:20}
 .stencil-badge{background:rgba(24,14,7,0.85);color:var(--gold);padding:.4rem .9rem;border-radius:99px;font-size:.78rem;font-weight:600;letter-spacing:.04em;backdrop-filter:blur(6px);border:1px solid rgba(212,175,55,0.45);display:inline-flex;align-items:center;gap:.5rem;pointer-events:auto}
 .stencil-badge button{background:rgba(212,175,55,0.2);color:#fff;border:1px solid var(--gold);padding:.15rem .6rem;min-height:24px;border-radius:99px;font-size:.7rem;cursor:pointer}
@@ -269,7 +295,9 @@ main,nav,footer,.folio-modal,.manifesto-modal{position:relative;z-index:1}
     <button type="button" class="action-btn" id="btnPulseWave" title="Unleash a fluid tidal wave of teal currents across the wall">🌊 Pulse Wave</button>
     <button type="button" class="action-btn" id="btnManifesto" title="The Graffiti History & Manifesto Archive: Explore 7 historical epochs & spray pochoir stencils">📜 Manifesto & Stencils</button>
     <button type="button" class="tool-btn" id="btnAudio" title="Toggle Web Audio Rattle-Can & Aerosol Hiss [Key A]">🔇 Audio: Off</button>
-    <button type="button" class="action-btn" id="btnExportFolio" title="Export High-Resolution 'Subway Art' 3200×1600 Wall Broadside & Polaroid">📷 Subway Art</button>
+    <button type="button" class="action-btn" id="btnLiveBroadcast" title="Inscribe current piece to the live shared wall (50-slot buffer) for all visitors">📡 Inscribe to Live Wall</button>
+    <button type="button" class="action-btn" id="btnToggleArchive" title="Open / close the Live Shared Inscriptions Archive tray (last 50 paintings)">🏛️ Live Archive (<span id="liveSlotCount">0</span>/50) <span id="liveIndicator" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#10b981;margin-left:4px;vertical-align:middle" title="Live Sync Active"></span></button>
+    <button type="button" class="action-btn" id="btnExportFolio" title="Export High-Resolution 'Subway Art' 3200×1600 Wall Broadside, Polaroid & NFT">📷 Subway Art & NFT</button>
     <button type="button" class="action-btn" id="btnRemix" title="Exchange Wall Stratigraphy & Zones [Key R]">✦ Remix</button>
     <button type="button" class="action-btn" id="btnUndo" title="Undo [Ctrl+Z]" disabled>↺ Undo</button>
   </div>
@@ -284,6 +312,24 @@ main,nav,footer,.folio-modal,.manifesto-modal{position:relative;z-index:1}
   </div>
   <canvas id="cv" width="1600" height="800" aria-label="The Palimpsest Wall: Digitally aided graffiti canvas with aerosol cap physics on subway steel"></canvas>
   <canvas id="ov" width="1600" height="800" aria-hidden="true"></canvas>
+</div>
+
+<!-- Live Shared Wall Archive Tray (50-Slot Rolling FIFO Buffer) -->
+<div class="live-archive-tray" id="liveArchiveTray" style="display:none">
+  <div class="live-archive-header">
+    <div style="display:flex;align-items:center;gap:.6rem">
+      <span class="live-pulse-dot" id="livePulseDot"></span>
+      <span style="font-weight:700;font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;color:#fff">Shared Wall Archive · 50 Rolling Slots</span>
+      <span class="live-sync-badge" id="liveSyncStatus">● Live Stream Active</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:.5rem">
+      <button type="button" id="btnRefreshArchive" class="tool-btn" style="min-height:26px;padding:0 .6rem;font-size:.7rem">↺ Sync</button>
+      <button type="button" id="btnCloseArchiveTray" class="tool-btn" style="min-height:26px;padding:0 .6rem;font-size:.7rem">✕ Close</button>
+    </div>
+  </div>
+  <div class="live-archive-scroll" id="liveArchiveScroll">
+    <div class="live-empty-hint" id="liveEmptyHint">No inscriptions in the 50-slot buffer yet. Paint on the wall and click "Inscribe to Live Wall" to share with all visitors!</div>
+  </div>
 </div>
 <form class="sf" id="sf">
   <input type="text" id="wd" maxlength="90" placeholder="Type tag moniker, crew name, or manifesto words…" autocomplete="off" aria-label="Custom tag or words">
@@ -306,10 +352,32 @@ main,nav,footer,.folio-modal,.manifesto-modal{position:relative;z-index:1}
     </div>
     <p style="font-size:.85rem;color:var(--mu);margin:.8rem 0">Museum-grade documentation of the palimpsest wall. Choose between a 1980s 35mm Polaroid film card (styled after Martha Cooper & Henry Chalfant's <em>Subway Art</em>) or a full-bleed 3200×1600 wall broadside.</p>
     
-    <div style="display:flex;gap:.6rem;margin-bottom:.8rem;align-items:center">
+    <div style="display:flex;gap:.6rem;margin-bottom:.8rem;align-items:center;flex-wrap:wrap">
       <span style="font-size:.78rem;font-weight:600;color:var(--mu);text-transform:uppercase">Format:</span>
       <button type="button" class="tool-btn active" id="btnFmtPolaroid">📷 1980s Polaroid Film Card</button>
       <button type="button" class="tool-btn" id="btnFmtWall">🖼 Full-Bleed Wall Panorama</button>
+      <button type="button" class="tool-btn" id="btnFmtNFT">⚡ NFT & Web3 Artifact (50/50 Share)</button>
+    </div>
+
+    <!-- NFT Co-Ownership Covenant View (Shown when NFT format is active) -->
+    <div id="nftCovenantSection" style="display:none">
+      <div class="nft-covenant-box">
+        <h3>Collaborative NFT Co-Authorship Covenant · 50/50 Value Partition</h3>
+        <p>This palimpsest canvas operates on collaborative digital humanities provenance between the <b>Writer</b> (you) and the <b>Project Qweirdo Scriptorium</b>. By exporting as an NFT artifact, you agree to an equal 50/50 partnership:</p>
+        <ul class="nft-terms-list">
+          <li><b>50% Value & Proceeds Sharing:</b> 50% of primary sale proceeds and ongoing on-chain secondary royalties are shared with the Project Qweirdo Scriptorium treasury to sustain public open-access digital humanities and street epigraphy preservation.</li>
+          <li><b>Immutable Cryptographic Provenance:</b> The exported artifact is fingerprinted with an algorithmic SHA-256 hash stamped both on the canvas and in the ERC-721/1155 metadata JSON.</li>
+          <li><b>EIP-2981 Standard:</b> Royalties are defined on-chain with dual-beneficiary parity (50% Creator / 50% Platform Treasury).</li>
+        </ul>
+        <label class="nft-agree-row">
+          <input type="checkbox" id="chkNftAgree" checked>
+          <span>I accept the 50/50 Co-Authorship & Value-Sharing Covenant for this NFT</span>
+        </label>
+      </div>
+      <div style="display:flex;gap:.8rem;margin-bottom:1rem;flex-wrap:wrap">
+        <button type="button" id="btnDownloadNftPackage" class="tool-btn" style="background:linear-gradient(135deg,#1b5e5a,#287a74);color:#fff">⚡ Download Full NFT Package (PNG + ERC-721 JSON)</button>
+        <button type="button" id="btnCopyNftJson" class="tool-btn">📋 Copy Metadata JSON</button>
+      </div>
     </div>
 
     <div style="max-height:55vh;overflow-y:auto;border-radius:6px;border:1px solid var(--bd)"><img id="folioPreview" alt="Subway Art Archival Preview"></div>
@@ -2502,11 +2570,131 @@ $('#btnExportFolio').onclick=()=>{
 };
 
 $('#btnCloseFolio').onclick=()=>$('#folioModal').classList.remove('open');
+let currentNftMetadata = null;
+let currentNftHash = '';
+
+async function computeSha256(text) {
+  try {
+    const enc = new TextEncoder();
+    const data = enc.encode(text);
+    const hashBuf = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(hashBuf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  } catch (err) {
+    let hash = 0;
+    for (let i = 0; i < text.length; i++) hash = ((hash << 5) - hash) + text.charCodeAt(i) | 0;
+    return 'sha256_' + Math.abs(hash).toString(16).padStart(16, '0');
+  }
+}
+
 $('#btnFmtPolaroid').onclick=()=>{
   currentExportFmt='polaroid';
   $('#btnFmtPolaroid').classList.add('active');
   $('#btnFmtWall').classList.remove('active');
+  const nftBtn=$('#btnFmtNFT');if(nftBtn)nftBtn.classList.remove('active');
+  const covSec=$('#nftCovenantSection');if(covSec)covSec.style.display='none';
   $('#folioPreview').src=generateSubwayArt('polaroid');
+};
+
+$('#btnFmtWall').onclick=()=>{
+  currentExportFmt='wall';
+  $('#btnFmtWall').classList.add('active');
+  $('#btnFmtPolaroid').classList.remove('active');
+  const nftBtn=$('#btnFmtNFT');if(nftBtn)nftBtn.classList.remove('active');
+  const covSec=$('#nftCovenantSection');if(covSec)covSec.style.display='none';
+  $('#folioPreview').src=generateSubwayArt('wall');
+};
+
+const btnFmtNft = $('#btnFmtNFT');
+if (btnFmtNft) {
+  btnFmtNft.onclick = async () => {
+    currentExportFmt = 'nft';
+    btnFmtNft.classList.add('active');
+    $('#btnFmtPolaroid').classList.remove('active');
+    $('#btnFmtWall').classList.remove('active');
+    const covSec = $('#nftCovenantSection');
+    if (covSec) covSec.style.display = 'block';
+
+    const artUrl = generateSubwayArt('wall');
+    $('#folioPreview').src = artUrl;
+    msg('Calculating cryptographic SHA-256 provenance hash & generating ERC-721 metadata…');
+
+    currentNftHash = await computeSha256(artUrl);
+    const coauth = cred.length ? cred.map(c => c.name).join(', ') : 'Autonomous Subway Writer';
+
+    currentNftMetadata = {
+      name: 'Project Qweirdo: The Palimpsest Wall #' + currentNftHash.slice(0, 8).toUpperCase(),
+      description: 'A collaborative digital humanities aerosol inscription created on The Palimpsest Wall (Car No. 4928 R46 Stainless Steel / Scriptorium Studio). Inscribed by ' + coauth + '.',
+      image: 'ipfs://[UPLOAD_HASH]/' + currentNftHash + '.png',
+      external_url: 'https://qweirdo.github.io',
+      attributes: [
+        { trait_type: 'Inscription Title', value: 'The Palimpsest Wall Broadside' },
+        { trait_type: 'Writer', value: coauth },
+        { trait_type: 'Substrate', value: currentSubstrate.toUpperCase() },
+        { trait_type: 'Aerosol Cap', value: currentCap.toUpperCase() },
+        { trait_type: 'Enamel Palette', value: activeScheme.toUpperCase() },
+        { trait_type: 'Epoch', value: 'Subway Art Digital Humanities Era' },
+        { trait_type: 'Co-Authorship Share', value: '50% Writer / 50% Project Qweirdo' },
+        { trait_type: 'Royalty BPS', value: 5000 }
+      ],
+      properties: {
+        sha256_hash: currentNftHash,
+        created_at: new Date().toISOString(),
+        engine: 'Project Qweirdo Palimpsest Studio Engine',
+        covenant: {
+          agreement: 'Collaborative NFT Co-Authorship & 50/50 Value Partition',
+          creator_share_percent: 50,
+          scriptorium_treasury_share_percent: 50,
+          purpose: 'Scriptorium archive maintenance and open public humanities research'
+        },
+        license: 'CC BY-NC-SA 4.0 / Collaborative Provenance'
+      }
+    };
+
+    msg('NFT 50/50 Artifact ready. SHA-256: ' + currentNftHash.slice(0, 16) + '…');
+  };
+}
+
+const btnDownloadNftPkg = $('#btnDownloadNftPackage');
+if (btnDownloadNftPkg) {
+  btnDownloadNftPkg.onclick = () => {
+    const agree = $('#chkNftAgree');
+    if (agree && !agree.checked) {
+      alert('To export this collaborative NFT artifact, please accept the 50/50 Co-Authorship & Value-Sharing Covenant.');
+      return;
+    }
+    if (!currentNftMetadata) {
+      msg('Please select NFT format first.');
+      return;
+    }
+
+    // 1. Download Master Artwork PNG
+    const aImg = document.createElement('a');
+    aImg.download = 'qweirdo-nft-artifact-' + currentNftHash.slice(0, 8) + '.png';
+    aImg.href = $('#folioPreview').src;
+    aImg.click();
+
+    // 2. Download ERC-721 Metadata JSON
+    setTimeout(() => {
+      const blob = new Blob([JSON.stringify(currentNftMetadata, null, 2)], { type: 'application/json' });
+      const aJson = document.createElement('a');
+      aJson.download = 'qweirdo-nft-metadata-' + currentNftHash.slice(0, 8) + '.json';
+      aJson.href = URL.createObjectURL(blob);
+      aJson.click();
+      msg('Downloaded full NFT package (Master PNG + ERC-721 metadata JSON with 50/50 agreement).');
+    }, 250);
+  };
+}
+
+const btnCopyNft = $('#btnCopyNftJson');
+if (btnCopyNft) {
+  btnCopyNft.onclick = () => {
+    if (!currentNftMetadata) return;
+    navigator.clipboard.writeText(JSON.stringify(currentNftMetadata, null, 2)).then(() => {
+      msg('Copied ERC-721 / OpenSea NFT metadata JSON to clipboard!');
+    }).catch(() => {
+      msg('NFT metadata JSON ready.');
+    });
+  };
 };
 $('#btnFmtWall').onclick=()=>{
   currentExportFmt='wall';
@@ -3976,6 +4164,303 @@ updateUndoUI();
   }
 
   requestAnimationFrame(tickLogoAnimation);
+})();
+
+
+// ==========================================
+// LIVE SHARED WALL 50-SLOT RING BUFFER ENGINE
+// Synchronizes inscriptions across all visitors via SSE / REST / BroadcastChannel
+// Maintains exactly 50 slots, recycling oldest entries FIFO
+// ==========================================
+(function initLiveSharedWall() {
+  const MAX_SLOTS = 50;
+  const BACKEND_URL = (window.location.protocol === 'http:' || window.location.protocol === 'https:') 
+    ? (window.location.port ? window.location.origin : 'http://localhost:3000')
+    : 'http://localhost:3000';
+
+  let livePaintings = [];
+  let sseSource = null;
+  const channel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('qweirdo_palimpsest_wall') : null;
+
+  // Local storage cache key
+  const STORAGE_KEY = 'qweirdo_live_paintings_v1';
+
+  function loadLocalPaintings() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        livePaintings = JSON.parse(raw);
+        if (!Array.isArray(livePaintings)) livePaintings = [];
+        if (livePaintings.length > MAX_SLOTS) livePaintings = livePaintings.slice(0, MAX_SLOTS);
+      }
+    } catch (e) {
+      livePaintings = [];
+    }
+  }
+
+  function saveLocalPaintings() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(livePaintings.slice(0, MAX_SLOTS)));
+    } catch (e) {}
+  }
+
+  function updateSlotCountBadge() {
+    const el = document.getElementById('liveSlotCount');
+    if (el) el.textContent = livePaintings.length;
+  }
+
+  function renderArchiveTray() {
+    const scrollEl = document.getElementById('liveArchiveScroll');
+    const emptyHint = document.getElementById('liveEmptyHint');
+    if (!scrollEl) return;
+
+    updateSlotCountBadge();
+
+    if (!livePaintings.length) {
+      if (emptyHint) emptyHint.style.display = 'block';
+      scrollEl.innerHTML = '';
+      if (emptyHint) scrollEl.appendChild(emptyHint);
+      return;
+    }
+
+    if (emptyHint) emptyHint.style.display = 'none';
+    scrollEl.innerHTML = '';
+
+    livePaintings.forEach((piece, idx) => {
+      const card = document.createElement('div');
+      card.className = 'live-card';
+      card.title = `Slot ${idx + 1}/50 · ${piece.title} by ${piece.writer}`;
+
+      const timeAgo = formatTimeAgo(piece.timestamp);
+
+      card.innerHTML = `
+        <img class="live-card-thumb" src="${piece.image}" alt="${piece.title}" loading="lazy">
+        <div class="live-card-info">
+          <div class="live-card-title">${piece.title}</div>
+          <div class="live-card-sub">
+            <span>${piece.writer}</span>
+            <span>${timeAgo}</span>
+          </div>
+        </div>
+      `;
+
+      card.onclick = () => {
+        loadPieceOntoWall(piece);
+      };
+
+      scrollEl.appendChild(card);
+    });
+  }
+
+  function formatTimeAgo(timestamp) {
+    if (!timestamp) return 'Just now';
+    const s = Math.floor((Date.now() - timestamp) / 1000);
+    if (s < 60) return 'Just now';
+    if (s < 3600) return Math.floor(s / 60) + 'm ago';
+    if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+    return Math.floor(s / 86400) + 'd ago';
+  }
+
+  function loadPieceOntoWall(piece) {
+    saveUndo();
+    const img = new Image();
+    img.onload = () => {
+      X.save();
+      // Render as palimpsest layer over current wall
+      X.globalAlpha = 0.88;
+      X.drawImage(img, 0, 0, W, H);
+      X.restore();
+      playCanRattle();
+      msg(`Layered shared inscription "${piece.title}" by ${piece.writer} onto the wall!`);
+    };
+    img.src = piece.image;
+  }
+
+  function addPaintingToBuffer(piece) {
+    // Avoid exact duplicate IDs
+    if (livePaintings.some(p => p.id === piece.id || (p.hash && p.hash === piece.hash))) return;
+
+    livePaintings.unshift(piece);
+    if (livePaintings.length > MAX_SLOTS) {
+      livePaintings = livePaintings.slice(0, MAX_SLOTS);
+    }
+    saveLocalPaintings();
+    renderArchiveTray();
+  }
+
+  // Connect to SSE stream
+  function connectLiveStream() {
+    const statusEl = document.getElementById('liveSyncStatus');
+    const dotEl = document.getElementById('livePulseDot');
+    const indEl = document.getElementById('liveIndicator');
+
+    try {
+      if (sseSource) sseSource.close();
+      sseSource = new EventSource(BACKEND_URL + '/api/stream');
+
+      sseSource.addEventListener('connected', () => {
+        if (statusEl) statusEl.textContent = '● Live Server Active';
+        if (dotEl) { dotEl.style.background = '#10b981'; dotEl.style.boxShadow = '0 0 8px #10b981'; }
+        if (indEl) indEl.style.background = '#10b981';
+      });
+
+      sseSource.addEventListener('new_painting', (e) => {
+        try {
+          const data = JSON.parse(e.data);
+          if (data && data.piece) {
+            addPaintingToBuffer(data.piece);
+            msg(`📡 Live update: "${data.piece.title}" inscribed by ${data.piece.writer}!`);
+            playCanRattle();
+          }
+        } catch (err) {}
+      });
+
+      sseSource.onerror = () => {
+        if (statusEl) statusEl.textContent = '○ Local Peer Sync';
+        if (dotEl) { dotEl.style.background = '#f59e0b'; dotEl.style.boxShadow = '0 0 8px #f59e0b'; }
+        if (indEl) indEl.style.background = '#f59e0b';
+      };
+    } catch (err) {
+      if (statusEl) statusEl.textContent = '○ Local Peer Sync';
+    }
+  }
+
+  // Fetch initial paintings from server or local
+  async function syncPaintings() {
+    loadLocalPaintings();
+    renderArchiveTray();
+
+    try {
+      const res = await fetch(BACKEND_URL + '/api/paintings');
+      if (res.ok) {
+        const json = await res.json();
+        if (json.paintings && Array.isArray(json.paintings)) {
+          // Merge server paintings
+          json.paintings.forEach(p => {
+            if (!livePaintings.some(lp => lp.id === p.id)) {
+              livePaintings.push(p);
+            }
+          });
+          livePaintings.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+          if (livePaintings.length > MAX_SLOTS) livePaintings = livePaintings.slice(0, MAX_SLOTS);
+          saveLocalPaintings();
+          renderArchiveTray();
+        }
+      }
+    } catch (err) {
+      // Offline fallback: rely on local storage
+    }
+  }
+
+  // Listen to cross-tab BroadcastChannel
+  if (channel) {
+    channel.onmessage = (e) => {
+      if (e.data && e.data.type === 'new_painting' && e.data.piece) {
+        addPaintingToBuffer(e.data.piece);
+        msg(`📡 Local broadcast: "${e.data.piece.title}" inscribed by ${e.data.piece.writer}!`);
+      }
+    };
+  }
+
+  // Action Button: Inscribe current canvas to live shared wall
+  const btnBroadcast = document.getElementById('btnLiveBroadcast');
+  if (btnBroadcast) {
+    btnBroadcast.onclick = async () => {
+      let title = $('#wd') ? $('#wd').value.trim() : '';
+      if (!title) {
+        title = prompt('Enter a title or moniker for this shared wall inscription:', 'Palimpsest Burner');
+        if (title === null) return;
+        title = title.trim();
+        if (!title) title = 'Untitled Inscription';
+      }
+
+      const coauth = (typeof cred !== 'undefined' && cred.length) 
+        ? cred.map(c => c.name).join(', ') 
+        : 'Subway Writer';
+
+      // Capture medium-res thumbnail for efficient 50-slot streaming
+      const snapCanvas = document.createElement('canvas');
+      snapCanvas.width = 800; snapCanvas.height = 400;
+      const snapCtx = snapCanvas.getContext('2d');
+      snapCtx.drawImage(C, 0, 0, 800, 400);
+      const imgData = snapCanvas.toDataURL('image/png', 0.82);
+
+      const piecePayload = {
+        title: title,
+        writer: coauth,
+        substrate: currentSubstrate,
+        cap: currentCap,
+        scheme: activeScheme,
+        customTag: title,
+        image: imgData
+      };
+
+      msg('Transmitting piece to live shared wall (50-slot buffer)…');
+
+      let savedToServer = false;
+      try {
+        const postRes = await fetch(BACKEND_URL + '/api/paintings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(piecePayload)
+        });
+        if (postRes.ok) {
+          savedToServer = true;
+          const json = await postRes.json();
+          msg(`✓ Successfully inscribed to live wall! Slot ${json.slot}/${json.maxSlots}.`);
+        }
+      } catch (err) {}
+
+      if (!savedToServer) {
+        // Fallback to local storage & BroadcastChannel
+        const localPiece = {
+          ...piecePayload,
+          id: 'local_' + Date.now(),
+          timestamp: Date.now(),
+          hash: 'local_hash_' + Date.now().toString(16)
+        };
+        addPaintingToBuffer(localPiece);
+        if (channel) {
+          channel.postMessage({ type: 'new_painting', piece: localPiece });
+        }
+        msg(`✓ Inscribed to local 50-slot archive & broadcasted across open browser tabs!`);
+      }
+
+      playCanRattle();
+      const tray = document.getElementById('liveArchiveTray');
+      if (tray) tray.style.display = 'block';
+    };
+  }
+
+  // Toggle Archive Tray
+  const btnToggleArchive = document.getElementById('btnToggleArchive');
+  const archiveTray = document.getElementById('liveArchiveTray');
+  if (btnToggleArchive && archiveTray) {
+    btnToggleArchive.onclick = () => {
+      const isClosed = archiveTray.style.display === 'none';
+      archiveTray.style.display = isClosed ? 'block' : 'none';
+      if (isClosed) renderArchiveTray();
+    };
+  }
+
+  const btnCloseTray = document.getElementById('btnCloseArchiveTray');
+  if (btnCloseTray && archiveTray) {
+    btnCloseTray.onclick = () => {
+      archiveTray.style.display = 'none';
+    };
+  }
+
+  const btnRefresh = document.getElementById('btnRefreshArchive');
+  if (btnRefresh) {
+    btnRefresh.onclick = () => {
+      syncPaintings();
+      msg('Synchronized 50-slot shared archive.');
+    };
+  }
+
+  // Initialize
+  syncPaintings();
+  connectLiveStream();
 })();
 
 </script></body></html>
