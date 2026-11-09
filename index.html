@@ -259,7 +259,7 @@ main,nav,footer,.folio-modal,.manifesto-modal{position:relative;z-index:1}
 <div class="pg"><i id="pb"></i></div>
 <div class="wl">
   <div class="stencil-hud" id="stencilHud" style="display:none">
-    <div class="stencil-badge"><span id="stencilBadgeText">Stencil Active: Kilroy Was Here</span> <button type="button" id="btnLockStencil">Lock / Spray</button> <button type="button" id="btnReleaseStencil">Release Stencil</button></div>
+    <div class="stencil-badge"><span id="stencilBadgeText">Stencil Active: Kilroy Was Here</span> <button type="button" id="btnLockStencil" title="Lock stencil in position to spray or reposition">Lock Position</button> <button type="button" id="btnTransferStencil" title="Transfer authentic pochoir print with aerosol overspray onto wall [Key T]">⚡ Transfer Pochoir Print</button> <button type="button" id="btnReleaseStencil" title="Release and lift stencil from wall [Esc]">✕ Release</button></div>
   </div>
   <canvas id="cv" width="1600" height="800" aria-label="The Palimpsest Wall: Digitally aided graffiti canvas with aerosol cap physics on subway steel"></canvas>
   <canvas id="ov" width="1600" height="800" aria-hidden="true"></canvas>
@@ -1203,86 +1203,233 @@ function stampWildstyleBurner(text,x,y,schemeKey){
   X.save();
 
   const fSize=Math.max(34,Math.min(84,Math.round(1020/Math.max(9,text.length))));
-  X.font=`italic 900 ${fSize}px 'Fraunces',sans-serif`;
+  X.font="italic 900 "+fSize+"px 'Fraunces',sans-serif";
   X.textAlign='center';
   X.textBaseline='middle';
   const tw=Math.max(140,X.measureText(text).width);
 
-  x=Math.max(tw/2+75,Math.min(W-tw/2-75,x));
-  y=Math.max(fSize+60,Math.min(H-fSize-60,y));
+  const arrowW=Math.max(38,fSize*0.75);
+  x=Math.max(tw/2+arrowW+40,Math.min(W-tw/2-arrowW-40,x));
+  y=Math.max(fSize+60,Math.min(H-fSize-70,y));
 
-  // 1. 3D Extruded Drop Block (45° angle)
-  const dropDepth=Math.round(fSize*0.35);
-  for(let d=dropDepth;d>=1;d--){
-    X.fillStyle='rgba(12,14,18,0.72)';
-    X.fillText(text,x+d*1.2,y+d*1.3);
+  // 1. Ambient Aerosol Mist Halo (High-pressure Fat Cap Backing Glow)
+  const glowR=tw*0.58;
+  const radGlow=X.createRadialGradient(x,y,fSize*0.2,x,y,glowR);
+  radGlow.addColorStop(0,sc.glow);
+  radGlow.addColorStop(0.5,sc.glow);
+  radGlow.addColorStop(1,'rgba(0,0,0,0)');
+  X.fillStyle=radGlow;
+  X.globalAlpha=0.28;
+  X.beginPath();X.ellipse(x,y,glowR,fSize*1.35,0,0,6.28);X.fill();
+
+  // Fine micro-spatter aerosol perimeter dust
+  X.fillStyle=sc.stroke;
+  for(let i=0;i<45;i++){
+    const ang=Math.random()*6.28;
+    const rad=R(tw*0.42,tw*0.62);
+    X.globalAlpha=R(0.18,0.65);
+    X.beginPath();
+    X.arc(x+Math.cos(ang)*rad,y+Math.sin(ang)*(fSize*1.15),R(0.8,2.2),0,6.28);
+    X.fill();
   }
 
-  // 2. Mechanical Bevel Arrows (Left & Right Terminals)
-  const arrowW=Math.max(30,fSize*0.65);
-  // Left arrow
-  X.fillStyle=sc.stroke;
-  X.strokeStyle='#000';
-  X.lineWidth=4;
-  X.beginPath();
-  X.moveTo(x-tw/2-10,y);
-  X.lineTo(x-tw/2-10-arrowW,y-fSize*0.25);
-  X.lineTo(x-tw/2-10-arrowW*0.7,y);
-  X.lineTo(x-tw/2-10-arrowW,y+fSize*0.25);
-  X.closePath();
-  X.fill();X.stroke();
+  // 2. Multi-tiered 3D Extruded Chiaroscuro Drop Blocks
+  const dropDepth=Math.round(fSize*0.42);
+  X.globalAlpha=0.88;
+  for(let d=dropDepth+8;d>=dropDepth;d--){
+    X.fillStyle='rgba(6,8,12,0.92)';
+    X.fillText(text,x+d*1.2,y+d*1.2);
+  }
 
-  // Right arrow
-  X.beginPath();
-  X.moveTo(x+tw/2+10,y);
-  X.lineTo(x+tw/2+10+arrowW,y-fSize*0.25);
-  X.lineTo(x+tw/2+10+arrowW*0.7,y);
-  X.lineTo(x+tw/2+10+arrowW,y+fSize*0.25);
-  X.closePath();
-  X.fill();X.stroke();
+  for(let d=dropDepth;d>=1;d--){
+    const progress=d/dropDepth;
+    const r=Math.round(10*(1-progress)+46*progress);
+    const g=Math.round(12*(1-progress)+60*progress);
+    const b=Math.round(18*(1-progress)+82*progress);
+    X.fillStyle="rgb("+r+","+g+","+b+")";
+    X.fillText(text,x+d*1.2,y+d*1.2);
+  }
 
-  // 3. Power Neon Keyline (Outer Electric Glow)
+  // Metallic Bevel Pinstripe Facets (Brushed Steel Chamfer Cuts)
+  X.strokeStyle='rgba(255,255,255,0.24)';
+  X.lineWidth=1;
+  for(let d=dropDepth;d>=4;d-=6){
+    X.strokeText(text,x+d*1.2,y+d*1.2);
+  }
+
+  // 3. Mechanical Gothic Futurism Bevel Arrows (Left & Right Terminals)
+  function drawPanzerArrow(ax,ay,dir){
+    X.save();
+    X.translate(ax,ay);
+    X.scale(dir,1);
+
+    // Extruded 3D block shadow
+    for(let d=Math.round(dropDepth*0.75);d>=1;d--){
+      X.fillStyle='rgba(8,10,14,0.85)';
+      X.beginPath();
+      X.moveTo(0+d*1.2,-fSize*0.28+d*1.2);
+      X.lineTo(arrowW*0.6+d*1.2,-fSize*0.28+d*1.2);
+      X.lineTo(arrowW*1.05+d*1.2,0+d*1.2);
+      X.lineTo(arrowW*0.6+d*1.2,fSize*0.28+d*1.2);
+      X.lineTo(0+d*1.2,fSize*0.28+d*1.2);
+      X.lineTo(arrowW*0.35+d*1.2,0+d*1.2);
+      X.closePath();
+      X.fill();
+    }
+
+    // Outer Neon Glow Keyline
+    X.strokeStyle='#00f0ff';
+    X.lineWidth=Math.max(5,fSize*0.12);
+    X.beginPath();
+    X.moveTo(0,-fSize*0.28);
+    X.lineTo(arrowW*0.6,-fSize*0.28);
+    X.lineTo(arrowW*1.05,0);
+    X.lineTo(arrowW*0.6,fSize*0.28);
+    X.lineTo(0,fSize*0.28);
+    X.lineTo(arrowW*0.35,0);
+    X.closePath();
+    X.stroke();
+
+    // Black Armor Outline
+    X.strokeStyle='#06080c';
+    X.lineWidth=Math.max(3,fSize*0.07);
+    X.stroke();
+
+    // Chrome-to-Scheme Split Gradient Fill
+    const ag=X.createLinearGradient(0,-fSize*0.28,arrowW,fSize*0.28);
+    ag.addColorStop(0,'#f0f6ff');
+    ag.addColorStop(0.48,'#6a88b0');
+    ag.addColorStop(0.5,'#0d1117');
+    ag.addColorStop(0.52,'#844c1c');
+    ag.addColorStop(1,sc.stroke);
+    X.fillStyle=ag;
+    X.fill();
+
+    // Interior Armor Slit Cutout (Laser Slot)
+    X.strokeStyle='#06080c';
+    X.lineWidth=2.5;
+    X.beginPath();
+    X.moveTo(arrowW*0.2,0);
+    X.lineTo(arrowW*0.8,0);
+    X.stroke();
+
+    // Mechanical Armor Rivets (Circular Titanium Studs)
+    [arrowW*0.35,arrowW*0.58].forEach(rx=>{
+      [-fSize*0.15,fSize*0.15].forEach(ry=>{
+        X.fillStyle='#06080c';
+        X.beginPath();X.arc(rx,ry,2.5,0,6.28);X.fill();
+        X.fillStyle='#ffffff';
+        X.beginPath();X.arc(rx-0.6,ry-0.6,1.0,0,6.28);X.fill();
+      });
+    });
+
+    X.restore();
+  }
+
+  drawPanzerArrow(x-tw/2-14,y,-1);
+  drawPanzerArrow(x+tw/2+14,y,1);
+
+  // 4. Tri-Layer Power Keylines for Typography
+  // Outer Neon Glow (Electric Cyan / Accent)
   X.strokeStyle='#00f0ff';
-  X.lineWidth=Math.max(7,fSize*0.14);
+  X.lineWidth=Math.max(8,fSize*0.18);
   X.lineJoin='miter';
+  X.miterLimit=4;
+  X.globalAlpha=0.88;
   X.strokeText(text,x,y);
 
-  // 4. Black Inner Outline
-  X.strokeStyle='#0a0c10';
-  X.lineWidth=Math.max(4,fSize*0.08);
+  // Mid Accent Scheme Line
+  X.strokeStyle=sc.stroke;
+  X.lineWidth=Math.max(5,fSize*0.12);
   X.strokeText(text,x,y);
 
-  // 5. Chrome Horizon Split Fill
-  const grad=X.createLinearGradient(x,y-fSize/2,x,y+fSize/2);
-  grad.addColorStop(0,'#eef6ff');
-  grad.addColorStop(0.48,'#8fb2e8');
-  grad.addColorStop(0.50,'#151922'); // Sharp horizon split
-  grad.addColorStop(0.52,'#364152');
-  grad.addColorStop(1,sc.stroke);
-  X.fillStyle=grad;
+  // Inner Razor Black Separator
+  X.strokeStyle='#06080c';
+  X.lineWidth=Math.max(3,fSize*0.07);
+  X.strokeText(text,x,y);
+
+  // 5. Triple-Pass Chrome Horizon Reflection Fill
+  const chr=X.createLinearGradient(x,y-fSize*0.52,x,y+fSize*0.52);
+  chr.addColorStop(0.00,'#0e1f3d');
+  chr.addColorStop(0.24,'#4facfe');
+  chr.addColorStop(0.48,'#ffffff');
+  chr.addColorStop(0.50,'#070a0e');
+  chr.addColorStop(0.53,'#5c320d');
+  chr.addColorStop(0.78,sc.stroke);
+  chr.addColorStop(1.00,'#150608');
+  X.fillStyle=chr;
+  X.globalAlpha=1.0;
   X.fillText(text,x,y);
 
-  // 6. Star Glints on Apexes
-  const glintPositions=[[x-tw*0.4,y-fSize*0.35],[x,y-fSize*0.42],[x+tw*0.38,y-fSize*0.38]];
-  glintPositions.forEach(([gx,gy])=>{
+  // 6. Gold Leaf Centerline Pinstripe & Diagonal Sheen Slices
+  X.strokeStyle='rgba(255,226,112,0.85)';
+  X.lineWidth=1.2;
+  X.beginPath();
+  X.moveTo(x-tw*0.48,y);
+  X.lineTo(x+tw*0.48,y);
+  X.stroke();
+
+  X.strokeStyle='rgba(255,255,255,0.42)';
+  X.lineWidth=1.5;
+  for(let i=-3;i<=3;i++){
+    const sx=x+i*(tw*0.14);
+    X.beginPath();
+    X.moveTo(sx-fSize*0.35,y-fSize*0.4);
+    X.lineTo(sx+fSize*0.15,y+fSize*0.4);
+    X.stroke();
+  }
+
+  // 7. 8-Point Diffraction Starbursts with Concentric Halos
+  function drawStarburst(sx,sy,radius){
+    X.save();
+    X.strokeStyle='rgba(255,255,255,0.38)';
+    X.lineWidth=1.2;
+    X.beginPath();X.arc(sx,sy,radius*0.45,0,6.28);X.stroke();
+
+    X.strokeStyle='rgba(0,240,255,0.45)';
+    X.lineWidth=1.0;
+    X.beginPath();X.arc(sx,sy,radius*0.75,0,6.28);X.stroke();
+
+    X.strokeStyle='rgba(255,255,255,0.95)';
+    X.lineWidth=1.8;
+    X.beginPath();
+    X.moveTo(sx-radius,sy);X.lineTo(sx+radius,sy);
+    X.moveTo(sx,sy-radius);X.lineTo(sx,sy+radius);
+    X.stroke();
+
+    const diag=radius*0.55;
+    X.lineWidth=1.2;
+    X.beginPath();
+    X.moveTo(sx-diag,sy-diag);X.lineTo(sx+diag,sy+diag);
+    X.moveTo(sx-diag,sy+diag);X.lineTo(sx+diag,sy-diag);
+    X.stroke();
+
     X.fillStyle='#ffffff';
     X.beginPath();
-    X.arc(gx,gy,2.5,0,6.28);X.fill();
-    X.strokeStyle='rgba(255,255,255,0.95)';
-    X.lineWidth=1.5;
-    X.beginPath();
-    X.moveTo(gx-12,gy);X.lineTo(gx+12,gy);
-    X.moveTo(gx,gy-12);X.lineTo(gx,gy+12);
-    X.stroke();
-  });
+    X.moveTo(sx,sy-3.5);X.lineTo(sx+3.5,sy);X.lineTo(sx,sy+3.5);X.lineTo(sx-3.5,sy);
+    X.closePath();X.fill();
+    X.restore();
+  }
 
-  // 7. Dynamic baseline drips
-  addDrip(x-tw*0.35,y+fSize*0.4,sc.stroke,3.8,1.4);
-  addDrip(x+tw*0.25,y+fSize*0.42,sc.stroke,4.2,1.6);
+  drawStarburst(x-tw*0.44,y-fSize*0.38,Math.max(14,fSize*0.28));
+  drawStarburst(x-tw*0.12,y-fSize*0.44,Math.max(16,fSize*0.32));
+  drawStarburst(x+tw*0.18,y-fSize*0.42,Math.max(14,fSize*0.28));
+  drawStarburst(x+tw*0.44,y-fSize*0.36,Math.max(15,fSize*0.30));
+
+  // 8. Dynamic Gravitational Drips & Teardrop Terminals
+  const dripPositions=[
+    [x-tw*0.38,y+fSize*0.38],
+    [x-tw*0.15,y+fSize*0.42],
+    [x+tw*0.12,y+fSize*0.40],
+    [x+tw*0.35,y+fSize*0.42]
+  ];
+  dripPositions.forEach(([dx,dy],idx)=>{
+    addDrip(dx,dy,sc.stroke,Math.max(3.5,fSize*0.06),1.4+idx*0.2);
+  });
 
   X.restore();
   playCanRattle();
-  msg(`Algorithmic Wildstyle Burner "${text}" constructed with 3D drop blocks & bevel arrows.`);
+  msg('Algorithmic Wildstyle Burner "'+text+'" constructed with 3D drop blocks, panzer arrows, chrome horizon split & 8-point diffraction starbursts.');
 }
 
 function stampBubbleSoftie(text,x,y,schemeKey){
@@ -1294,49 +1441,116 @@ function stampBubbleSoftie(text,x,y,schemeKey){
   X.save();
 
   const fSize=Math.max(38,Math.min(92,Math.round(1080/Math.max(8,text.length))));
-  X.font=`900 ${fSize}px system-ui,sans-serif`;
+  X.font="900 "+fSize+"px system-ui,sans-serif";
   X.textAlign='center';
   X.textBaseline='middle';
   const tw=Math.max(120,X.measureText(text).width);
 
   x=Math.max(tw/2+60,Math.min(W-tw/2-60,x));
-  y=Math.max(fSize+50,Math.min(H-fSize-50,y));
+  y=Math.max(fSize+50,Math.min(H-fSize-60,y));
 
-  // 1. Heavy rounded drop shadow
-  X.strokeStyle='rgba(10,12,16,0.85)';
-  X.lineWidth=fSize*0.22;
-  X.lineCap='round';
-  X.lineJoin='round';
-  X.strokeText(text,x+8,y+10);
-
-  // 2. Black Master Outline
-  X.strokeStyle='#0f1115';
-  X.lineWidth=Math.max(8,fSize*0.16);
-  X.strokeText(text,x,y);
-
-  // 3. 2-Tone Gradient Fill
-  const bg=X.createLinearGradient(x,y-fSize/2,x,y+fSize/2);
-  bg.addColorStop(0,'#fffbdf');
-  bg.addColorStop(0.35,sc.stroke);
-  bg.addColorStop(1,'#5c0d16');
-  X.fillStyle=bg;
-  X.fillText(text,x,y);
-
-  // 4. White Crescent Shine Bubbles
-  X.fillStyle='rgba(255,255,255,0.82)';
-  for(let i=0;i<text.length;i++){
-    const charX=x-tw/2+(i+0.5)*(tw/text.length);
-    X.beginPath();
-    X.ellipse(charX-fSize*0.12,y-fSize*0.22,fSize*0.12,fSize*0.06,Math.PI/4,0,6.28);
-    X.fill();
+  // 1. Billowing Cloud Aura (Soft Aerosol Silhouette)
+  const cloudR=fSize*0.7;
+  X.fillStyle=sc.glow;
+  X.globalAlpha=0.22;
+  const numClouds=Math.max(8,text.length*2);
+  for(let i=0;i<=numClouds;i++){
+    const cx=x-tw/2+(i/numClouds)*tw;
+    const cy=y+Math.sin(i*0.8)*fSize*0.25;
+    X.beginPath();X.arc(cx,cy,cloudR,0,6.28);X.fill();
   }
 
-  // Baseline paint drip
-  addDrip(x,y+fSize*0.45,sc.stroke,4.5,1.5);
+  // 2. Heavy 3D Cast Block Shadow
+  const dropX=Math.round(fSize*0.14);
+  const dropY=Math.round(fSize*0.18);
+  X.globalAlpha=0.88;
+  X.strokeStyle='rgba(8,10,14,0.92)';
+  X.lineWidth=fSize*0.24;
+  X.lineCap='round';
+  X.lineJoin='round';
+  X.strokeText(text,x+dropX,y+dropY);
+  X.fillStyle='rgba(8,10,14,0.92)';
+  X.fillText(text,x+dropX,y+dropY);
+
+  // 3. Heavy Master Outer Outline (Subway Black)
+  X.strokeStyle='#07090d';
+  X.lineWidth=Math.max(10,fSize*0.20);
+  X.lineCap='round';
+  X.lineJoin='round';
+  X.strokeText(text,x,y);
+
+  // 4. Multi-Tone Inflated Balloon Fill
+  const bg=X.createLinearGradient(x,y-fSize*0.55,x,y+fSize*0.55);
+  bg.addColorStop(0.0,'#fffdf4');
+  bg.addColorStop(0.25,sc.stroke);
+  bg.addColorStop(0.75,sc.stroke);
+  bg.addColorStop(1.0,'#2a0a0f');
+  X.fillStyle=bg;
+  X.globalAlpha=1.0;
+  X.fillText(text,x,y);
+
+  // 5. Letter-by-Letter Volumetric Occlusion & Dual-Tier Shine System
+  const charSpacing=tw/Math.max(1,text.length);
+  for(let i=0;i<text.length;i++){
+    const charX=x-tw/2+(i+0.5)*charSpacing;
+
+    // Ambient Occlusion Shading between letters
+    if(i>0){
+      const occGrad=X.createLinearGradient(charX-fSize*0.35,y,charX-fSize*0.1,y);
+      occGrad.addColorStop(0,'rgba(0,0,0,0.55)');
+      occGrad.addColorStop(1,'rgba(0,0,0,0)');
+      X.fillStyle=occGrad;
+      X.beginPath();
+      X.ellipse(charX-fSize*0.25,y,fSize*0.14,fSize*0.42,0,0,6.28);
+      X.fill();
+    }
+
+    // Primary Specular Shine: Curved Banana-Crescent (Top-Left)
+    X.fillStyle='rgba(255,255,255,0.88)';
+    X.beginPath();
+    X.ellipse(charX-fSize*0.14,y-fSize*0.24,fSize*0.14,fSize*0.065,Math.PI/4,0,6.28);
+    X.fill();
+
+    X.beginPath();
+    X.arc(charX-fSize*0.02,y-fSize*0.32,Math.max(1.8,fSize*0.035),0,6.28);
+    X.fill();
+
+    // Secondary Bounce Rim Light (Bottom-Right)
+    X.strokeStyle='rgba(255,255,255,0.32)';
+    X.lineWidth=Math.max(1.5,fSize*0.035);
+    X.beginPath();
+    X.arc(charX+fSize*0.12,y+fSize*0.22,fSize*0.16,0.3,Math.PI*0.75);
+    X.stroke();
+
+    // Micro Air Bubble Inclusions
+    X.strokeStyle='rgba(255,255,255,0.45)';
+    X.lineWidth=1;
+    const bubR=Math.max(2.5,fSize*0.045);
+    X.beginPath();X.arc(charX+fSize*0.08,y-fSize*0.05,bubR,0,6.28);X.stroke();
+    X.fillStyle='#ffffff';
+    X.beginPath();X.arc(charX+fSize*0.08-bubR*0.35,y-fSize*0.05-bubR*0.35,bubR*0.3,0,6.28);X.fill();
+
+    // Phase 2 Waist Dash Ticks
+    X.strokeStyle='rgba(8,10,14,0.45)';
+    X.lineWidth=1.8;
+    X.beginPath();
+    X.moveTo(charX-fSize*0.08,y+fSize*0.04);X.lineTo(charX+fSize*0.08,y+fSize*0.04);
+    X.moveTo(charX-fSize*0.06,y+fSize*0.09);X.lineTo(charX+fSize*0.06,y+fSize*0.09);
+    X.stroke();
+  }
+
+  // 6. Concentric Inner Speed Pinstripe
+  X.strokeStyle='rgba(255,255,255,0.22)';
+  X.lineWidth=1.5;
+  X.strokeText(text,x,y);
+
+  // 7. Gravitational Teardrop Drips
+  addDrip(x-tw*0.32,y+fSize*0.45,sc.stroke,4.5,1.5);
+  addDrip(x+tw*0.28,y+fSize*0.46,sc.stroke,4.2,1.4);
 
   X.restore();
   playCanRattle();
-  msg(`Phase 2 Bubble Softie "${text}" stamped with rounded 2-tone fills and shine bubbles.`);
+  msg('Phase 2 Bubble Softie "'+text+'" stamped with inter-letter ambient occlusion, 2-tier shine bubbles, and waist dash ticks.');
 }
 
 function stampHandstyle(text,x,y,schemeKey){
@@ -1348,55 +1562,132 @@ function stampHandstyle(text,x,y,schemeKey){
   X.save();
 
   const fSize=Math.max(28,Math.min(74,Math.round(920/Math.max(10,text.length))));
-  X.font=`italic 600 ${fSize}px 'Fraunces',serif`;
+  X.font="italic 700 "+fSize+"px 'Fraunces',serif";
   X.textAlign='center';
   X.textBaseline='middle';
   const tw=Math.max(100,X.measureText(text).width);
 
-  x=Math.max(tw/2+50,Math.min(W-tw/2-50,x));
-  y=Math.max(fSize+50,Math.min(H-fSize-50,y));
+  x=Math.max(tw/2+60,Math.min(W-tw/2-60,x));
+  y=Math.max(fSize+60,Math.min(H-fSize-65,y));
 
-  // 1. Shadow Undertone
-  X.fillStyle='rgba(15,18,24,0.45)';
-  X.fillText(text,x+3,y+4);
+  // 1. Double-Struck Obsidian/Cinnabar Shadow Undertone
+  X.fillStyle='rgba(12,15,20,0.65)';
+  X.fillText(text,x+4,y+5);
+  X.fillStyle='rgba(140,20,30,0.22)';
+  X.fillText(text,x+2,y+3);
 
-  // 2. Chirographic Core Script
-  X.fillStyle=sc.stroke;
-  X.fillText(text,x,y);
+  // 2. Multi-Pass 45° Chisel-Nib Ribboning (Simulates 15mm Chisel Tip Marker)
+  const ribbonSteps=[-2,-1,0,1,2];
+  const ribbonCos=Math.cos(Math.PI/4);
+  const ribbonSin=Math.sin(Math.PI/4);
+  ribbonSteps.forEach(s=>{
+    X.fillStyle=sc.stroke;
+    X.globalAlpha=s===0?1.0:0.45;
+    X.fillText(text,x+s*ribbonCos*1.4,y-s*ribbonSin*1.4);
+  });
+  X.globalAlpha=1.0;
 
-  // 3. Floating Halo Crown
+  // 3. Inner Calligraphic Hairline (Gilded/Ivory core)
+  X.strokeStyle='rgba(255,248,225,0.65)';
+  X.lineWidth=Math.max(1,fSize*0.025);
+  X.strokeText(text,x,y);
+
+  // 4. Master Illuminated Double Halo Crown with Starlight Ray Glint
+  const haloY=y-fSize*0.62;
+  const haloRx=Math.max(28,fSize*0.42);
+  const haloRy=Math.max(8,fSize*0.13);
+
   X.strokeStyle=sc.stroke;
-  X.lineWidth=Math.max(2,fSize*0.05);
+  X.lineWidth=Math.max(2.2,fSize*0.055);
+  X.beginPath();X.ellipse(x,haloY,haloRx,haloRy,0,0,6.28);X.stroke();
+
+  X.strokeStyle='rgba(255,245,220,0.7)';
+  X.lineWidth=Math.max(1.2,fSize*0.025);
+  X.beginPath();X.ellipse(x,haloY,haloRx*0.82,haloRy*0.75,0,0,6.28);X.stroke();
+
+  // Top Starlight Ray Glint at halo apex
+  X.fillStyle='#ffffff';
+  X.beginPath();X.arc(x,haloY-haloRy,2.8,0,6.28);X.fill();
+  X.strokeStyle='rgba(255,255,255,0.85)';
+  X.lineWidth=1.2;
   X.beginPath();
-  X.ellipse(x,y-fSize*0.58,fSize*0.35,fSize*0.1,0,0,6.28);
+  X.moveTo(x-10,haloY-haloRy);X.lineTo(x+10,haloY-haloRy);
+  X.moveTo(x,haloY-haloRy-10);X.lineTo(x,haloY-haloRy+10);
   X.stroke();
 
-  // 4. Underline flourish terminating in 3 hanging paint drips
-  const uy=y+fSize*0.52;
+  // Flanking Wing Flourishes
+  X.strokeStyle=sc.stroke;
+  X.lineWidth=Math.max(1.8,fSize*0.04);
   X.beginPath();
-  X.moveTo(x-tw*0.52,uy);
-  X.quadraticCurveTo(x,uy+fSize*0.2,x+tw*0.52,uy-fSize*0.08);
+  X.moveTo(x-haloRx,haloY);
+  X.quadraticCurveTo(x-haloRx-16,haloY-12,x-haloRx-24,haloY-4);
   X.stroke();
 
-  // Hanging drips
-  addDrip(x-tw*0.3,uy+4,sc.stroke,3.2,1.2);
-  addDrip(x,uy+7,sc.stroke,3.5,1.5);
-  addDrip(x+tw*0.3,uy+2,sc.stroke,3.0,1.1);
+  X.beginPath();
+  X.moveTo(x+haloRx,haloY);
+  X.quadraticCurveTo(x+haloRx+16,haloY-12,x+haloRx+24,haloY-4);
+  X.stroke();
+
+  // 5. Interlaced Underline Flourish with Terminal Arrowhead
+  const uy=y+fSize*0.54;
+  X.strokeStyle=sc.stroke;
+  X.lineWidth=Math.max(2.5,fSize*0.06);
+  X.lineCap='round';
+  X.beginPath();
+  X.moveTo(x-tw*0.55,uy);
+  X.bezierCurveTo(x-tw*0.2,uy+fSize*0.25,x+tw*0.2,uy-fSize*0.15,x+tw*0.52,uy+fSize*0.05);
+  X.stroke();
+
+  const endX=x+tw*0.52,endY=uy+fSize*0.05;
+  X.beginPath();
+  X.moveTo(endX,endY);
+  X.lineTo(endX-14,endY-8);
+  X.lineTo(endX-10,endY);
+  X.lineTo(endX-14,endY+8);
+  X.closePath();
+  X.fillStyle=sc.stroke;
+  X.fill();
+
+  // Punctuation: Quotes & Circled Route Bullet
+  X.font="600 "+Math.round(fSize*0.4)+"px 'Fraunces',sans-serif";
+  X.fillText('“',x-tw*0.54,y-fSize*0.2);
+  X.fillText('”',x+tw*0.54,y-fSize*0.2);
+
+  const bX=x+tw*0.58+18,bY=y;
+  X.strokeStyle=sc.stroke;
+  X.lineWidth=1.8;
+  X.beginPath();X.arc(bX,bY,fSize*0.22,0,6.28);X.stroke();
+  X.font="700 "+Math.round(fSize*0.26)+"px 'Hanken Grotesk',sans-serif";
+  X.fillText('Q',bX,bY+1);
+
+  // 6. Micro-Spatter Dusting & Gravitational Ink Drips
+  for(let i=0;i<24;i++){
+    const px=x+R(-tw*0.5,tw*0.5);
+    const py=y+R(-fSize*0.4,fSize*0.4);
+    X.fillStyle=sc.stroke;
+    X.globalAlpha=R(0.2,0.6);
+    X.beginPath();X.arc(px,py,R(0.6,1.4),0,6.28);X.fill();
+  }
+  X.globalAlpha=1.0;
+
+  addDrip(x-tw*0.22,uy+fSize*0.12,sc.stroke,3.4,1.3);
+  addDrip(x+tw*0.15,uy+4,sc.stroke,3.8,1.5);
+  addDrip(x+tw*0.42,uy+fSize*0.06,sc.stroke,3.0,1.1);
 
   X.restore();
   playMarkerSqueak();
-  msg(`NYC Handstyle "${text}" tagged with floating halo crown and underline drips.`);
+  msg('NYC/Philly Handstyle "'+text+'" tagged with multi-pass chisel ribbons, double halo crown & barbed underline flourish.');
 }
 
-// Interactive Stencils Definition & Spraying
+// Interactive Stencils Definition, Overlay & Pochoir Transfer Engine
 const STENCIL_DATA={
-  pompeii:   {name:'Pompeii Graffito (79 AD)',       w:420, h:200, glyph:'ADMIROR O PARIES'},
-  kilroy:    {name:'Kilroy Was Here (1942)',         w:440, h:220, glyph:'KILROY'},
-  cornbread: {name:'Cornbread Crown (1965)',         w:380, h:200, glyph:'CORNBREAD'},
-  taki183:   {name:'TAKI 183 Tag (1971)',            w:390, h:180, glyph:'TAKI 183'},
-  stayhigh:  {name:'Stay High 149 Smokin\' Stickman',w:280, h:320, glyph:'STAYHIGH'},
-  rammellzee:{name:'Rammellzee Panzer Arrow',        w:460, h:220, glyph:'PANZER'},
-  commons:   {name:'Reclaim The Commons Pochoir',    w:420, h:220, glyph:'COMMONS'}
+  pompeii:   {name:'Pompeii Graffito (79 AD)',       w:520, h:240, epoch:'Antiquity',      glyph:'ADMIROR O PARIES'},
+  kilroy:    {name:'Kilroy Was Here (1942)',         w:480, h:260, epoch:'WWII Epigraphy', glyph:'KILROY WAS HERE'},
+  cornbread: {name:'Cornbread Crown (1965)',         w:460, h:260, epoch:'Philadelphia',   glyph:'CORNBREAD LOVES FLORA'},
+  taki183:   {name:'TAKI 183 Tag (1971)',            w:460, h:240, epoch:'Washington Hts', glyph:'TAKI 183'},
+  stayhigh:  {name:'Stay High 149 Smokin\' Stickman',w:380, h:360, epoch:'Subway Era',     glyph:'STAY HIGH 149'},
+  rammellzee:{name:'Rammellzee Panzer Arrow',        w:520, h:260, epoch:'Gothic Futurism',glyph:'IKONOKLAST PANZER'},
+  commons:   {name:'Reclaim The Commons Pochoir',    w:480, h:260, epoch:'Urban Pochoir',  glyph:'RECLAIM COMMONS'}
 };
 
 function loadStencil(key){
@@ -1404,86 +1695,321 @@ function loadStencil(key){
   activeStencil=key;
   stencilPos=[W/2,H/2];
   stencilLocked=false;
-  $('#manifestoModal').classList.remove('open');
-  $('#stencilHud').style.display='flex';
-  $('#stencilBadgeText').textContent=`Stencil: ${STENCIL_DATA[key].name} (Click canvas to Lock/Unlock)`;
+  const m=$('#manifestoModal');if(m)m.classList.remove('open');
+  const hud=$('#stencilHud');if(hud)hud.style.display='flex';
+  const badge=$('#stencilBadgeText');if(badge)badge.textContent='Stencil: '+STENCIL_DATA[key].name+' (Click canvas or button to Lock / Transfer)';
   playCanRattle();
-  msg(`Pochoir Stencil loaded: ${STENCIL_DATA[key].name}. Move to position, click to lock, and spray across it!`);
+  msg('Pochoir Stencil loaded: '+STENCIL_DATA[key].name+'. Position over wall, lock, or click Transfer Pochoir!');
 }
 
 function releaseStencil(){
   if(!activeStencil)return;
-  msg(`Released stencil: ${STENCIL_DATA[activeStencil].name}. Clean pochoir print revealed!`);
+  msg('Released stencil: '+STENCIL_DATA[activeStencil].name+'. Clean pochoir print revealed!');
   activeStencil=null;
   stencilLocked=false;
-  $('#stencilHud').style.display='none';
+  const hud=$('#stencilHud');if(hud)hud.style.display='none';
   playCanRattle();
 }
 
+// Render Physical Cardboard Pochoir Template on Overlay Canvas (O)
 function drawStencilOutline(key,x,y){
   const st=STENCIL_DATA[key];
   if(!st)return;
 
   O.save();
-  // Translucent cardboard pochoir sheet
-  O.fillStyle=stencilLocked?'rgba(215,190,140,0.45)':'rgba(215,190,140,0.65)';
-  O.strokeStyle='rgba(180,140,70,0.85)';
+
+  // Translucent Kraft Cardboard Pochoir Plate
+  O.fillStyle=stencilLocked?'rgba(215,190,140,0.50)':'rgba(215,190,140,0.68)';
+  O.strokeStyle='rgba(160,120,55,0.92)';
   O.lineWidth=2;
 
+  // Stencil plate cast shadow
+  O.save();
+  O.shadowColor='rgba(10,8,5,0.45)';
+  O.shadowBlur=stencilLocked?8:22;
+  O.shadowOffsetY=stencilLocked?3:12;
   O.fillRect(x-st.w/2,y-st.h/2,st.w,st.h);
   O.strokeRect(x-st.w/2,y-st.h/2,st.w,st.h);
+  O.restore();
 
-  // Cutout holes silhouette
-  O.strokeStyle='#000';
-  O.fillStyle='#111';
-  O.lineWidth=1.5;
-
-  if(key==='kilroy'){
-    // Wall line
-    O.beginPath();O.moveTo(x-st.w*0.4,y+20);O.lineTo(x+st.w*0.4,y+20);O.stroke();
-    // Curved nose
+  // Registration Corner Crosshairs (+) & Brass Eyelets
+  const corners=[
+    [x-st.w/2+16,y-st.h/2+16],
+    [x+st.w/2-16,y-st.h/2+16],
+    [x-st.w/2+16,y+st.h/2-16],
+    [x+st.w/2-16,y+st.h/2-16]
+  ];
+  corners.forEach(([cx,cy])=>{
+    O.strokeStyle='rgba(90,65,30,0.85)';
+    O.lineWidth=1.5;
     O.beginPath();
-    O.arc(x,y+20,38,Math.PI,0,false);
+    O.moveTo(cx-7,cy);O.lineTo(cx+7,cy);
+    O.moveTo(cx,cy-7);O.lineTo(cx,cy+7);
     O.stroke();
-    // Eyes
-    O.beginPath();O.arc(x-24,y-8,8,0,6.28);O.fill();
-    O.beginPath();O.arc(x+24,y-8,8,0,6.28);O.fill();
-    // 8 fingers over wall
-    [-80,-60,-40,-20,20,40,60,80].forEach(fx=>{
-      O.beginPath();O.arc(x+fx,y+20,8,Math.PI,0,false);O.stroke();
+    O.beginPath();O.arc(cx,cy,3.5,0,6.28);O.stroke();
+  });
+
+  // Stencil Meta Colophon in Header & Footer Margin
+  O.fillStyle='rgba(60,42,18,0.85)';
+  O.font="600 11px 'Hanken Grotesk',sans-serif";
+  O.textAlign='left';
+  O.fillText('POCHOIR STENCIL MATRIX · '+st.epoch.toUpperCase()+' · '+st.w+'×'+st.h+'MM',x-st.w/2+28,y-st.h/2+20);
+  O.textAlign='right';
+  O.fillText(stencilLocked?'[STATUS: LOCKED / READY TO TRANSFER]':'[STATUS: FLOATING / CLICK TO LOCK]',x+st.w/2-28,y-st.h/2+20);
+
+  // Cutout Silhouettes & Laser Bridge Tabs
+  O.strokeStyle='rgba(20,15,10,0.95)';
+  O.fillStyle='rgba(20,15,10,0.90)';
+  O.lineWidth=1.8;
+
+  if(key==='pompeii'){
+    // Classical Lapidary Monumental Inscription with Ivy Leaf Stops (Hederae)
+    O.font="italic 700 24px 'Fraunces',serif";
+    O.textAlign='center';
+    O.fillText('ADMIROR · O · PARIES',x,y-36);
+    O.fillText('TE NON CECIDISSE RUINIS',x,y+4);
+    O.font="italic 600 13px 'Fraunces',serif";
+    O.fillText('❦ QUI TOT SCRIPTORUM TAEDIA SUSTINEAS ❦ CIL IV 1904',x,y+44);
+
+    // Weathered fissure crack lines on plate
+    O.beginPath();
+    O.moveTo(x-st.w*0.35,y-st.h*0.3);
+    O.lineTo(x-st.w*0.25,y-8);
+    O.lineTo(x-st.w*0.18,y+18);
+    O.lineTo(x-st.w*0.12,y+st.h*0.32);
+    O.stroke();
+
+  } else if(key==='kilroy'){
+    // Corrugated Wall Seam with Rivet Heads
+    const wy=y+24;
+    O.beginPath();O.moveTo(x-st.w*0.42,wy);O.lineTo(x+st.w*0.42,wy);O.stroke();
+    for(let i=-5;i<=5;i++){
+      O.beginPath();O.arc(x+i*34,wy+16,2.2,0,6.28);O.fill();
+    }
+
+    // Peering Head Dome
+    O.beginPath();
+    O.arc(x,wy,46,Math.PI*0.96,Math.PI*0.04,false);
+    O.stroke();
+
+    // Eyes with Pupils
+    O.beginPath();O.arc(x-24,wy-24,8,0,6.28);O.fill();
+    O.beginPath();O.arc(x+24,wy-24,8,0,6.28);O.fill();
+    O.fillStyle='#ffffff';
+    O.beginPath();O.arc(x-22,wy-25,2.5,0,6.28);O.fill();
+    O.beginPath();O.arc(x+26,wy-25,2.5,0,6.28);O.fill();
+    O.fillStyle='rgba(20,15,10,0.90)';
+
+    // Famous Bulbous Drooping Nose
+    O.beginPath();
+    O.arc(x,wy,32,Math.PI,0,false);
+    O.stroke();
+
+    // 10 Distinct Fingers Gripping Wall Rim (5 left, 5 right)
+    [-84,-68,-52,-36,-20,20,36,52,68,84].forEach(fx=>{
+      O.beginPath();O.arc(x+fx,wy,7,Math.PI,0,false);O.stroke();
+      O.beginPath();O.moveTo(x+fx,wy-7);O.lineTo(x+fx,wy-12);O.stroke();
     });
-    O.font="600 16px 'Hanken Grotesk',sans-serif";
-    O.textAlign='center';
-    O.fillText('KILROY WAS HERE',x,y+st.h/2-25);
 
-  } else if(key==='rammellzee'){
-    // Armored 45° Panzer Arrow
-    O.beginPath();
-    O.moveTo(x-st.w*0.35,y);
-    O.lineTo(x+st.w*0.15,y);
-    O.lineTo(x+st.w*0.15,y-40);
-    O.lineTo(x+st.w*0.4,y);
-    O.lineTo(x+st.w*0.15,y+40);
-    O.lineTo(x+st.w*0.15,y);
-    O.stroke();
-    O.font="italic 700 20px 'Fraunces',serif";
+    // Crate Stencil Typography with Bridge Gaps
+    O.font="700 16px 'Hanken Grotesk',sans-serif";
     O.textAlign='center';
-    O.fillText('IKONOKLAST PANZERISM · 1979',x,y-55);
+    O.fillText('K I L R O Y   W A S   H E R E',x,y+st.h/2-24);
+
+  } else if(key==='cornbread'){
+    // 5-Pointed Jeweled Philadelphia Crown
+    const cy=y-18;
+    const crownW=160,crownH=85;
+    O.beginPath();
+    O.moveTo(x-crownW/2,cy+crownH/2);
+    O.lineTo(x-crownW/2,cy-crownH*0.2);
+    O.lineTo(x-crownW*0.28,cy+crownH*0.1);
+    O.lineTo(x,cy-crownH/2);
+    O.lineTo(x+crownW*0.28,cy+crownH*0.1);
+    O.lineTo(x+crownW/2,cy-crownH*0.2);
+    O.lineTo(x+crownW/2,cy+crownH/2);
+    O.closePath();
+    O.stroke();
+
+    // 5 Jewel Cabochons on Crown Tips
+    [-crownW/2,-crownW*0.28,0,crownW*0.28,crownW/2].forEach((tx,idx)=>{
+      const ty=[cy-crownH*0.2,cy+crownH*0.1,cy-crownH/2,cy+crownH*0.1,cy-crownH*0.2][idx];
+      O.beginPath();O.arc(x+tx,ty-6,4.5,0,6.28);O.fill();
+    });
+
+    // Crown Headband Diamond Insets
+    for(let i=-2;i<=2;i++){
+      const dx=x+i*28,dy=cy+crownH/2-8;
+      O.beginPath();
+      O.moveTo(dx,dy-5);O.lineTo(dx+5,dy);O.lineTo(dx,dy+5);O.lineTo(dx-5,dy);
+      O.closePath();O.stroke();
+    }
+
+    // Philadelphia Calligraphy Script
+    O.font="italic 700 24px 'Fraunces',serif";
+    O.textAlign='center';
+    O.fillText('CORNBREAD LOVES FLORA',x,y+64);
+    O.font="600 12px 'Hanken Grotesk',sans-serif";
+    O.fillText('PHILLY · 1965 · NO. 1 IN THE WORLD',x,y+86);
+
+  } else if(key==='taki183'){
+    // TAKI 183 Messenger Tag with Lightning Bolt Swash & Transit Shield
+    O.font="italic 900 46px 'Fraunces',serif";
+    O.textAlign='center';
+    O.fillText('TAKI 183',x,y-6);
+
+    // Lightning Bolt Underline Swash
+    O.beginPath();
+    O.moveTo(x-140,y+24);
+    O.lineTo(x+20,y+24);
+    O.lineTo(x,y+36);
+    O.lineTo(x+140,y+36);
+    O.lineTo(x+110,y+46);
+    O.stroke();
+
+    // Twin Transit 5-Point Stars
+    [-170,170].forEach(sx=>{
+      O.beginPath();
+      for(let p=0;p<5;p++){
+        const a=p*4*Math.PI/5-Math.PI/2;
+        const r=10;
+        const px=x+sx+Math.cos(a)*r,py=y-8+Math.sin(a)*r;
+        if(p===0)O.moveTo(px,py);else O.lineTo(px,py);
+      }
+      O.closePath();O.fill();
+    });
+
+    // Subtitle Line
+    O.font="600 13px 'Hanken Grotesk',sans-serif";
+    O.fillText('183RD ST · HIGHBRIDGE · NYCTA 5-BOROUGHS',x,y+st.h/2-22);
 
   } else if(key==='stayhigh'){
-    // Stay High 149 halo-stickman
-    O.beginPath();O.arc(x,y-60,28,0,6.28);O.stroke(); // Head
-    O.beginPath();O.ellipse(x,y-100,32,10,0,0,6.28);O.stroke(); // Halo
-    O.beginPath();O.moveTo(x,y-32);O.lineTo(x,y+50);O.stroke(); // Spine
-    O.beginPath();O.moveTo(x-40,y);O.lineTo(x+40,y);O.stroke(); // Arms
-    O.beginPath();O.moveTo(x,y+50);O.lineTo(x-35,y+110); // Legs
-    O.moveTo(x,y+50);O.lineTo(x+35,y+110);O.stroke();
-    O.font="600 14px 'Hanken Grotesk',sans-serif";
+    // Stay High 149 Smokin' Stickman with Halo & Smoke Plumes
+    const hy=y-90;
+    // Circular Head
+    O.beginPath();O.arc(x,hy,24,0,6.28);O.stroke();
+
+    // Floating Elliptical Halo with 8 Radiant Starlight Rays
+    O.beginPath();O.ellipse(x,hy-38,36,10,0,0,6.28);O.stroke();
+    for(let r=0;r<8;r++){
+      const ang=r*Math.PI/4;
+      O.beginPath();
+      O.moveTo(x+Math.cos(ang)*36,hy-38+Math.sin(ang)*10);
+      O.lineTo(x+Math.cos(ang)*48,hy-38+Math.sin(ang)*14);
+      O.stroke();
+    }
+
+    // Stick Body Spine & Arms
+    O.beginPath();O.moveTo(x,hy+24);O.lineTo(x-8,y+35);O.stroke();
+    O.beginPath();O.moveTo(x-35,y-30);O.lineTo(x,y-40);O.lineTo(x+35,y-30);O.stroke();
+
+    // Leaning Legs
+    O.beginPath();O.moveTo(x-8,y+35);O.lineTo(x-38,y+95);O.stroke();
+    O.beginPath();O.moveTo(x-8,y+35);O.lineTo(x+32,y+95);O.stroke();
+
+    // Cigarette & Smoke Plumes
+    O.beginPath();O.moveTo(x+12,hy+10);O.lineTo(x+38,hy+8);O.stroke();
+    O.beginPath();
+    O.moveTo(x+38,hy+8);
+    O.bezierCurveTo(x+55,hy-20,x+20,hy-50,x+45,hy-75);
+    O.stroke();
+
+    // Handstyle Signature
+    O.font="italic 700 22px 'Fraunces',serif";
     O.textAlign='center';
-    O.fillText('STAY HIGH 149',x,y+st.h/2-20);
+    O.fillText('STAY HIGH 149',x,y+st.h/2-24);
+
+  } else if(key==='rammellzee'){
+    // Armed Ikonoklast Panzer Arrow with Gear Teeth & Exhaust Fins
+    const py=y+8;
+    O.beginPath();
+    O.moveTo(x-st.w*0.38,py-22);
+    // Gear teeth on top edge
+    for(let g=0;g<5;g++){
+      const gx=x-st.w*0.38+g*28;
+      O.lineTo(gx+10,py-22);
+      O.lineTo(gx+14,py-32);
+      O.lineTo(gx+22,py-32);
+      O.lineTo(gx+26,py-22);
+    }
+    O.lineTo(x+st.w*0.14,py-22);
+    O.lineTo(x+st.w*0.14,py-55);
+    O.lineTo(x+st.w*0.40,py);
+    O.lineTo(x+st.w*0.14,py+55);
+    O.lineTo(x+st.w*0.14,py+22);
+    // Gear teeth on bottom edge
+    for(let g=4;g>=0;g--){
+      const gx=x-st.w*0.38+g*28;
+      O.lineTo(gx+26,py+22);
+      O.lineTo(gx+22,py+32);
+      O.lineTo(gx+14,py+32);
+      O.lineTo(gx+10,py+22);
+    }
+    O.lineTo(x-st.w*0.38,py+22);
+    O.closePath();
+    O.stroke();
+
+    // Supersonic Thruster Shock Diamonds (◇ ◇ ◇)
+    for(let d=0;d<3;d++){
+      const dx=x-st.w*0.42-d*16;
+      O.beginPath();
+      O.moveTo(dx,py-7);O.lineTo(dx+7,py);O.lineTo(dx,py+7);O.lineTo(dx-7,py);
+      O.closePath();O.stroke();
+    }
+
+    O.font="italic 700 18px 'Fraunces',serif";
+    O.textAlign='center';
+    O.fillText('IKONOKLAST PANZERISM · RAMM:ΣLL:ZΣΣ',x,y-62);
+
+  } else if(key==='commons'){
+    // Reclaim The Commons Pochoir Urban Rat with Aerosol Spray Nozzle
+    const ry=y+14;
+    // Rat Body Silhouette Profile
+    O.beginPath();
+    O.moveTo(x-80,ry+35);
+    O.bezierCurveTo(x-120,ry+25,x-130,ry-15,x-90,ry-25); // Back curve
+    O.bezierCurveTo(x-60,ry-32,x-30,ry-15,x,ry-5);       // Neck
+    O.lineTo(x+45,ry-12);                                 // Snout
+    O.lineTo(x+45,ry);                                    // Chin
+    O.bezierCurveTo(x+20,ry+20,x-20,ry+35,x-80,ry+35);   // Belly
+    O.stroke();
+
+    // Ears & Whiskers
+    O.beginPath();O.ellipse(x-35,ry-28,12,6,Math.PI/3,0,6.28);O.stroke();
+    O.beginPath();
+    O.moveTo(x+45,ry-6);O.lineTo(x+65,ry-12);
+    O.moveTo(x+45,ry-4);O.lineTo(x+68,ry-4);
+    O.moveTo(x+45,ry-2);O.lineTo(x+65,ry+4);
+    O.stroke();
+
+    // Long Curling Tail
+    O.beginPath();
+    O.moveTo(x-120,ry+20);
+    O.bezierCurveTo(x-160,ry+35,x-180,ry-10,x-140,ry-40);
+    O.stroke();
+
+    // Spray Can Held in Paws
+    const canX=x+15,canY=ry+10;
+    O.strokeRect(canX,canY,18,30);
+    O.strokeRect(canX+5,canY-5,8,5);
+
+    // Conical Aerosol Spray Mist
+    for(let d=0;d<18;d++){
+      const ang=(Math.random()-0.5)*0.5-0.2;
+      const dist=R(15,55);
+      O.beginPath();
+      O.arc(canX+9+Math.cos(ang)*dist,canY-5+Math.sin(ang)*dist,R(0.8,2.2),0,6.28);
+      O.fill();
+    }
+
+    // Bold Stencil Bridges
+    O.font="900 16px 'Hanken Grotesk',sans-serif";
+    O.textAlign='center';
+    O.fillText('RECLAIM THE COMMONS',x,y-st.h/2+38);
+    O.font="600 12px 'Hanken Grotesk',sans-serif";
+    O.fillText('THE STREETS BELONG TO THE LIVING',x,y+st.h/2-24);
 
   } else {
-    // Typographic pochoir stencil letters
     O.font="italic 900 36px 'Fraunces',serif";
     O.textAlign='center';
     O.textBaseline='middle';
@@ -1491,6 +2017,267 @@ function drawStencilOutline(key,x,y){
   }
 
   O.restore();
+}
+
+// Transfer Physical Pochoir Stencil onto Main Wall Canvas (X)
+function stampPochoirStencil(key,x,y,schemeKey){
+  const st=STENCIL_DATA[key];
+  if(!st)return;
+  const sc=SCHEMES[schemeKey]||SCHEMES.gold;
+
+  saveUndo();
+  X.save();
+
+  // 1. Soft Aerosol Overspray Halo (Fat-cap bleed outside cutout apertures)
+  const haloRad=X.createRadialGradient(x,y,st.w*0.15,x,y,st.w*0.55);
+  haloRad.addColorStop(0,sc.glow);
+  haloRad.addColorStop(0.6,sc.glow);
+  haloRad.addColorStop(1,'rgba(0,0,0,0)');
+  X.fillStyle=haloRad;
+  X.globalAlpha=0.25;
+  X.fillRect(x-st.w*0.55,y-st.h*0.55,st.w*1.1,st.h*1.1);
+
+  // 2. Fine Micro-Spatter Dusting along stencil boundaries
+  X.fillStyle=sc.stroke;
+  for(let i=0;i<75;i++){
+    const sx=x+R(-st.w*0.48,st.w*0.48);
+    const sy=y+R(-st.h*0.46,st.h*0.46);
+    X.globalAlpha=R(0.18,0.75);
+    X.beginPath();X.arc(sx,sy,R(0.8,2.4),0,6.28);X.fill();
+  }
+  X.globalAlpha=1.0;
+
+  // 3. Dense High-Density Enamel Fill of Cutout Shapes
+  X.fillStyle=sc.stroke;
+  X.strokeStyle=sc.stroke;
+  X.lineWidth=3;
+  X.lineJoin='round';
+  X.lineCap='round';
+
+  if(key==='pompeii'){
+    X.font="italic 700 24px 'Fraunces',serif";
+    X.textAlign='center';
+    X.fillText('ADMIROR · O · PARIES',x,y-36);
+    X.fillText('TE NON CECIDISSE RUINIS',x,y+4);
+    X.font="italic 600 13px 'Fraunces',serif";
+    X.fillText('❦ QUI TOT SCRIPTORUM TAEDIA SUSTINEAS ❦ CIL IV 1904',x,y+44);
+
+    // Weathered fissures
+    X.strokeStyle='rgba(15,10,5,0.75)';
+    X.lineWidth=1.8;
+    X.beginPath();
+    X.moveTo(x-st.w*0.35,y-st.h*0.3);
+    X.lineTo(x-st.w*0.25,y-8);
+    X.lineTo(x-st.w*0.18,y+18);
+    X.lineTo(x-st.w*0.12,y+st.h*0.32);
+    X.stroke();
+
+  } else if(key==='kilroy'){
+    const wy=y+24;
+    X.beginPath();X.moveTo(x-st.w*0.42,wy);X.lineTo(x+st.w*0.42,wy);X.stroke();
+    for(let i=-5;i<=5;i++){
+      X.beginPath();X.arc(x+i*34,wy+16,2.5,0,6.28);X.fill();
+    }
+
+    // Dome & Nose
+    X.beginPath();X.arc(x,wy,46,Math.PI*0.96,Math.PI*0.04,false);X.stroke();
+    X.beginPath();X.arc(x-24,wy-24,8,0,6.28);X.fill();
+    X.beginPath();X.arc(x+24,wy-24,8,0,6.28);X.fill();
+    X.beginPath();X.arc(x,wy,32,Math.PI,0,false);X.stroke();
+
+    // 10 Fingers
+    [-84,-68,-52,-36,-20,20,36,52,68,84].forEach(fx=>{
+      X.beginPath();X.arc(x+fx,wy,7,Math.PI,0,false);X.stroke();
+      X.beginPath();X.moveTo(x+fx,wy-7);X.lineTo(x+fx,wy-12);X.stroke();
+    });
+
+    X.font="700 16px 'Hanken Grotesk',sans-serif";
+    X.textAlign='center';
+    X.fillText('K I L R O Y   W A S   H E R E',x,y+st.h/2-24);
+
+  } else if(key==='cornbread'){
+    const cy=y-18;
+    const crownW=160,crownH=85;
+    X.beginPath();
+    X.moveTo(x-crownW/2,cy+crownH/2);
+    X.lineTo(x-crownW/2,cy-crownH*0.2);
+    X.lineTo(x-crownW*0.28,cy+crownH*0.1);
+    X.lineTo(x,cy-crownH/2);
+    X.lineTo(x+crownW*0.28,cy+crownH*0.1);
+    X.lineTo(x+crownW/2,cy-crownH*0.2);
+    X.lineTo(x+crownW/2,cy+crownH/2);
+    X.closePath();
+    X.stroke();
+
+    [-crownW/2,-crownW*0.28,0,crownW*0.28,crownW/2].forEach((tx,idx)=>{
+      const ty=[cy-crownH*0.2,cy+crownH*0.1,cy-crownH/2,cy+crownH*0.1,cy-crownH*0.2][idx];
+      X.beginPath();X.arc(x+tx,ty-6,4.5,0,6.28);X.fill();
+    });
+
+    for(let i=-2;i<=2;i++){
+      const dx=x+i*28,dy=cy+crownH/2-8;
+      X.beginPath();
+      X.moveTo(dx,dy-5);X.lineTo(dx+5,dy);X.lineTo(dx,dy+5);X.lineTo(dx-5,dy);
+      X.closePath();X.stroke();
+    }
+
+    X.font="italic 700 24px 'Fraunces',serif";
+    X.textAlign='center';
+    X.fillText('CORNBREAD LOVES FLORA',x,y+64);
+    X.font="600 12px 'Hanken Grotesk',sans-serif";
+    X.fillText('PHILLY · 1965 · NO. 1 IN THE WORLD',x,y+86);
+
+  } else if(key==='taki183'){
+    X.font="italic 900 46px 'Fraunces',serif";
+    X.textAlign='center';
+    X.fillText('TAKI 183',x,y-6);
+
+    X.beginPath();
+    X.moveTo(x-140,y+24);
+    X.lineTo(x+20,y+24);
+    X.lineTo(x,y+36);
+    X.lineTo(x+140,y+36);
+    X.lineTo(x+110,y+46);
+    X.stroke();
+
+    [-170,170].forEach(sx=>{
+      X.beginPath();
+      for(let p=0;p<5;p++){
+        const a=p*4*Math.PI/5-Math.PI/2;
+        const r=10;
+        const px=x+sx+Math.cos(a)*r,py=y-8+Math.sin(a)*r;
+        if(p===0)X.moveTo(px,py);else X.lineTo(px,py);
+      }
+      X.closePath();X.fill();
+    });
+
+    X.font="600 13px 'Hanken Grotesk',sans-serif";
+    X.fillText('183RD ST · HIGHBRIDGE · NYCTA 5-BOROUGHS',x,y+st.h/2-22);
+
+  } else if(key==='stayhigh'){
+    const hy=y-90;
+    X.beginPath();X.arc(x,hy,24,0,6.28);X.stroke();
+    X.beginPath();X.ellipse(x,hy-38,36,10,0,0,6.28);X.stroke();
+    for(let r=0;r<8;r++){
+      const ang=r*Math.PI/4;
+      X.beginPath();
+      X.moveTo(x+Math.cos(ang)*36,hy-38+Math.sin(ang)*10);
+      X.lineTo(x+Math.cos(ang)*48,hy-38+Math.sin(ang)*14);
+      X.stroke();
+    }
+
+    X.beginPath();X.moveTo(x,hy+24);X.lineTo(x-8,y+35);X.stroke();
+    X.beginPath();X.moveTo(x-35,y-30);X.lineTo(x,y-40);X.lineTo(x+35,y-30);X.stroke();
+    X.beginPath();X.moveTo(x-8,y+35);X.lineTo(x-38,y+95);X.stroke();
+    X.beginPath();X.moveTo(x-8,y+35);X.lineTo(x+32,y+95);X.stroke();
+
+    // Cigarette & Smoke
+    X.beginPath();X.moveTo(x+12,hy+10);X.lineTo(x+38,hy+8);X.stroke();
+    X.strokeStyle='#ff5533';
+    X.beginPath();X.arc(x+38,hy+8,2.5,0,6.28);X.fill();
+    X.strokeStyle=sc.stroke;
+    X.beginPath();
+    X.moveTo(x+38,hy+8);
+    X.bezierCurveTo(x+55,hy-20,x+20,hy-50,x+45,hy-75);
+    X.stroke();
+
+    X.font="italic 700 22px 'Fraunces',serif";
+    X.textAlign='center';
+    X.fillText('STAY HIGH 149',x,y+st.h/2-24);
+
+  } else if(key==='rammellzee'){
+    const py=y+8;
+    X.beginPath();
+    X.moveTo(x-st.w*0.38,py-22);
+    for(let g=0;g<5;g++){
+      const gx=x-st.w*0.38+g*28;
+      X.lineTo(gx+10,py-22);
+      X.lineTo(gx+14,py-32);
+      X.lineTo(gx+22,py-32);
+      X.lineTo(gx+26,py-22);
+    }
+    X.lineTo(x+st.w*0.14,py-22);
+    X.lineTo(x+st.w*0.14,py-55);
+    X.lineTo(x+st.w*0.40,py);
+    X.lineTo(x+st.w*0.14,py+55);
+    X.lineTo(x+st.w*0.14,py+22);
+    for(let g=4;g>=0;g--){
+      const gx=x-st.w*0.38+g*28;
+      X.lineTo(gx+26,py+22);
+      X.lineTo(gx+22,py+32);
+      X.lineTo(gx+14,py+32);
+      X.lineTo(gx+10,py+22);
+    }
+    X.lineTo(x-st.w*0.38,py+22);
+    X.closePath();
+    X.stroke();
+
+    for(let d=0;d<3;d++){
+      const dx=x-st.w*0.42-d*16;
+      X.beginPath();
+      X.moveTo(dx,py-7);X.lineTo(dx+7,py);X.lineTo(dx,py+7);X.lineTo(dx-7,py);
+      X.closePath();X.stroke();
+    }
+
+    X.font="italic 700 18px 'Fraunces',serif";
+    X.textAlign='center';
+    X.fillText('IKONOKLAST PANZERISM · RAMM:ΣLL:ZΣΣ',x,y-62);
+
+  } else if(key==='commons'){
+    const ry=y+14;
+    X.beginPath();
+    X.moveTo(x-80,ry+35);
+    X.bezierCurveTo(x-120,ry+25,x-130,ry-15,x-90,ry-25);
+    X.bezierCurveTo(x-60,ry-32,x-30,ry-15,x,ry-5);
+    X.lineTo(x+45,ry-12);
+    X.lineTo(x+45,ry);
+    X.bezierCurveTo(x+20,ry+20,x-20,ry+35,x-80,ry+35);
+    X.stroke();
+
+    X.beginPath();X.ellipse(x-35,ry-28,12,6,Math.PI/3,0,6.28);X.stroke();
+    X.beginPath();
+    X.moveTo(x+45,ry-6);X.lineTo(x+65,ry-12);
+    X.moveTo(x+45,ry-4);X.lineTo(x+68,ry-4);
+    X.moveTo(x+45,ry-2);X.lineTo(x+65,ry+4);
+    X.stroke();
+
+    X.beginPath();
+    X.moveTo(x-120,ry+20);
+    X.bezierCurveTo(x-160,ry+35,x-180,ry-10,x-140,ry-40);
+    X.stroke();
+
+    const canX=x+15,canY=ry+10;
+    X.strokeRect(canX,canY,18,30);
+    X.strokeRect(canX+5,canY-5,8,5);
+
+    for(let d=0;d<18;d++){
+      const ang=(Math.random()-0.5)*0.5-0.2;
+      const dist=R(15,55);
+      X.beginPath();
+      X.arc(canX+9+Math.cos(ang)*dist,canY-5+Math.sin(ang)*dist,R(0.8,2.2),0,6.28);
+      X.fill();
+    }
+
+    X.font="900 16px 'Hanken Grotesk',sans-serif";
+    X.textAlign='center';
+    X.fillText('RECLAIM THE COMMONS',x,y-st.h/2+38);
+    X.font="600 12px 'Hanken Grotesk',sans-serif";
+    X.fillText('THE STREETS BELONG TO THE LIVING',x,y+st.h/2-24);
+
+  } else {
+    X.font="italic 900 36px 'Fraunces',serif";
+    X.textAlign='center';
+    X.textBaseline='middle';
+    X.strokeText(st.glyph,x,y);
+  }
+
+  // 4. Pochoir Gravity Run Drips
+  addDrip(x-st.w*0.2,y+st.h*0.35,sc.stroke,3.8,1.3);
+  addDrip(x+st.w*0.22,y+st.h*0.38,sc.stroke,3.5,1.2);
+
+  X.restore();
+  playCanRattle();
+  msg('Transferred authentic historical pochoir print: "'+st.name+'" with aerosol overspray & crisp bridge cuts.');
 }
 
 // "Subway Art" 3200x1600 Archival Exporter
@@ -1505,30 +2292,39 @@ function generateSubwayArt(format){
     FX.drawImage(C,0,0,FW,FH);
 
     // Subtle dark vignette
-    const vg=FX.createRadialGradient(FW/2,FH/2,FW*0.35,FW/2,FH/2,FW*0.7);
+    const vg=FX.createRadialGradient(FW/2,FH/2,FW*0.35,FW/2,FH/2,FW*0.72);
     vg.addColorStop(0,'rgba(0,0,0,0)');
-    vg.addColorStop(1,'rgba(0,0,0,0.45)');
+    vg.addColorStop(1,'rgba(0,0,0,0.52)');
     FX.fillStyle=vg;
     FX.fillRect(0,0,FW,FH);
 
-    // Subtle watermark stamp in bottom margin
-    FX.fillStyle='rgba(255,255,255,0.7)';
-    FX.font="600 20px 'Hanken Grotesk',sans-serif";
-    FX.fillText('PROJECT QWEIRDO · THE PALIMPSEST WALL · ' + new Date().getFullYear(),80,FH-60);
+    // Archival Lower Gallery Colophon Bar
+    FX.fillStyle='rgba(12,14,18,0.85)';
+    FX.fillRect(0,FH-90,FW,90);
+    FX.strokeStyle='rgba(212,175,55,0.45)';
+    FX.lineWidth=1.5;
+    FX.beginPath();FX.moveTo(0,FH-90);FX.lineTo(FW,FH-90);FX.stroke();
+
+    FX.fillStyle='rgba(255,255,255,0.92)';
+    FX.font="600 22px 'Hanken Grotesk',sans-serif";
+    FX.fillText('PROJECT QWEIRDO · THE PALIMPSEST WALL · 3200×1600 ULTRA HIGH RESOLUTION BROADSIDE',80,FH-48);
+    FX.fillStyle='rgba(212,175,55,0.85)';
+    FX.textAlign='right';
+    FX.fillText('MTA CAR NO. 4928 · R46 STAINLESS · SCRIPTORIUM HARMONOGRAPH',FW-80,FH-48);
 
   } else {
     // 1980s Polaroid Film Card (Martha Cooper & Henry Chalfant Subway Art Style)
     // Warm white glossy photographic paper border
-    FX.fillStyle='#faf7f0';
+    FX.fillStyle='#faf7ef';
     FX.fillRect(0,0,FW,FH);
 
     // Photographic border drop shadow
     FX.save();
-    FX.shadowColor='rgba(15,10,5,0.45)';
-    FX.shadowBlur=45;
-    FX.shadowOffsetY=20;
+    FX.shadowColor='rgba(15,10,5,0.48)';
+    FX.shadowBlur=48;
+    FX.shadowOffsetY=22;
 
-    const picX=140,picY=120,picW=2920,picH=1220;
+    const picX=140,picY=115,picW=2920,picH=1220;
     FX.drawImage(C,picX,picY,picW,picH);
     FX.restore();
 
@@ -1536,38 +2332,38 @@ function generateSubwayArt(format){
     const vg=FX.createRadialGradient(picX+picW/2,picY+picH/2,picW*0.25,picX+picW/2,picY+picH/2,picW*0.65);
     vg.addColorStop(0,'rgba(255,245,230,0.03)');
     vg.addColorStop(0.7,'rgba(60,40,20,0.12)');
-    vg.addColorStop(1,'rgba(20,12,6,0.38)');
+    vg.addColorStop(1,'rgba(20,12,6,0.42)');
     FX.fillStyle=vg;
     FX.fillRect(picX,picY,picW,picH);
 
     // Bottom Polaroid Margin: Handwritten Grease Pencil & Transit Yard Stencil
     FX.textAlign='left';
-    FX.fillStyle='#3a342c';
+    FX.fillStyle='#2c261e';
     FX.font="italic 600 32px 'Fraunces',Georgia,serif";
     const my=picY+picH+75;
-    FX.fillText('SUBWAY ART · NYC TRANSIT DIVISION · IRT YARD 1984',picX,my);
+    FX.fillText('SUBWAY ART · NYC TRANSIT DIVISION · IRT / IND YARD 1984',picX,my);
 
-    FX.fillStyle='#6d6355';
+    FX.fillStyle='#5c5244';
     FX.font="500 22px 'Hanken Grotesk',sans-serif";
-    const coauth=cred.length?cred.map(c=>c.name).join(', '):'Autonomous Subway Writer & Anonymous Scribe';
-    FX.fillText(`WRITERS: ${coauth} · CAR NO. 4928 R46 STAINLESS`,picX,my+42);
-    FX.fillText(`TIMESTAMP: ${new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})} · MANIFESTO: "THE WALL BELONGS TO THE LIVING"`,picX,my+76);
+    const coauth=cred&&cred.length?cred.map(c=>c.name).join(', '):'Autonomous Subway Writer & Anonymous Scribe';
+    FX.fillText('WRITERS: '+coauth+' · CAR NO. 4928 R46 STAINLESS · ACCESSION #QW-1984-77A',picX,my+42);
+    FX.fillText('TIMESTAMP: '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' · MANIFESTO: "THE WALL BELONGS TO THE LIVING"',picX,my+76);
 
-    // Authentic Red Rubber Transit Inspection Stamp (Scalloped red stamp)
-    const sx=FW-380,sy=my+25;
+    // Authentic Red Rubber Transit Inspection Stamp (Dual Scalloped Ring)
+    const sx=FW-390,sy=my+25;
     FX.save();
     FX.translate(sx,sy);
-    FX.rotate(-0.08);
-    FX.strokeStyle='rgba(195,35,45,0.78)';
-    FX.lineWidth=3;
-    FX.strokeRect(-120,-35,240,70);
-    FX.strokeRect(-114,-29,228,58);
-    FX.fillStyle='rgba(195,35,45,0.85)';
+    FX.rotate(-0.07);
+    FX.strokeStyle='rgba(195,35,45,0.82)';
+    FX.lineWidth=3.5;
+    FX.strokeRect(-125,-38,250,76);
+    FX.strokeRect(-118,-31,236,62);
+    FX.fillStyle='rgba(195,35,45,0.88)';
     FX.textAlign='center';
     FX.font="700 16px 'Hanken Grotesk',sans-serif";
     FX.fillText('PASSED MTA INSPECTION',0,-8);
     FX.font="600 12px 'Hanken Grotesk',sans-serif";
-    FX.fillText('DIVISION OF CAR EQUIPMENT',0,14);
+    FX.fillText('CONEY ISLAND OVERHAUL SHOP',0,14);
     FX.restore();
   }
 
@@ -1614,9 +2410,16 @@ document.querySelectorAll('.manifesto-stencil-btn').forEach(btn=>{
 
 $('#btnLockStencil').onclick=()=>{
   stencilLocked=!stencilLocked;
-  $('#btnLockStencil').textContent=stencilLocked?'Unlock Stencil':'Lock / Spray';
-  msg(stencilLocked?'Stencil locked in position. Spray across it with any cap to transfer the pochoir!':'Stencil unlocked. Move to reposition.');
+  $('#btnLockStencil').textContent=stencilLocked?'Unlock Position':'Lock Position';
+  msg(stencilLocked?'Stencil locked in position. Spray across it with any cap or click Transfer Pochoir Print [Key T]!':'Stencil unlocked. Move to reposition.');
 };
+const transferPochoirBtn=$('#btnTransferStencil');
+if(transferPochoirBtn){
+  transferPochoirBtn.onclick=()=>{
+    if(!activeStencil)return;
+    stampPochoirStencil(activeStencil,stencilPos[0],stencilPos[1],activeScheme);
+  };
+}
 $('#btnReleaseStencil').onclick=releaseStencil;
 
 // Aided Tag Bar Buttons
@@ -1812,6 +2615,7 @@ window.addEventListener('keydown',e=>{
   else if(k==='a')$('#btnAudio').click();
   else if(k==='l')$('#toolLoupe').click();
   else if(k==='r')$('#btnRemix').click();
+  else if(k==='t'&&activeStencil){const tb=$('#btnTransferStencil');if(tb)tb.click();}
   else if(e.key==='Escape'&&activeStencil)releaseStencil();
 });
 
@@ -2083,9 +2887,27 @@ function shape(P){
     else X.lineTo(P.x+px,P.y+py);
   });
   X.closePath();
-  X.strokeStyle=`hsla(${P.hs[0]},${P.hs[1]}%,${P.hs[2]}%,0.5)`;
-  X.lineWidth=1.5;
+  X.strokeStyle=`hsla(${P.hs[0]},${P.hs[1]}%,${P.hs[2]}%,0.65)`;
+  X.lineWidth=P.isOffering?2.2:1.5;
   X.stroke();
+
+  if(P.isOffering){
+    X.beginPath();
+    P.P.forEach(([px,py],i)=>{
+      const ix=px*0.5,iy=py*0.5;
+      if(i===0)X.moveTo(P.x+ix,P.y+iy);
+      else X.lineTo(P.x+ix,P.y+iy);
+    });
+    X.closePath();
+    X.strokeStyle=`hsla(${P.hs[0]},${P.hs[1]}%,85%,0.42)`;
+    X.lineWidth=1;
+    X.stroke();
+
+    X.fillStyle='#ffffff';
+    X.beginPath();
+    X.moveTo(P.x,P.y-2.5);X.lineTo(P.x+2.5,P.y);X.lineTo(P.x,P.y+2.5);X.lineTo(P.x-2.5,P.y);
+    X.closePath();X.fill();
+  }
   X.restore();
 }
 
