@@ -188,7 +188,17 @@ footer p{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;fon
 
 @media(max-width:980px){.manifesto-grid{grid-template-columns:1fr}}
 
+
+/* Site-Wide Fluid Teal Waves & Fluidity Styles */
+#site-waves{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:0;opacity:.78;mix-blend-mode:multiply;transition:opacity .5s ease}
+main,nav,footer,.folio-modal,.manifesto-modal{position:relative;z-index:1}
+.tool-btn.active-waves{border-color:var(--teal);background:linear-gradient(135deg,#1b5e5a,#287a74);color:#fff;box-shadow:0 0 10px rgba(27,94,90,0.5)}
+.tool-btn.active-fluid{border-color:var(--teal);background:var(--tx);color:#38a3a5;box-shadow:0 0 8px rgba(56,163,165,0.4)}
+#btnPulseWave{background:linear-gradient(135deg,#1b5e5a,#287a74);color:#fff;border-color:transparent}
+#btnPulseWave:hover{background:linear-gradient(135deg,#287a74,#38a3a5);transform:translateY(-1px);box-shadow:0 6px 16px rgba(27,94,90,0.4)}
+
 </style></head><body>
+<canvas id="site-waves" aria-hidden="true"></canvas>
 <nav><a class="lk" href="#" aria-label="Qweirdo, back to top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true"><defs><mask id="nd"><rect width="100" height="100" fill="#fff"/><g fill="#000"><path d="M19.9 48.0L21.4 48.2L22.9 48.5L24.4 48.9L25.9 49.3L27.5 49.7L29.1 50.2L30.7 50.8L32.3 51.4L33.9 52.0L35.5 52.6L37.1 53.2L38.8 53.9L40.4 54.6L42.0 55.2L43.6 55.9L45.2 56.5L46.8 57.1L48.4 57.7L49.9 58.3L51.5 58.8L52.8 59.1L53.9 59.2L55.0 59.2L56.0 59.2L57.0 59.1L57.9 58.9L58.8 58.6L59.6 58.2L60.3 57.8L61.0 57.3L61.6 56.7L62.1 56.0L62.5 55.2L62.7 54.3L62.7 53.4L62.5 52.5L62.1 51.6L61.6 50.9L60.9 50.2L60.2 49.6L59.3 49.1L58.4 48.8L57.4 48.6L56.4 48.6L55.5 48.7L54.6 49.0L53.7 49.4L52.9 50.0L52.3 50.6L51.7 51.5L51.3 52.4L51.0 53.3L50.8 54.4L50.8 55.5L51.0 56.6L51.3 57.7L51.8 58.8L52.4 60.0L53.2 61.1L54.2 62.4L55.4 63.3L56.3 64.0L57.2 64.7L58.2 65.4L59.1 66.1L60.1 66.8L61.0 67.5L62.0 68.2L63.0 68.9L63.9 69.7L64.9 70.4L65.9 71.2L66.9 72.0L67.8 72.8L68.8 73.6L69.8 74.5L70.8 75.4L71.7 76.3L72.7 77.3L73.7 78.3L74.4 79.1L75.2 79.8L75.9 80.6L76.7 81.4L77.4 82.2L78.2 83.0L79.0 83.8L79.9 84.6L80.7 85.3L81.6 86.0L82.5 86.8L83.4 87.4L84.4 88.1L85.5 88.7L86.5 89.3L87.6 89.8L88.8 90.3L90.0 90.7L91.2 91.0L92.3 91.2L93.7 83.8L92.7 83.6L92.0 83.5L91.2 83.2L90.4 83.0L89.7 82.7L88.9 82.3L88.2 81.9L87.4 81.5L86.7 81.0L85.9 80.5L85.2 79.9L84.4 79.3L83.6 78.7L82.9 78.0L82.1 77.3L81.4 76.6L80.6 75.9L79.8 75.2L79.1 74.4L78.3 73.7L77.2 72.6L76.1 71.6L74.9 70.7L73.8 69.8L72.7 68.9L71.6 68.0L70.5 67.2L69.5 66.4L68.4 65.7L67.3 65.0L66.3 64.2L65.2 63.6L64.2 62.9L63.2 62.2L62.2 61.6L61.3 60.9L60.3 60.3L59.4 59.7L58.5 59.1L57.8 58.6L57.2 58.0L56.7 57.2L56.2 56.6L56.0 56.0L55.8 55.4L55.7 55.0L55.6 54.6L55.7 54.3L55.7 54.0L55.8 53.8L55.9 53.6L56.0 53.5L56.2 53.3L56.3 53.2L56.5 53.2L56.7 53.1L57.0 53.1L57.2 53.1L57.5 53.2L57.8 53.4L58.1 53.6L58.3 53.7L58.4 53.8L58.4 53.9L58.4 53.9L58.5 53.8L58.5 53.8L58.4 53.9L58.4 54.0L58.2 54.2L58.0 54.4L57.7 54.6L57.3 54.8L56.8 55.0L56.2 55.2L55.6 55.3L54.9 55.3L54.1 55.4L53.3 55.3L52.5 55.2L51.0 54.8L49.5 54.3L48.0 53.8L46.4 53.3L44.8 52.8L43.1 52.2L41.5 51.6L39.8 51.0L38.2 50.5L36.5 49.9L34.8 49.4L33.1 48.8L31.5 48.3L29.8 47.8L28.1 47.4L26.5 47.0L24.9 46.7L23.3 46.4L21.7 46.2L20.1 46.0Z"/><path d="M22.0 47.3C27.5 57.2 69.8 69.3 57.4 74.3M22.5 47.4C26.4 58.0 49.2 79.7 35.4 74.5M24.2 47.7C23.2 56.8 13.7 46.7 20.0 59.1M21.6 47.2C14.1 43.1 20.3 23.1 16.1 37.2M21.9 47.2C29.1 33.1 21.0 25.0 30.9 19.4M22.4 47.3C31.6 35.8 48.5 13.8 57.1 17.2M22.7 47.4C37.0 41.7 79.8 44.5 74.5 32.9" stroke="#000" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M17.6 35.4C20.5 32.1 21.1 29.0 23.9 26.4M31.2 36.4C34.6 35.8 36.8 36.1 39.7 35.4M53.1 42.7C55.6 40.8 56.0 38.3 58.4 37.0" stroke="#000" stroke-width="1" stroke-linecap="round" fill="none"/></g></mask></defs><circle cx="46" cy="46" r="34" fill="#22140a" mask="url(#nd)"/><path d="M71.5 68.2L72.5 69.1L73.6 70.0L74.7 71.0L75.8 71.9L76.9 73.0L78.0 74.0L78.7 74.8L79.5 75.6L80.2 76.3L81.0 77.0L81.7 77.8L82.4 78.5L83.2 79.2L83.9 79.8L84.7 80.5L85.4 81.1L86.2 81.6L87.0 82.1L87.7 82.6L88.5 83.1L89.3 83.5L90.1 83.8L90.9 84.1" stroke="#b38600" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M70.3 69.7L71.4 70.5L72.4 71.4L73.5 72.3L74.5 73.3L75.6 74.3L76.7 75.3L77.4 76.1L78.2 76.9L78.9 77.6L79.7 78.4L80.4 79.1L81.2 79.8L82.0 80.5L82.7 81.2L83.5 81.9L84.3 82.5L85.1 83.1L85.9 83.7L86.8 84.2L87.6 84.7L88.5 85.2L89.4 85.5L90.3 85.9L91.2 86.2L92.2 86.4L93.2 86.6" stroke="#844c1c" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M69.1 71.1L70.2 72.0L71.2 72.8L72.2 73.7L73.3 74.7L74.3 75.6L75.3 76.7L76.1 77.4L76.8 78.2L77.6 78.9L78.4 79.7L79.1 80.4L79.9 81.2L80.7 81.9L81.5 82.6L82.3 83.3L83.2 84.0L84.0 84.6L84.9 85.2L85.8 85.8L86.7 86.3L87.7 86.8L88.7 87.3L89.7 87.6L90.7 88.0" stroke="#d4af37" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M68.0 72.6L69.0 73.4L70.0 74.2L71.0 75.1L72.0 76.0L73.0 77.0L74.0 78.0L74.8 78.7L75.5 79.5L76.3 80.2L77.1 81.0L77.9 81.8L78.7 82.5L79.5 83.3L80.3 84.0L81.2 84.7L82.1 85.4L83.0 86.1L83.9 86.8L84.9 87.4L85.9 88.0L86.9 88.5L88.0 89.0" stroke="#9a3528" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span aria-hidden="true">weirdo</span></a><div><a href="#resonance">Resonance</a><a href="#ethos">Ethos</a><a href="#about">About</a><a href="#credits">Credits</a><a href="#archive">Archive</a></div></nav>
 <main>
 <div class="hero">
@@ -214,6 +224,7 @@ footer p{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;fon
     <button type="button" class="tool-btn" id="capSkinny" data-cap="skinny" title="NY Skinny Cap: Razor-sharp outline cap for burner cuts & keylines [Key K]">· NY Skinny</button>
     <button type="button" class="tool-btn" id="capMop" data-cap="mop" title="Krink K-60 Chisel Squeeze Mop: Angle-sensitive dripping marker [Key M]">▮ Chisel Mop</button>
     <button type="button" class="tool-btn" id="capSpatter" data-cap="spatter" title="Spatter / Flare: Distance-sensitive aerosol spatter bursts">✦ Spatter</button>
+    <button type="button" class="tool-btn" id="capWaves" data-cap="waves" title="Teal Hydro-Waves: Undulating liquid teal wave currents & fluid ribbons [Key W]">🌊 Teal Waves</button>
     <button type="button" class="tool-btn" id="toolBuff" data-cap="buff" title="MTA Clean Train Buff Roller: Roll semi-translucent municipal primer creating historic pentimento layers [Key B]">▦ Buff Roller</button>
     <button type="button" class="tool-btn" id="toolLoupe" title="Palimpsest Loupe: 2.5x optical zoom on wall texture & paint craquelure [Key L]">🔍 Loupe</button>
   </div>
@@ -233,6 +244,8 @@ footer p{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;fon
     <button type="button" class="palette-chip" data-scheme="matte" title="Obsidian Pitch Black [Key 5]"><i style="background:linear-gradient(135deg,#15171c,#555b66)"></i> Obsidian</button>
   </div>
   <div class="studio-group">
+    <button type="button" class="tool-btn active-fluid" id="btnFluidity" title="Toggle Fluid Gesture Dynamics & Smooth Hydro-Flow [Key V]">💧 Fluid: High</button>
+    <button type="button" class="action-btn" id="btnPulseWave" title="Unleash a fluid tidal wave of teal currents across the wall">🌊 Pulse Wave</button>
     <button type="button" class="action-btn" id="btnManifesto" title="The Graffiti History & Manifesto Archive: Explore 7 historical epochs & spray pochoir stencils">📜 Manifesto & Stencils</button>
     <button type="button" class="tool-btn" id="btnAudio" title="Toggle Web Audio Rattle-Can & Aerosol Hiss [Key A]">🔇 Audio: Off</button>
     <button type="button" class="action-btn" id="btnExportFolio" title="Export High-Resolution 'Subway Art' 3200×1600 Wall Broadside & Polaroid">📷 Subway Art</button>
@@ -565,6 +578,62 @@ let activeStencil=null;       // null or 'pompeii', 'kilroy', 'cornbread', 'taki
 let stencilPos=[800,400];
 let stencilLocked=false;
 let isLoupeActive=false;
+let fluidityActive=true;
+let strokeBuf=[];
+
+// Fluid Teal Tidal Wave Pulse
+function pulseTealWave(){
+  saveUndo();
+  playCanRattle();
+  if(window.__triggerSiteWavePulse)window.__triggerSiteWavePulse(2.4);
+
+  X.save();
+  const waveColors=[
+    {h:175,s:72,l:38,alpha:0.22,amp:45,freq:0.0035},
+    {h:165,s:65,l:45,alpha:0.18,amp:65,freq:0.0028},
+    {h:185,s:80,l:32,alpha:0.25,amp:35,freq:0.0048},
+    {h:140,s:40,l:60,alpha:0.15,amp:25,freq:0.0055}
+  ];
+
+  const sweepY=H*0.48;
+  waveColors.forEach((wc,idx)=>{
+    X.beginPath();
+    X.moveTo(0,H);
+    X.lineTo(0,sweepY);
+
+    for(let x=0;x<=W;x+=15){
+      const y=sweepY+Math.sin(x*wc.freq+idx*1.2)*wc.amp
+                     +Math.cos(x*wc.freq*0.7-idx*0.8)*(wc.amp*0.5);
+      X.lineTo(x,y);
+    }
+
+    X.lineTo(W,H);
+    X.closePath();
+    X.fillStyle=`hsla(${wc.h},${wc.s}%,${wc.l}%,${wc.alpha})`;
+    X.fill();
+
+    X.strokeStyle=`hsla(${wc.h},${wc.s}%,${wc.l+15}%,${wc.alpha*1.5})`;
+    X.lineWidth=2.5;
+    X.stroke();
+  });
+
+  for(let i=0;i<90;i++){
+    const fx=R(0,W);
+    const fy=sweepY+Math.sin(fx*0.0035)*45+R(-25,25);
+    X.fillStyle=Math.random()<0.6?'#a2d2cd':'#ffffff';
+    X.globalAlpha=R(0.3,0.75);
+    X.beginPath();
+    X.arc(fx,fy,R(1.2,3.8),0,6.28);
+    X.fill();
+
+    if(Math.random()<0.2){
+      addDrip(fx,fy,'#1b5e5a',3.2,1.2);
+    }
+  }
+  X.restore();
+
+  msg("🌊 Fluid tidal teal wave pulsed across the wall and site!");
+}
 
 // Web Audio Street Synthesizer
 let audioCtx=null;
@@ -718,7 +787,7 @@ function setCap(capKey){
     btn.classList.toggle('active-cap',btn.dataset.cap===capKey);
   });
   playCanRattle();
-  const capNames={fat:'Pink Dot Astro Fat Cap',skinny:'NY Skinny Outline Cap',mop:'Krink K-60 Chisel Mop',spatter:'Spatter & Flare Cap',buff:'MTA Clean Train Buff Roller'};
+  const capNames={fat:'Pink Dot Astro Fat Cap',skinny:'NY Skinny Outline Cap',mop:'Krink K-60 Chisel Mop',spatter:'Spatter & Flare Cap',buff:'MTA Clean Train Buff Roller',waves:'Teal Hydro-Waves (Liquid Oceanic Currents)'};
   msg(`Aerosol Cap active: ${capNames[capKey]||capKey}.`);
 }
 
@@ -1629,6 +1698,15 @@ $('#btnDownloadFolio').onclick=()=>{
   a.click();
 };
 
+$('#btnFluidity').onclick=()=>{
+  fluidityActive=!fluidityActive;
+  $('#btnFluidity').classList.toggle('active-fluid',fluidityActive);
+  $('#btnFluidity').textContent=fluidityActive?'💧 Fluid: High':'💧 Fluid: Off';
+  msg(fluidityActive?'Fluid Gesture Dynamics active: smooth hydro-flow, quadratic curve smoothing, and liquid momentum enabled.':'Direct raw gesture mode.');
+};
+
+$('#btnPulseWave').onclick=pulseTealWave;
+
 $('#btnRemix').onclick=()=>{
   saveUndo();
   const subs=['mta','tile','brick','billboard'];
@@ -1728,6 +1806,8 @@ window.addEventListener('keydown',e=>{
   else if(k==='k')setCap('skinny');
   else if(k==='m')setCap('mop');
   else if(k==='b')setCap('buff');
+  else if(k==='w')setCap('waves');
+  else if(k==='v')$('#btnFluidity').click();
   else if(k==='s')playCanRattle();
   else if(k==='a')$('#btnAudio').click();
   else if(k==='l')$('#toolLoupe').click();
@@ -2736,4 +2816,93 @@ setInterval(()=>{
 },10000);
 
 updateUndoUI();
+
+// ==========================================
+// SITE-WIDE FLUID TEAL WAVES ENGINE
+// ==========================================
+(function() {
+  const swc = document.getElementById('site-waves');
+  if (!swc) return;
+  const swx = swc.getContext('2d');
+  let Ww = swc.width = window.innerWidth;
+  let Wh = swc.height = window.innerHeight;
+
+  window.addEventListener('resize', () => {
+    Ww = swc.width = window.innerWidth;
+    Wh = swc.height = window.innerHeight;
+  });
+
+  const ripples = [];
+  function addRipple(x, strength = 1) {
+    if (ripples.length > 25) ripples.shift();
+    ripples.push({ x, strength, age: 0, maxAge: 180, speed: 4.2 });
+  }
+
+  window.addEventListener('pointermove', e => {
+    if (Math.random() < 0.22) {
+      addRipple(e.clientX, 0.45);
+    }
+  });
+
+  window.addEventListener('pointerdown', e => {
+    addRipple(e.clientX, 1.2);
+  });
+
+  let waveTick = 0;
+  function renderSiteWaves() {
+    waveTick += 0.012;
+    swx.clearRect(0, 0, Ww, Wh);
+
+    for (let i = ripples.length - 1; i >= 0; i--) {
+      ripples[i].age++;
+      if (ripples[i].age > ripples[i].maxAge) ripples.splice(i, 1);
+    }
+
+    const waveLayers = [
+      { baseH: Wh * 0.74, amp: 32, freq: 0.0022, speed: 0.8, color: 'rgba(27, 94, 90, 0.16)', stroke: 'rgba(27, 94, 90, 0.32)' },
+      { baseH: Wh * 0.81, amp: 42, freq: 0.0016, speed: -1.1, color: 'rgba(40, 122, 116, 0.12)', stroke: 'rgba(40, 122, 116, 0.25)' },
+      { baseH: Wh * 0.88, amp: 26, freq: 0.0032, speed: 1.3, color: 'rgba(125, 162, 135, 0.10)', stroke: 'rgba(125, 162, 135, 0.22)' }
+    ];
+
+    waveLayers.forEach((layer) => {
+      swx.beginPath();
+      swx.moveTo(0, Wh);
+      swx.lineTo(0, layer.baseH);
+
+      for (let x = 0; x <= Ww; x += 12) {
+        let y = layer.baseH + Math.sin(x * layer.freq + waveTick * layer.speed) * layer.amp
+                + Math.cos(x * layer.freq * 0.6 - waveTick * 0.5) * (layer.amp * 0.45);
+
+        for (const rip of ripples) {
+          const dist = Math.abs(x - rip.x);
+          const ripRadius = rip.age * rip.speed;
+          if (dist < ripRadius && dist > ripRadius - 60) {
+            const damp = (1 - rip.age / rip.maxAge) * rip.strength;
+            y += Math.sin((dist - ripRadius) * 0.12) * 18 * damp;
+          }
+        }
+
+        swx.lineTo(x, y);
+      }
+
+      swx.lineTo(Ww, Wh);
+      swx.closePath();
+      swx.fillStyle = layer.color;
+      swx.fill();
+      swx.strokeStyle = layer.stroke;
+      swx.lineWidth = 1.2;
+      swx.stroke();
+    });
+
+    requestAnimationFrame(renderSiteWaves);
+  }
+
+  renderSiteWaves();
+  window.__triggerSiteWavePulse = (strength = 1.5) => {
+    for (let i = 0; i < Ww; i += 180) {
+      addRipple(i, strength);
+    }
+  };
+})();
+
 </script></body></html>
