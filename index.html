@@ -42,6 +42,14 @@ h1 em,h2 em,.big em{font-style:italic;color:var(--a)}
 .palette-chip i{display:inline-block;width:11px;height:11px;border-radius:50%;border:1px solid rgba(0,0,0,.2)}
 .action-btn{background:var(--tx);color:var(--bg);border-color:transparent}
 .action-btn:hover{background:var(--a);color:var(--bg)}
+#btnDownloadCanvas{background:linear-gradient(135deg,#844c1c,#b38600);color:#fff;border-color:transparent;font-weight:700}
+#btnDownloadCanvas:hover{background:linear-gradient(135deg,#b38600,#d4af37);color:#1a0f07}
+#btnNewMiniCanvas{background:var(--sf);color:var(--tx);border:1px solid var(--bd)}
+#btnNewMiniCanvas:hover{background:var(--bg);border-color:var(--gold)}
+#btnBlendMiniCanvas{background:linear-gradient(135deg,#1b5e5a,#287a74);color:#fff;border-color:transparent;font-weight:700}
+#btnBlendMiniCanvas:hover{background:linear-gradient(135deg,#287a74,#38a3a5)}
+#btnClearMiniCanvas{background:var(--sf);color:var(--tx);border:1px solid var(--bd)}
+#btnClearMiniCanvas:hover{background:rgba(154,53,40,0.15);color:#9a3528;border-color:#9a3528}
 #btnExportFolio{background:linear-gradient(135deg,#1b5e5a,#287a74);color:#fff}
 #btnExportFolio:hover{background:linear-gradient(135deg,#287a74,#38a3a5)}
 #btnRemix{background:linear-gradient(135deg,#844c1c,#b38600);color:#fff}
@@ -338,7 +346,7 @@ main,nav,footer,.folio-modal,.manifesto-modal{position:relative;z-index:1}
   <div class="hero-right">
     <p class="kick">Charted by Chaos; Ordered by Code</p>
     <h1>Boundless pathways<br><em>Creative pistes</em></h1>
-    <p class="hero-lead">Spray with authentic aerosol cap physics and live gravitational drips. Construct algorithmic wildstyle burners and pochoir manifestos across subway steel, IRT tiles, and distressed brick.</p>
+    <p class="hero-lead">Spray with authentic mineral inks and aerosol cap physics. Construct algorithmic wildstyle burners, form layered mini-canvases, and blend illuminated manifestos across an aged manuscript vellum wall.</p>
     <div class="hero-share-bar" aria-label="Share Project Qweirdo">
       <span class="share-label">Share:</span>
       <button type="button" class="share-btn share-x" data-share="x" title="Share on X" aria-label="Share on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></button>
@@ -362,46 +370,46 @@ main,nav,footer,.folio-modal,.manifesto-modal{position:relative;z-index:1}
     <button type="button" class="tool-btn" id="capMop" data-cap="mop" title="Krink K-60 Chisel Squeeze Mop: Angle-sensitive dripping marker [Key M]">▮ Chisel Mop</button>
     <button type="button" class="tool-btn" id="capSpatter" data-cap="spatter" title="Spatter / Flare: Distance-sensitive aerosol spatter bursts">✦ Spatter</button>
     <button type="button" class="tool-btn" id="capWaves" data-cap="waves" title="Teal Hydro-Waves: Undulating liquid teal wave currents & fluid ribbons [Key W]">🌊 Teal Waves</button>
-    <button type="button" class="tool-btn" id="toolBuff" data-cap="buff" title="MTA Clean Train Buff Roller: Roll semi-translucent municipal primer creating historic pentimento layers [Key B]">▦ Buff Roller</button>
+    <button type="button" class="tool-btn" id="toolBuff" data-cap="buff" title="Vellum Wash Roller: Roll semi-translucent parchment primer wash creating historic pentimento layers [Key B]">▦ Buff Wash</button>
     <button type="button" class="tool-btn" id="toolLoupe" title="Palimpsest Loupe: 2.5x optical zoom on wall texture & paint craquelure [Key L]">🔍 Loupe</button>
   </div>
   <div class="studio-group">
-    <span class="studio-lbl">Wall:</span>
-    <button type="button" class="tool-btn active active-sub" id="subMTA" data-sub="mta" title="1977 NYC Subway Car Steel: Riveted stainless steel with horizontal corrugation">🚇 MTA Steel</button>
-    <button type="button" class="tool-btn" id="subTile" data-sub="tile" title="1973 IRT Subway Ceramic Tile: Grime grout seams & soot streaks">⬜ IRT Tile</button>
-    <button type="button" class="tool-btn" id="subBrick" data-sub="brick" title="Bronx Distressed Brick & Mortar: Weathered masonry tooth">🧱 Brick</button>
-    <button type="button" class="tool-btn" id="subBillboard" data-sub="billboard" title="Decaying Wheatpaste Billboard: Layered peeling vintage street posters">📜 Wheatpaste</button>
+    <span class="studio-lbl">Mini-Canvas:</span>
+    <button type="button" class="tool-btn" id="btnNewMiniCanvas" title="Form an illuminated mini-canvas cartouche on the parchment wall">✦ New Mini-Canvas</button>
+    <button type="button" class="tool-btn" id="btnBlendMiniCanvas" title="Blend the active mini-canvas into the parchment wall stratigraphy" style="display:none;background:linear-gradient(135deg,#1b5e5a,#287a74);color:#fff;font-weight:700">✦ Blend into Wall</button>
+    <button type="button" class="tool-btn" id="btnClearMiniCanvas" title="Dismiss active mini-canvas frame without blending" style="display:none">✕ Clear Mini</button>
   </div>
   <div class="studio-group">
     <span class="studio-lbl">Enamel:</span>
     <button type="button" class="palette-chip active" data-scheme="gold" title="Krylon Oxidized Gold Leaf [Key 1]"><i style="background:linear-gradient(135deg,#d4af37,#844c1c)"></i> Gold</button>
-    <button type="button" class="palette-chip" data-scheme="chrome" title="Subway Throw-up Chrome Silver [Key 2]"><i style="background:linear-gradient(135deg,#e6edf5,#7a889b)"></i> Chrome</button>
+    <button type="button" class="palette-chip" data-scheme="chrome" title="Liquid Silver Enamel [Key 2]"><i style="background:linear-gradient(135deg,#e6edf5,#7a889b)"></i> Chrome</button>
     <button type="button" class="palette-chip" data-scheme="oxblood" title="Oxblood Carmine Enamel [Key 3]"><i style="background:linear-gradient(135deg,#8b1c28,#d4af37)"></i> Oxblood</button>
-    <button type="button" class="palette-chip" data-scheme="tealsage" title="Train Yard Toxic Teal & Sage [Key 4]"><i style="background:linear-gradient(135deg,#1b5e5a,#7da287)"></i> Teal & Sage</button>
+    <button type="button" class="palette-chip" data-scheme="tealsage" title="Verdigris Teal & Sage [Key 4]"><i style="background:linear-gradient(135deg,#1b5e5a,#7da287)"></i> Teal & Sage</button>
     <button type="button" class="palette-chip" data-scheme="matte" title="Obsidian Pitch Black [Key 5]"><i style="background:linear-gradient(135deg,#15171c,#555b66)"></i> Obsidian</button>
   </div>
   <div class="studio-group">
+    <button type="button" class="action-btn" id="btnDownloadCanvas" title="Download High-Resolution 3200×1600 Canvas with Timestamp, Inspirer Details, and Cryptographic SHA-256 Hash" style="background:linear-gradient(135deg,#844c1c,#b38600);color:#fff;font-weight:700">📥 Download Canvas</button>
     <button type="button" class="tool-btn active-fluid" id="btnFluidity" title="Toggle Fluid Gesture Dynamics & Smooth Hydro-Flow [Key V]">💧 Fluid: High</button>
     <button type="button" class="action-btn" id="btnPulseWave" title="Unleash a fluid tidal wave of teal currents across the wall">🌊 Pulse Wave</button>
     <button type="button" class="action-btn" id="btnManifesto" title="The Graffiti History & Manifesto Archive: Explore 7 historical epochs & spray pochoir stencils">📜 Manifesto & Stencils</button>
     <button type="button" class="tool-btn" id="btnAudio" title="Toggle Web Audio Rattle-Can & Aerosol Hiss [Key A]">🔇 Audio: Off</button>
     <button type="button" class="action-btn" id="btnLiveBroadcast" title="Inscribe current piece to the live shared wall (50-slot buffer) for all visitors">📡 Inscribe to Live Wall</button>
     <button type="button" class="action-btn" id="btnToggleArchive" title="Open / close the Live Shared Inscriptions Archive tray (last 50 paintings)">🏛️ Live Archive (<span id="liveSlotCount">0</span>/50) <span id="liveIndicator" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#10b981;margin-left:4px;vertical-align:middle" title="Live Sync Active"></span></button>
-    <button type="button" class="action-btn" id="btnExportFolio" title="Export High-Resolution 'Subway Art' 3200×1600 Wall Broadside, Polaroid & NFT">📷 Subway Art & NFT</button>
+    <button type="button" class="action-btn" id="btnExportFolio" title="Export High-Resolution Wall Broadside, Polaroid & Cryptographic Provenance">📷 Archival Folio & License</button>
     <button type="button" class="action-btn" id="btnShareTool" title="Share Project Qweirdo & The Palimpsest Wall to Social Media">✦ Share Tool</button>
-    <button type="button" class="action-btn" id="btnRemix" title="Exchange Wall Stratigraphy & Zones [Key R]">✦ Remix</button>
+    <button type="button" class="action-btn" id="btnRemix" title="Refresh and redistribute the parchment vellum patina, tooth, and fibers [Key R]">✦ Remix Vellum</button>
     <button type="button" class="action-btn" id="btnUndo" title="Undo [Ctrl+Z]" disabled>↺ Undo</button>
   </div>
 </div>
 
-<div class="biomes" id="biomesList"><span>Wall Stratigraphy & Zones:</span> <b>MTA Steel Car 4928</b> · <b>IRT Ceramic Grout</b> · <b>Bronx Brick Tooth</b> · <b>Wheatpaste Layers</b> · <b>The Clean Train Buff</b> · <b>Underground Scriptorium</b></div>
+<div class="biomes" id="biomesList"><span>Wall Stratigraphy & Zones:</span> <b>Aged Scriptorium Vellum</b> · <b>Laid Rag Paper Fibers</b> · <b>Mineral Plaster Tooth</b> · <b>Gold Leaf Cartouche</b> · <b>Living Palimpsest Wash</b> · <b>Illuminated Folio Matrix</b></div>
 <div class="meta"><span id="pt">0% inscribed</span><span id="cr">Inspired by: no one yet</span></div>
 <div class="pg"><i id="pb"></i></div>
 <div class="wl">
   <div class="stencil-hud" id="stencilHud" style="display:none">
     <div class="stencil-badge"><span id="stencilBadgeText">Stencil Active: Kilroy Was Here</span> <button type="button" id="btnLockStencil" title="Lock stencil in position to spray or reposition">Lock Position</button> <button type="button" id="btnTransferStencil" title="Transfer authentic pochoir print with aerosol overspray onto wall [Key T]">⚡ Transfer Pochoir Print</button> <button type="button" id="btnReleaseStencil" title="Release and lift stencil from wall [Esc]">✕ Release</button></div>
   </div>
-  <canvas id="cv" width="1600" height="800" aria-label="The Palimpsest Wall: Digitally aided graffiti canvas with aerosol cap physics on subway steel"></canvas>
+  <canvas id="cv" width="1600" height="800" aria-label="The Palimpsest Wall: Digitally aided graffiti canvas on aged manuscript vellum"></canvas>
   <canvas id="ov" width="1600" height="800" aria-hidden="true"></canvas>
 </div>
 
@@ -437,11 +445,11 @@ main,nav,footer,.folio-modal,.manifesto-modal{position:relative;z-index:1}
     <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bd);padding-bottom:.8rem">
       <div>
         <span class="kick" style="margin-bottom:.2rem;display:block">Archival Documentation</span>
-        <h2 style="font:300 1.6rem var(--fd);margin:0;letter-spacing:-.02em">Subway Art · <em>Wall Broadside</em></h2>
+        <h2 style="font:300 1.6rem var(--fd);margin:0;letter-spacing:-.02em">The Palimpsest Wall · <em>Archival Folio</em></h2>
       </div>
       <button type="button" id="btnCloseFolio" style="min-height:36px;padding:0 1rem;background:transparent;color:var(--tx);border:1px solid var(--bd);cursor:pointer;border-radius:99px" aria-label="Close folio modal">✕ Close</button>
     </div>
-    <p style="font-size:.85rem;color:var(--mu);margin:.8rem 0">Museum-grade documentation of the palimpsest wall. Choose between a 1980s 35mm Polaroid film card (styled after Martha Cooper & Henry Chalfant's <em>Subway Art</em>) or a full-bleed 3200×1600 wall broadside.</p>
+    <p style="font-size:.85rem;color:var(--mu);margin:.8rem 0">Museum-grade archival documentation of the palimpsest wall. Every download is cryptographically validated with exact creation timestamp, inspirer lineage, and an immutable SHA-256 hash recorded in the local provenance ledger.</p>
     
     <div style="display:flex;gap:.6rem;margin-bottom:.8rem;align-items:center;flex-wrap:wrap">
       <span style="font-size:.78rem;font-weight:600;color:var(--mu);text-transform:uppercase">Format:</span>
@@ -488,7 +496,7 @@ main,nav,footer,.folio-modal,.manifesto-modal{position:relative;z-index:1}
     <button type="button" class="share-btn share-wa" data-share="whatsapp" title="Share via WhatsApp" aria-label="Share via WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.276-.1-.476-.15-.676.15-.2.301-.777.978-.952 1.179-.176.2-.351.226-.652.075-.301-.15-1.272-.469-2.423-1.496-.896-.799-1.502-1.786-1.677-2.087-.176-.301-.019-.464.132-.614.136-.135.301-.351.451-.527.151-.176.201-.301.302-.502.1-.2.05-.376-.025-.526-.075-.15-.677-1.631-.927-2.233-.244-.587-.492-.507-.677-.516-.175-.009-.376-.011-.576-.011-.201 0-.527.075-.802.376-.276.301-1.053 1.028-1.053 2.508 0 1.48 1.078 2.909 1.229 3.109.15.2 2.122 3.24 5.141 4.544.718.31 1.279.496 1.716.635.722.23 1.38.197 1.9-.12.58-.354 1.78-1.454 2.032-2.863.251-1.41.251-2.617.176-2.868-.076-.251-.276-.376-.577-.526zM12.04 2C6.505 2 2.012 6.493 2.012 12.028c0 1.942.553 3.754 1.513 5.29L2 22l4.823-1.482A10.007 10.007 0 0 0 12.04 22c5.535 0 10.028-4.493 10.028-10.028C22.068 6.493 17.575 2 12.04 2z"/></svg></button>
     <button type="button" class="share-btn share-link" data-share="copy" title="Copy Broadside Link" aria-label="Copy Broadside Link"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></button>
         </div>
-        <button type="button" id="btnDownloadFolio" style="background:linear-gradient(135deg,#844c1c,#b38600);color:#fff">Download Subway Art (PNG)</button>
+        <button type="button" id="btnDownloadFolio" style="background:linear-gradient(135deg,#844c1c,#b38600);color:#fff">Download Archival Canvas (PNG)</button>
       </div>
     </div>
   </div>
@@ -895,12 +903,12 @@ let steps=ld('qw_s',0),cred=ld('qw_c',[]),arch=ld('qw_a',[]),ag=[],wall=[],vivid
 
 // Topographic Stratigraphy & Subterranean Zones
 const ZONES=[
-  {name:'MTA Steel Yard',      kd:'steel', x:260,  y:220, r:300, hue:210, label:'Stainless Steel Yard 4928'},
-  {name:'Subway Grout',        kd:'tile',  x:800,  y:190, r:330, hue:42,  label:'1973 IRT Ceramic Tiles'},
-  {name:'Bronx Brickyard',     kd:'brick', x:1340, y:220, r:300, hue:14,  label:'Distressed Masonry & Tooth'},
-  {name:'Wheatpaste Corridor', kd:'paper', x:270,  y:580, r:320, hue:48,  label:'Layered Billboard Paper'},
-  {name:'The Clean Train Buff',kd:'buff',  x:800,  y:580, r:330, hue:200, label:'Pentimento & Erasure'},
-  {name:'Underground Ghost',   kd:'rail',  x:1330, y:580, r:310, hue:350, label:'Midnight Scriptorium'}
+  {name:'Aged Scriptorium Vellum', kd:'vellum', x:260,  y:220, r:300, hue:40,  label:'Aged Vellum & Honey Patina'},
+  {name:'Laid Rag Paper Fibers',   kd:'paper',  x:800,  y:190, r:330, hue:36,  label:'Watermarked Chain Lines'},
+  {name:'Mineral Plaster Tooth',   kd:'tooth',  x:1340, y:220, r:300, hue:32,  label:'Gesso Ground & Calcite Tooth'},
+  {name:'Gold Leaf Cartouche',     kd:'leaf',   x:270,  y:580, r:320, hue:45,  label:'Burnished Foil Deckle'},
+  {name:'Living Palimpsest Wash',  kd:'wash',   x:800,  y:580, r:330, hue:175, label:'Teal Bistre Pentimento'},
+  {name:'Illuminated Folio Matrix',kd:'matrix', x:1330, y:580, r:310, hue:28,  label:'Midnight Scriptorium Wall'}
 ];
 
 function getZoneAt(x,y){
@@ -914,15 +922,17 @@ function getZoneAt(x,y){
 
 // Curated Street Enamel Palettes
 const SCHEMES={
-  gold:    {name:'Krylon Gold',     hue:42,  sat:92, li:54, stroke:'#d4af37', glow:'rgba(212,175,55,0.45)', desc:'Oxidized burnished metallic gold enamel'},
-  chrome:  {name:'Subway Chrome',   hue:210, sat:18, li:88, stroke:'#e6edf5', glow:'rgba(230,237,245,0.55)', desc:'High-sheen silver throw-up chrome with sky reflection'},
-  oxblood: {name:'Oxblood Carmine', hue:350, sat:88, li:36, stroke:'#8b1c28', glow:'rgba(139,28,40,0.45)',  desc:'Deep cinnabar red with oxblood undertones'},
-  tealsage:{name:'Train Yard Teal', hue:175, sat:72, li:38, stroke:'#1b5e5a', glow:'rgba(27,94,90,0.45)',   desc:'Toxic yard teal & embossed sage green'},
-  matte:   {name:'Obsidian Black',  hue:220, sat:15, li:12, stroke:'#1a1c22', glow:'rgba(26,28,34,0.55)',   desc:'High-contrast pitch black enamel & raw tar'}
+  gold:    {name:'Illuminated Gold', hue:42,  sat:92, li:54, stroke:'#d4af37', glow:'rgba(212,175,55,0.45)', desc:'Burnished manuscript gold leaf & metallic enamel'},
+  chrome:  {name:'Liquid Silver',    hue:210, sat:18, li:88, stroke:'#e6edf5', glow:'rgba(230,237,245,0.55)', desc:'High-sheen liquid chrome with atmospheric reflection'},
+  oxblood: {name:'Oxblood Carmine',  hue:350, sat:88, li:36, stroke:'#8b1c28', glow:'rgba(139,28,40,0.45)',  desc:'Deep cinnabar red with rich mineral carmine undertones'},
+  tealsage:{name:'Patina Teal & Sage',hue:175, sat:72, li:38, stroke:'#1b5e5a', glow:'rgba(27,94,90,0.45)',  desc:'Mineral verdigris teal & pressed sage pigment'},
+  matte:   {name:'Obsidian Pitch',   hue:220, sat:15, li:12, stroke:'#1a1c22', glow:'rgba(26,28,34,0.55)',   desc:'Deep carbon black pigment & raw iron gall ink'}
 };
 let activeScheme='gold';
 let currentCap='fat';         // 'fat', 'skinny', 'mop', 'spatter', 'buff'
-let currentSubstrate='mta';   // 'mta', 'tile', 'brick', 'billboard'
+let currentSubstrate='parchment'; // Unified Aged Scriptorium Vellum Wall
+let activeMiniCanvas=null;    // Focused illuminated mini-canvas cartouche
+let miniCanvasesHistory=[];   // Archive of blended mini-canvases
 let isDrawing=false,lastDrawPt=null;
 let activeDrips=[];
 
@@ -1145,229 +1155,134 @@ function setCap(capKey){
 }
 
 function setSubstrate(subKey){
-  currentSubstrate=subKey;
-  document.querySelectorAll('.tool-btn[data-sub]').forEach(btn=>{
-    btn.classList.toggle('active',btn.dataset.sub===subKey);
-    btn.classList.toggle('active-sub',btn.dataset.sub===subKey);
-  });
+  currentSubstrate='parchment';
   saveUndo();
-  drawSubstrate(subKey);
-  const subNames={mta:'1977 NYC Subway Car Steel (R46 Class)',tile:'1973 IRT Subway Ceramic Tile',brick:'Bronx Distressed Brick & Mortar',billboard:'Decaying Wheatpaste Billboard'};
-  msg(`Wall Substrate shifted: ${subNames[subKey]||subKey}.`);
+  drawSubstrate();
+  msg('Wall Substrate: Aged Manuscript Scriptorium Vellum.');
 }
 
-// Substrate Background Procedural Renderers
-function drawSubstrate(subKey){
+// Unified Aged Parchment & Scriptorium Wall Procedural Renderer
+function drawSubstrate(){
   X.save();
   X.globalCompositeOperation='source-over';
 
-  if(subKey==='tile'){
-    // 1973 IRT Subway Ceramic Wall Tile
-    X.fillStyle='#1c1712';
-    X.fillRect(0,0,W,H);
+  // 1. Base luminous aged vellum & paper ground
+  const bg=X.createRadialGradient(W/2,H/2,W*0.15,W/2,H/2,W*0.75);
+  bg.addColorStop(0,'#f7efe1');    // Light warm honey-tinted vellum core
+  bg.addColorStop(0.5,'#eee0cc');  // Aged parchment tone
+  bg.addColorStop(0.85,'#e4d2b9'); // Bistre & tea patina towards edges
+  bg.addColorStop(1,'#d8c2a3');    // Natural leathered margin
+  X.fillStyle=bg;
+  X.fillRect(0,0,W,H);
 
-    const tw=80,th=40,grout=3.5;
-    const rows=Math.ceil(H/th)+1;
-    const cols=Math.ceil(W/tw)+2;
-
-    for(let r=0;r<rows;r++){
-      const offsetX=(r%2===0)?0:-tw/2;
-      for(let c=0;c<cols;c++){
-        const x=c*tw+offsetX;
-        const y=r*th;
-
-        const hash=Math.sin(c*12.9898+r*78.233)*43758.5453;
-        const v=hash-Math.floor(hash);
-        const lgt=84+(v*9);
-        const sat=12+(v*8);
-
-        const tg=X.createLinearGradient(x,y,x+tw,y+th);
-        tg.addColorStop(0,`hsl(38,${sat}%,${lgt+6}%)`);
-        tg.addColorStop(0.5,`hsl(38,${sat}%,${lgt}%)`);
-        tg.addColorStop(1,`hsl(38,${sat}%,${lgt-9}%)`);
-
-        X.fillStyle=tg;
-        X.fillRect(x+grout,y+grout,tw-grout*2,th-grout*2);
-
-        X.strokeStyle='rgba(255,255,255,0.45)';
-        X.lineWidth=0.75;
-        X.beginPath();
-        X.moveTo(x+grout,y+th-grout);
-        X.lineTo(x+grout,y+grout);
-        X.lineTo(x+tw-grout,y+grout);
-        X.stroke();
-      }
+  // 2. Laid paper chain lines & wire watermark structure
+  X.lineWidth=0.6;
+  for(let x=38;x<W;x+=38){
+    X.strokeStyle=(x%152===0)?'rgba(120,95,70,0.065)':'rgba(140,115,85,0.035)';
+    X.beginPath();
+    X.moveTo(x,0);
+    for(let y=0;y<=H;y+=40){
+      X.lineTo(x+Math.sin((y+x*0.1)*0.02)*1.2,y);
     }
-
-    // Grime & soot drip streaks
-    for(let i=0;i<40;i++){
-      const sx=R(0,W),sy=R(0,H*0.4),sLen=R(80,400);
-      const soot=X.createLinearGradient(sx,sy,sx,sy+sLen);
-      soot.addColorStop(0,'rgba(30,22,14,0.35)');
-      soot.addColorStop(0.6,'rgba(45,32,20,0.12)');
-      soot.addColorStop(1,'rgba(30,22,14,0)');
-      X.fillStyle=soot;
-      X.fillRect(sx,sy,R(3,12),sLen);
-    }
-
-    // Ceramic glaze craquelure hairline fractures
-    X.strokeStyle='rgba(40,28,18,0.15)';
-    X.lineWidth=0.5;
-    for(let i=0;i<90;i++){
-      const cx=R(0,W),cy=R(0,H);
-      X.beginPath();X.moveTo(cx,cy);
-      let px=cx,py=cy;
-      for(let j=0;j<4;j++){px+=R(-12,12);py+=R(4,18);X.lineTo(px,py);}
-      X.stroke();
-    }
-
-  } else if(subKey==='brick'){
-    // Bronx Distressed Brick & Mortar
-    X.fillStyle='#22150f';
-    X.fillRect(0,0,W,H);
-
-    const bw=95,bh=42,mg=4;
-    const rows=Math.ceil(H/bh)+1;
-    const cols=Math.ceil(W/bw)+2;
-
-    for(let r=0;r<rows;r++){
-      const offsetX=(r%2===0)?0:-bw/2;
-      for(let c=0;c<cols;c++){
-        const x=c*bw+offsetX;
-        const y=r*bh;
-        const hash=Math.sin(c*27.1828+r*45.904)*12345.67;
-        const v=hash-Math.floor(hash);
-
-        const hue=14+(v*10);
-        const sat=45+(v*25);
-        const li=28+(v*14);
-
-        const bg=X.createLinearGradient(x,y,x+bw,y+bh);
-        bg.addColorStop(0,`hsl(${hue},${sat}%,${li+5}%)`);
-        bg.addColorStop(0.5,`hsl(${hue},${sat}%,${li}%)`);
-        bg.addColorStop(1,`hsl(${hue},${sat}%,${li-8}%)`);
-
-        X.fillStyle=bg;
-        X.fillRect(x+mg,y+mg,bw-mg*2,bh-mg*2);
-
-        for(let k=0;k<6;k++){
-          X.fillStyle=Math.random()<0.5?'rgba(20,10,5,0.22)':'rgba(230,190,160,0.15)';
-          X.fillRect(x+mg+R(2,bw-mg*2-4),y+mg+R(2,bh-mg*2-4),R(2,6),R(1.5,3.5));
-        }
-      }
-    }
-
-    // Efflorescence salt washes
-    for(let i=0;i<60;i++){
-      const ex=R(0,W),ey=R(0,H),er=R(15,65);
-      const eff=X.createRadialGradient(ex,ey,0,ex,ey,er);
-      eff.addColorStop(0,'rgba(240,235,225,0.14)');
-      eff.addColorStop(0.7,'rgba(240,235,225,0.04)');
-      eff.addColorStop(1,'rgba(240,235,225,0)');
-      X.fillStyle=eff;
-      X.fillRect(ex-er,ey-er,er*2,er*2);
-    }
-
-  } else if(subKey==='billboard'){
-    // Decaying Wheatpaste Billboard
-    X.fillStyle='#3a342e';
-    X.fillRect(0,0,W,H);
-
-    for(let i=0;i<1200;i++){
-      X.fillStyle=Math.random()<0.5?'rgba(20,18,15,0.12)':'rgba(255,250,240,0.08)';
-      X.fillRect(R(0,W),R(0,H),R(1,4),R(1,4));
-    }
-
-    const posters=[
-      {x:60,  y:50, w:460, h:680, hue:42,  txt:'COMMONS · 1982'},
-      {x:480, y:70, w:580, h:660, hue:195, txt:'TRANSIT BEAT'},
-      {x:1020,y:40, w:520, h:710, hue:350, txt:'WILD STYLE'}
-    ];
-
-    posters.forEach(p=>{
-      X.save();
-      X.shadowColor='rgba(15,10,5,0.45)';
-      X.shadowBlur=18;
-      X.shadowOffsetX=8;
-      X.shadowOffsetY=10;
-
-      const pg=X.createLinearGradient(p.x,p.y,p.x+p.w,p.y+p.h);
-      pg.addColorStop(0,`hsl(${p.hue},35%,72%)`);
-      pg.addColorStop(0.5,`hsl(${p.hue},28%,62%)`);
-      pg.addColorStop(1,`hsl(${p.hue},20%,48%)`);
-      X.fillStyle=pg;
-
-      X.beginPath();X.moveTo(p.x,p.y);
-      for(let x=p.x;x<=p.x+p.w;x+=30)X.lineTo(x,p.y+R(-4,5));
-      for(let y=p.y;y<=p.y+p.h;y+=35)X.lineTo(p.x+p.w+R(-5,4),y);
-      for(let x=p.x+p.w;x>=p.x;x-=30)X.lineTo(x,p.y+p.h+R(-4,6));
-      for(let y=p.y+p.h;y>=p.y;y-=35)X.lineTo(p.x+R(-6,4),y);
-      X.closePath();X.fill();
-      X.restore();
-
-      X.fillStyle=`hsla(${p.hue},50%,20%,0.14)`;
-      X.font="italic 700 48px 'Fraunces',serif";
-      X.fillText(p.txt,p.x+35,p.y+120);
-    });
-
-  } else {
-    // Default: 1977 NYC Subway Car Steel (MTA Train #4928 R46 Class)
-    const sg=X.createLinearGradient(0,0,0,H);
-    sg.addColorStop(0,'#555c66');
-    sg.addColorStop(0.15,'#6a7380');
-    sg.addColorStop(0.3,'#4d545e');
-    sg.addColorStop(0.5,'#626b78');
-    sg.addColorStop(0.7,'#424952');
-    sg.addColorStop(0.85,'#565f6c');
-    sg.addColorStop(1,'#343940');
-    X.fillStyle=sg;
-    X.fillRect(0,0,W,H);
-
-    X.lineWidth=0.5;
-    for(let i=0;i<900;i++){
-      const y=R(0,H),len=R(40,300),x=R(0,W-len);
-      X.strokeStyle=Math.random()<0.5?'rgba(255,255,255,0.08)':'rgba(20,24,30,0.09)';
-      X.beginPath();X.moveTo(x,y);X.lineTo(x+len,y);X.stroke();
-    }
-
-    // Corrugated horizontal subway panel ribs
-    const ribs=[180,210,240,560,590,620];
-    ribs.forEach(ry=>{
-      X.fillStyle='rgba(18,22,28,0.65)';X.fillRect(0,ry,W,8);
-      X.fillStyle='rgba(235,245,255,0.35)';X.fillRect(0,ry-2,W,2);
-      X.fillStyle='rgba(255,255,255,0.15)';X.fillRect(0,ry+8,W,2);
-    });
-
-    // Rivet seams
-    [35,765].forEach(ry=>{
-      for(let rx=45;rx<W;rx+=45){
-        X.fillStyle='rgba(10,12,16,0.7)';
-        X.beginPath();X.arc(rx+1,ry+1.5,4.5,0,6.28);X.fill();
-        const rg=X.createRadialGradient(rx-1,ry-1,0,rx,ry,4);
-        rg.addColorStop(0,'#dbe4f0');
-        rg.addColorStop(0.6,'#727c8a');
-        rg.addColorStop(1,'#323740');
-        X.fillStyle=rg;
-        X.beginPath();X.arc(rx,ry,4,0,6.28);X.fill();
-      }
-    });
-
-    X.save();
-    X.fillStyle='rgba(240,245,255,0.28)';
-    X.font="600 13px 'Hanken Grotesk',sans-serif";
-    X.letterSpacing='0.08em';
-    X.fillText('MTA NYCTA · CAR NO. 4928 · R46 CLASS · 1977',W-370,65);
-    X.restore();
+    X.stroke();
   }
 
-  X.fillStyle='rgba(0,0,0,0.12)';
-  X.fillRect(0,0,W,H);
+  // Horizontal laid paper wires
+  X.lineWidth=0.4;
+  X.strokeStyle='rgba(160,135,100,0.022)';
+  for(let y=12;y<H;y+=12){
+    X.beginPath();
+    X.moveTo(0,y);
+    X.lineTo(W,y);
+    X.stroke();
+  }
+
+  // 3. Wall Plaster Craquelure & Natural Gesso Fractures
+  X.lineWidth=0.55;
+  const fractureSeeds=[
+    {x:180,y:120,len:140,angle:0.8},
+    {x:480,y:640,len:190,angle:-0.6},
+    {x:820,y:90, len:160,angle:0.4},
+    {x:1180,y:580,len:210,angle:-0.7},
+    {x:1420,y:220,len:150,angle:0.9}
+  ];
+  fractureSeeds.forEach(s=>{
+    X.strokeStyle='rgba(110,85,60,0.07)';
+    X.beginPath();
+    let cx=s.x,cy=s.y;
+    X.moveTo(cx,cy);
+    const segs=Math.floor(s.len/18);
+    for(let i=0;i<segs;i++){
+      cx+=Math.cos(s.angle+(Math.sin(i*1.5)*0.4))*18;
+      cy+=Math.sin(s.angle+(Math.cos(i*1.2)*0.4))*18;
+      X.lineTo(cx,cy);
+      if(i===Math.floor(segs/2)){
+        X.moveTo(cx,cy);
+        X.lineTo(cx+25*Math.cos(s.angle+0.8),cy+25*Math.sin(s.angle+0.8));
+        X.moveTo(cx,cy);
+      }
+    }
+    X.stroke();
+  });
+
+  // 4. Mineral Tooth, Linen Fibers, & Organic Flecks
+  for(let i=0;i<480;i++){
+    const fx=R(0,W),fy=R(0,H);
+    const isDark=Math.random()<0.65;
+    X.fillStyle=isDark?'rgba(75,55,35,0.08)':'rgba(255,255,250,0.14)';
+    const sz=R(0.8,2.4);
+    if(Math.random()<0.25){
+      X.strokeStyle='rgba(90,65,45,0.07)';
+      X.lineWidth=0.5;
+      X.beginPath();
+      X.moveTo(fx,fy);
+      X.quadraticCurveTo(fx+R(-6,6),fy+R(-6,6),fx+R(-10,10),fy+R(-8,8));
+      X.stroke();
+    } else {
+      X.fillRect(fx,fy,sz,sz*(Math.random()<0.5?1:1.8));
+    }
+  }
+
+  // 5. Ambient Bistre & Verdigris Patina Washes
+  const washes=[
+    {x:220,y:160,r:240,color:'rgba(140,110,80,0.045)'},
+    {x:1380,y:140,r:280,color:'rgba(125,95,65,0.04)'},
+    {x:320,y:660,r:300,color:'rgba(130,105,75,0.045)'},
+    {x:1240,y:680,r:320,color:'rgba(27,94,90,0.03)'},
+    {x:800,y:400,r:420,color:'rgba(165,135,95,0.025)'}
+  ];
+  washes.forEach(w=>{
+    const wg=X.createRadialGradient(w.x,w.y,0,w.x,w.y,w.r);
+    wg.addColorStop(0,w.color);
+    wg.addColorStop(1,'rgba(0,0,0,0)');
+    X.fillStyle=wg;
+    X.beginPath();
+    X.arc(w.x,w.y,w.r,0,Math.PI*2);
+    X.fill();
+  });
+
+  // 6. Illuminated Archival Margin Border
+  X.strokeStyle='rgba(212,175,55,0.22)';
+  X.lineWidth=1;
+  X.strokeRect(24,24,W-48,H-48);
+  X.strokeStyle='rgba(132,76,28,0.12)';
+  X.lineWidth=0.5;
+  X.strokeRect(28,28,W-56,H-56);
+
+  const corners=[[24,24],[W-24,24],[24,H-24],[W-24,H-24]];
+  corners.forEach(([cx,cy])=>{
+    X.strokeStyle='rgba(212,175,55,0.4)';
+    X.lineWidth=1.2;
+    X.beginPath();
+    X.arc(cx,cy,10,0,Math.PI*2);
+    X.stroke();
+  });
+
   X.restore();
-  if(typeof recordUserMark==='function'&&Math.random()<0.35)recordUserMark(x,y,40);
 }
 
 function blank(){
-  drawSubstrate(currentSubstrate);
+  drawSubstrate();
 }
 
 // Gravity Drips Engine
@@ -1431,7 +1346,7 @@ function drawAerosol(x,y,px,py,cap,schemeKey){
     const dy=Math.sin(perp)*(rollerW/2);
 
     const buffAlpha=0.68;
-    X.fillStyle=currentSubstrate==='tile'?`rgba(185,178,168,${buffAlpha})`:`rgba(72,76,85,${buffAlpha})`;
+    X.fillStyle=`rgba(235,224,206,${buffAlpha})`;
 
     for(let s=0;s<=steps;s++){
       const t=s/steps;
@@ -2669,94 +2584,326 @@ function stampPochoirStencil(key,x,y,schemeKey){
   msg('Transferred authentic historical pochoir print: "'+st.name+'" with aerosol overspray & crisp bridge cuts.');
 }
 
-// "Subway Art" 3200x1600 Archival Exporter
-function generateSubwayArt(format){
+
+// Mini-Canvas Formation & Blending Engine
+function newMiniCanvas(){
+  saveUndo();
+  initAudio();
+  const presets = [
+    { x: 520,  y: 120, w: 560, h: 560, name: 'Center Folio Cartouche' },
+    { x: 60,   y: 130, w: 450, h: 540, name: 'Left Illuminated Wing' },
+    { x: 1090, y: 130, w: 450, h: 540, name: 'Right Manuscript Leaf' }
+  ];
+  const slotIdx = miniCanvasesHistory.length % presets.length;
+  const p = presets[slotIdx];
+
+  activeMiniCanvas = {
+    id: 'mini_' + Date.now(),
+    x: p.x,
+    y: p.y,
+    w: p.w,
+    h: p.h,
+    title: `${p.name} #${miniCanvasesHistory.length + 1}`,
+    createdAt: new Date().toISOString(),
+    strokesCount: 0
+  };
+
+  const btnBlend = $('#btnBlendMiniCanvas');
+  const btnClear = $('#btnClearMiniCanvas');
+  if (btnBlend) btnBlend.style.display = 'inline-flex';
+  if (btnClear) btnClear.style.display = 'inline-flex';
+
+  playCanRattle();
+  msg(`✦ Mini-Canvas formed: ${activeMiniCanvas.title}. Spray, tag, or stamp sigils inside, then click "✦ Blend into Wall"!`);
+}
+
+function blendMiniCanvasIntoWall(){
+  if (!activeMiniCanvas) {
+    msg('No active mini-canvas to blend.');
+    return;
+  }
+  saveUndo();
+  initAudio();
+
+  const { x, y, w, h, title } = activeMiniCanvas;
+
+  X.save();
+  // 1. Soft torn-paper drop shadow
+  X.shadowColor = 'rgba(28, 18, 10, 0.28)';
+  X.shadowBlur = 24;
+  X.shadowOffsetY = 8;
+  X.strokeStyle = 'rgba(212, 175, 55, 0.65)';
+  X.lineWidth = 2;
+  X.strokeRect(x, y, w, h);
+  X.restore();
+
+  // 2. Deckled torn-paper border fibers
+  X.save();
+  X.strokeStyle = 'rgba(240, 232, 220, 0.45)';
+  X.lineWidth = 1.5;
+  X.beginPath();
+  X.moveTo(x, y);
+  for (let px = x; px <= x + w; px += 20) X.lineTo(px, y + R(-2, 2));
+  for (let py = y; py <= y + h; py += 20) X.lineTo(x + w + R(-2, 2), py);
+  for (let px = x + w; px >= x; px -= 20) X.lineTo(px, y + h + R(-2, 2));
+  for (let py = y + h; py >= y; py -= 20) X.lineTo(x + R(-2, 2), py);
+  X.closePath();
+  X.stroke();
+
+  // 3. Illuminated gold hairline border (4px inset)
+  X.strokeStyle = 'rgba(212, 175, 55, 0.75)';
+  X.lineWidth = 1;
+  X.strokeRect(x + 5, y + 5, w - 10, h - 10);
+
+  // 4. Subtle corner rosettes
+  [[x + 5, y + 5], [x + w - 5, y + 5], [x + 5, y + h - 5], [x + w - 5, y + h - 5]].forEach(([cx, cy]) => {
+    X.fillStyle = '#d4af37';
+    X.beginPath(); X.arc(cx, cy, 2.5, 0, Math.PI * 2); X.fill();
+  });
+
+  // 5. Corner Colophon notation
+  X.fillStyle = 'rgba(132, 76, 28, 0.6)';
+  X.font = "600 10px 'Hanken Grotesk',sans-serif";
+  X.textAlign = 'right';
+  X.fillText(`✦ CARTOUCHE #${miniCanvasesHistory.length + 1} · BLENDED ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }).toUpperCase()}`, x + w - 12, y + h - 10);
+  X.restore();
+
+  // Register with Ambient Machine Conservator
+  if (typeof recordUserMark === 'function') {
+    recordUserMark(x + w/2, y + h/2, Math.min(w, h)/2);
+  }
+
+  miniCanvasesHistory.push(activeMiniCanvas);
+  activeMiniCanvas = null;
+
+  const btnBlend = $('#btnBlendMiniCanvas');
+  const btnClear = $('#btnClearMiniCanvas');
+  if (btnBlend) btnBlend.style.display = 'none';
+  if (btnClear) btnClear.style.display = 'none';
+
+  playCanRattle();
+  msg('✦ Mini-canvas blended seamlessly into the Palimpsest Wall! Form another mini-canvas anytime.');
+}
+
+function clearMiniCanvas(){
+  activeMiniCanvas = null;
+  const btnBlend = $('#btnBlendMiniCanvas');
+  const btnClear = $('#btnClearMiniCanvas');
+  if (btnBlend) btnBlend.style.display = 'none';
+  if (btnClear) btnClear.style.display = 'none';
+  msg('Mini-canvas dismissed without blending.');
+}
+
+// Archival 3200x1600 Canvas Renderer with Timestamp, Inspirer Details, and Cryptographic Hash
+function renderArchivalCanvas(format, provenance){
   const FW=3200,FH=1600;
   const FC=document.createElement('canvas');
   FC.width=FW;FC.height=FH;
   const FX=FC.getContext('2d');
 
-  if(format==='wall'){
-    // Full-Bleed Wall Panorama (3200x1600)
-    FX.drawImage(C,0,0,FW,FH);
+  const { timestampIso, timestampUtc, timestampDate, inspirers, hashKey } = provenance;
 
-    // Subtle dark vignette
-    const vg=FX.createRadialGradient(FW/2,FH/2,FW*0.35,FW/2,FH/2,FW*0.72);
-    vg.addColorStop(0,'rgba(0,0,0,0)');
-    vg.addColorStop(1,'rgba(0,0,0,0.52)');
-    FX.fillStyle=vg;
-    FX.fillRect(0,0,FW,FH);
+  if (format === 'wall') {
+    // 1. Draw Master Palimpsest Wall (3200x1600)
+    FX.drawImage(C, 0, 0, FW, FH);
 
-    // Archival Lower Gallery Colophon Bar
-    FX.fillStyle='rgba(12,14,18,0.85)';
-    FX.fillRect(0,FH-90,FW,90);
-    FX.strokeStyle='rgba(212,175,55,0.45)';
-    FX.lineWidth=1.5;
-    FX.beginPath();FX.moveTo(0,FH-90);FX.lineTo(FW,FH-90);FX.stroke();
+    // Subtle dark vellum vignette around edges
+    const vg = FX.createRadialGradient(FW/2, FH/2, FW*0.35, FW/2, FH/2, FW*0.72);
+    vg.addColorStop(0, 'rgba(0,0,0,0)');
+    vg.addColorStop(1, 'rgba(28,20,14,0.48)');
+    FX.fillStyle = vg;
+    FX.fillRect(0, 0, FW, FH);
 
-    FX.fillStyle='rgba(255,255,255,0.92)';
-    FX.font="600 22px 'Hanken Grotesk',sans-serif";
-    FX.fillText('PROJECT QWEIRDO · THE PALIMPSEST WALL · 3200×1600 ULTRA HIGH RESOLUTION BROADSIDE',80,FH-48);
-    FX.fillStyle='rgba(212,175,55,0.85)';
-    FX.textAlign='right';
-    FX.fillText('MTA CAR NO. 4928 · R46 STAINLESS · SCRIPTORIUM HARMONOGRAPH',FW-80,FH-48);
+    // 2. Archival Lower Colophon Banner (110px height)
+    const barH = 110;
+    const barY = FH - barH;
+    FX.fillStyle = 'rgba(18, 14, 11, 0.94)';
+    FX.fillRect(0, barY, FW, barH);
+
+    // Double illuminated gold hairline border
+    FX.strokeStyle = 'rgba(212, 175, 55, 0.75)';
+    FX.lineWidth = 2;
+    FX.beginPath(); FX.moveTo(0, barY); FX.lineTo(FW, barY); FX.stroke();
+    FX.strokeStyle = 'rgba(212, 175, 55, 0.3)';
+    FX.lineWidth = 1;
+    FX.beginPath(); FX.moveTo(0, barY + 4); FX.lineTo(FW, barY + 4); FX.stroke();
+
+    // Left Column: Title & Timestamp
+    FX.textAlign = 'left';
+    FX.fillStyle = '#f8f1e6';
+    FX.font = "600 24px 'Fraunces',Georgia,serif";
+    FX.fillText('PROJECT QWEIRDO · THE PALIMPSEST WALL · 3200×1600 ARCHIVAL BROADSIDE', 70, barY + 38);
+
+    FX.fillStyle = '#c7b49d';
+    FX.font = "500 16px 'Hanken Grotesk',sans-serif";
+    FX.fillText(`TIMESTAMP: ${timestampUtc} · CREATION: ${timestampIso.slice(0, 19).replace('T', ' ')} UTC`, 70, barY + 68);
+
+    FX.fillStyle = '#dfcfba';
+    FX.font = "500 15px 'Hanken Grotesk',sans-serif";
+    const inspDisplay = (inspirers && inspirers.length > 70) ? (inspirers.slice(0, 67) + '…') : inspirers;
+    FX.fillText(`INSPIRERS & LINEAGE: ${inspDisplay}`, 70, barY + 94);
+
+    // Right Column: Cryptographic Provenance Key & Seal
+    FX.textAlign = 'right';
+    FX.fillStyle = '#d4af37';
+    FX.font = "700 16px 'Hanken Grotesk',sans-serif";
+    FX.fillText('CRYPTOGRAPHIC PROVENANCE VALIDATED · CC BY-NC 4.0', FW - 240, barY + 38);
+
+    FX.fillStyle = '#ffffff';
+    FX.font = "500 15px monospace";
+    FX.fillText(`SHA-256: ${hashKey}`, FW - 240, barY + 68);
+
+    FX.fillStyle = '#a8947d';
+    FX.font = "500 13px 'Hanken Grotesk',sans-serif";
+    FX.fillText('IMMUTABLE DOWNLOAD RECORD REGISTERED IN LOCAL PROVENANCE LEDGER', FW - 240, barY + 94);
+
+    // Wax / Validation Scalloped Stamp
+    const sealX = FW - 120, sealY = barY + 55;
+    FX.save();
+    FX.translate(sealX, sealY);
+    FX.rotate(-0.05);
+    FX.strokeStyle = 'rgba(212, 175, 55, 0.85)';
+    FX.lineWidth = 2.5;
+    FX.beginPath(); FX.arc(0, 0, 42, 0, Math.PI * 2); FX.stroke();
+    FX.strokeStyle = 'rgba(195, 35, 45, 0.75)';
+    FX.lineWidth = 1.5;
+    FX.beginPath(); FX.arc(0, 0, 36, 0, Math.PI * 2); FX.stroke();
+    FX.fillStyle = '#d4af37';
+    FX.textAlign = 'center';
+    FX.font = "700 10px 'Hanken Grotesk',sans-serif";
+    FX.fillText('VALIDATED', 0, -4);
+    FX.fillStyle = '#c3232d';
+    FX.font = "600 8px 'Hanken Grotesk',sans-serif";
+    FX.fillText('PROVENANCE', 0, 8);
+    FX.restore();
 
   } else {
-    // 1980s Polaroid Film Card (Martha Cooper & Henry Chalfant Subway Art Style)
-    // Warm white glossy photographic paper border
-    FX.fillStyle='#faf7ef';
-    FX.fillRect(0,0,FW,FH);
+    // Polaroid Contact Card Format
+    FX.fillStyle = '#faf6ed';
+    FX.fillRect(0, 0, FW, FH);
 
     // Photographic border drop shadow
     FX.save();
-    FX.shadowColor='rgba(15,10,5,0.48)';
-    FX.shadowBlur=48;
-    FX.shadowOffsetY=22;
+    FX.shadowColor = 'rgba(25, 18, 12, 0.42)';
+    FX.shadowBlur = 48;
+    FX.shadowOffsetY = 22;
 
-    const picX=140,picY=115,picW=2920,picH=1220;
-    FX.drawImage(C,picX,picY,picW,picH);
+    const picX = 140, picY = 115, picW = 2920, picH = 1220;
+    FX.drawImage(C, picX, picY, picW, picH);
     FX.restore();
 
     // Analog film dye tint & soft lens vignette
-    const vg=FX.createRadialGradient(picX+picW/2,picY+picH/2,picW*0.25,picX+picW/2,picY+picH/2,picW*0.65);
-    vg.addColorStop(0,'rgba(255,245,230,0.03)');
-    vg.addColorStop(0.7,'rgba(60,40,20,0.12)');
-    vg.addColorStop(1,'rgba(20,12,6,0.42)');
-    FX.fillStyle=vg;
-    FX.fillRect(picX,picY,picW,picH);
+    const vg = FX.createRadialGradient(picX + picW/2, picY + picH/2, picW*0.25, picX + picW/2, picY + picH/2, picW*0.65);
+    vg.addColorStop(0, 'rgba(255, 245, 230, 0.03)');
+    vg.addColorStop(0.7, 'rgba(60, 40, 20, 0.12)');
+    vg.addColorStop(1, 'rgba(20, 12, 6, 0.42)');
+    FX.fillStyle = vg;
+    FX.fillRect(picX, picY, picW, picH);
 
-    // Bottom Polaroid Margin: Handwritten Grease Pencil & Transit Yard Stencil
-    FX.textAlign='left';
-    FX.fillStyle='#2c261e';
-    FX.font="italic 600 32px 'Fraunces',Georgia,serif";
-    const my=picY+picH+75;
-    FX.fillText('SUBWAY ART · NYC TRANSIT DIVISION · IRT / IND YARD 1984',picX,my);
+    // Bottom Polaroid Margin: Handwritten Grease Pencil & Scriptorium Stencil
+    FX.textAlign = 'left';
+    FX.fillStyle = '#2c261e';
+    FX.font = "italic 600 32px 'Fraunces',Georgia,serif";
+    const my = picY + picH + 75;
+    FX.fillText('THE PALIMPSEST WALL · SCRIPTORIUM FOLIO EDITION', picX, my);
 
-    FX.fillStyle='#5c5244';
-    FX.font="500 22px 'Hanken Grotesk',sans-serif";
-    const coauth=cred&&cred.length?cred.map(c=>c.name).join(', '):'Autonomous Subway Writer & Anonymous Scribe';
-    FX.fillText('WRITERS: '+coauth+' · CAR NO. 4928 R46 STAINLESS · ACCESSION #QW-1984-77A',picX,my+42);
-    FX.fillText('TIMESTAMP: '+new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})+' · MANIFESTO: "THE WALL BELONGS TO THE LIVING"',picX,my+76);
+    FX.fillStyle = '#5c5244';
+    FX.font = "500 20px 'Hanken Grotesk',sans-serif";
+    const coauth = inspirers || 'Autonomous Scribe & Palimpsest Conservator';
+    FX.fillText(`INSPIRERS: ${coauth} · STRATIGRAPHY: AGED SCRIPTORIUM VELLUM`, picX, my + 38);
+    FX.fillText(`TIMESTAMP: ${timestampUtc} · SHA-256: ${hashKey}`, picX, my + 70);
+    FX.fillText('LICENSE: CC BY-NC 4.0 · MANIFESTO: "THE WALL BELONGS TO THE LIVING"', picX, my + 100);
 
-    // Authentic Red Rubber Transit Inspection Stamp (Dual Scalloped Ring)
-    const sx=FW-390,sy=my+25;
+    // Authentic Red Rubber Inspection Stamp
+    const sx = FW - 390, sy = my + 30;
     FX.save();
-    FX.translate(sx,sy);
-    FX.rotate(-0.07);
-    FX.strokeStyle='rgba(195,35,45,0.82)';
-    FX.lineWidth=3.5;
-    FX.strokeRect(-125,-38,250,76);
-    FX.strokeRect(-118,-31,236,62);
-    FX.fillStyle='rgba(195,35,45,0.88)';
-    FX.textAlign='center';
-    FX.font="700 16px 'Hanken Grotesk',sans-serif";
-    FX.fillText('PASSED MTA INSPECTION',0,-8);
-    FX.font="600 12px 'Hanken Grotesk',sans-serif";
-    FX.fillText('CONEY ISLAND OVERHAUL SHOP',0,14);
+    FX.translate(sx, sy);
+    FX.rotate(-0.06);
+    FX.strokeStyle = 'rgba(195, 35, 45, 0.85)';
+    FX.lineWidth = 3;
+    FX.strokeRect(-135, -42, 270, 84);
+    FX.strokeRect(-128, -35, 256, 70);
+    FX.fillStyle = 'rgba(195, 35, 45, 0.9)';
+    FX.textAlign = 'center';
+    FX.font = "700 15px 'Hanken Grotesk',sans-serif";
+    FX.fillText('QWEIRDO ARCHIVAL VALIDATION', 0, -8);
+    FX.font = "600 11px monospace";
+    FX.fillText(`HASH: ${hashKey.slice(0, 18)}…`, 0, 14);
     FX.restore();
   }
 
   return FC.toDataURL('image/png');
+}
+
+// Fallback wrapper for existing preview calls
+function generateSubwayArt(format){
+  const inspirersList = (cred && cred.length) ? cred.map(c => c.name).join(', ') : 'Autonomous Scribe & Palimpsest Conservator';
+  const now = new Date();
+  return renderArchivalCanvas(format, {
+    timestampIso: now.toISOString(),
+    timestampUtc: now.toUTCString(),
+    timestampDate: now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }),
+    inspirers: inspirersList,
+    hashKey: currentNftHash || 'computing-provenance-key…'
+  });
+}
+
+// Download Canvas Archival Engine with Timestamp, Inspirer Details, and Cryptographic SHA-256 Hash
+async function downloadCanvasArchival(format = 'wall') {
+  const inspirersList = (cred && cred.length) ? cred.map(c => c.name).join(', ') : 'Autonomous Scribe & Palimpsest Conservator';
+  const now = new Date();
+  const timestampIso = now.toISOString();
+  const timestampUtc = now.toUTCString();
+  const timestampDate = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  // 1. Compute authentic SHA-256 hash validating the download
+  const sampleData = C.toDataURL('image/webp', 0.6);
+  const hashPayload = JSON.stringify({
+    canvasLength: sampleData.length,
+    timestamp: timestampIso,
+    inspirers: inspirersList,
+    blendedMiniCanvases: miniCanvasesHistory.length,
+    steps: steps,
+    substrate: 'Aged Manuscript Vellum Wall'
+  });
+  const sha256Key = await computeSha256(hashPayload);
+  currentNftHash = sha256Key;
+
+  // 2. Render high-resolution 3200x1600 archival canvas with timestamp, inspirers, and hash key
+  const finalCanvasUrl = renderArchivalCanvas(format, {
+    timestampIso,
+    timestampUtc,
+    timestampDate,
+    inspirers: inspirersList,
+    hashKey: sha256Key
+  });
+
+  // 3. Record the download in localStorage
+  const dlRecord = {
+    id: 'qweirdo_dl_' + Date.now(),
+    timestamp: timestampIso,
+    timestampFormatted: timestampUtc,
+    hash: sha256Key,
+    inspirers: inspirersList,
+    substrate: 'Aged Manuscript Vellum Wall',
+    blendedCanvasesCount: miniCanvasesHistory.length,
+    format: format,
+    resolution: '3200x1600',
+    license: 'CC BY-NC 4.0 (Free educational & non-commercial use with attribution to Project Qweirdo)'
+  };
+  const downloadHistory = JSON.parse(localStorage.getItem('qweirdo_download_records') || '[]');
+  downloadHistory.unshift(dlRecord);
+  if (downloadHistory.length > 50) downloadHistory.length = 50;
+  localStorage.setItem('qweirdo_download_records', JSON.stringify(downloadHistory));
+
+  // 4. Download the image file
+  const a = document.createElement('a');
+  a.download = `qweirdo-palimpsest-wall-${sha256Key.slice(0, 8)}-${Date.now()}.png`;
+  a.href = finalCanvasUrl;
+  a.click();
+
+  msg(`📥 Canvas validated & downloaded! SHA-256: ${sha256Key.slice(0, 16)}… Recorded in provenance registry.`);
+  return { sha256Key, dlRecord, finalCanvasUrl };
 }
 
 // Studio Toolbar Wiring: Caps, Substrates, Enamels, Audio
@@ -2819,8 +2966,9 @@ $('#btnWildstyle').onclick=()=>{
     if(val===null)return;
     val=val.trim();if(!val)return;
   }
-  const [x,y]=(hoverPos&&hoverPos[0]>0)?hoverPos:[W/2,H/2];
+  const [x,y] = activeMiniCanvas ? [activeMiniCanvas.x + activeMiniCanvas.w/2, activeMiniCanvas.y + activeMiniCanvas.h/2] : ((hoverPos&&hoverPos[0]>0)?hoverPos:[W/2,H/2]);
   stampWildstyleBurner(val,x,y,activeScheme);
+  if (activeMiniCanvas) activeMiniCanvas.strokesCount++;
   $('#wd').value='';
 };
 
@@ -2831,8 +2979,9 @@ $('#btnBubble').onclick=()=>{
     if(val===null)return;
     val=val.trim();if(!val)return;
   }
-  const [x,y]=(hoverPos&&hoverPos[0]>0)?hoverPos:[W/2,H/2];
+  const [x,y] = activeMiniCanvas ? [activeMiniCanvas.x + activeMiniCanvas.w/2, activeMiniCanvas.y + activeMiniCanvas.h/2] : ((hoverPos&&hoverPos[0]>0)?hoverPos:[W/2,H/2]);
   stampBubbleSoftie(val,x,y,activeScheme);
+  if (activeMiniCanvas) activeMiniCanvas.strokesCount++;
   $('#wd').value='';
 };
 
@@ -2843,8 +2992,9 @@ $('#btnHandstyle').onclick=()=>{
     if(val===null)return;
     val=val.trim();if(!val)return;
   }
-  const [x,y]=(hoverPos&&hoverPos[0]>0)?hoverPos:[W/2,H/2];
+  const [x,y] = activeMiniCanvas ? [activeMiniCanvas.x + activeMiniCanvas.w/2, activeMiniCanvas.y + activeMiniCanvas.h/2] : ((hoverPos&&hoverPos[0]>0)?hoverPos:[W/2,H/2]);
   stampHandstyle(val,x,y,activeScheme);
+  if (activeMiniCanvas) activeMiniCanvas.strokesCount++;
   $('#wd').value='';
 };
 
@@ -2935,7 +3085,7 @@ if (btnFmtNft) {
       attributes: [
         { trait_type: 'Inscription Title', value: 'The Palimpsest Wall Broadside' },
         { trait_type: 'Writer', value: coauth },
-        { trait_type: 'Substrate', value: currentSubstrate.toUpperCase() },
+        { trait_type: 'Substrate', value: 'AGED SCRIPTORIUM VELLUM WALL' },
         { trait_type: 'Aerosol Cap', value: currentCap.toUpperCase() },
         { trait_type: 'Enamel Palette', value: activeScheme.toUpperCase() },
         { trait_type: 'Epoch', value: 'Subway Art Digital Humanities Era' },
@@ -3006,12 +3156,24 @@ $('#btnFmtWall').onclick=()=>{
   $('#folioPreview').src=generateSubwayArt('wall');
 };
 
-$('#btnDownloadFolio').onclick=()=>{
-  const a=document.createElement('a');
-  a.download=`qweirdo-subway-art-${currentExportFmt}-${Date.now()}.png`;
-  a.href=$('#folioPreview').src;
-  a.click();
+// Direct Studio Toolbar Download Action
+const btnDlCanvas = $('#btnDownloadCanvas');
+if (btnDlCanvas) {
+  btnDlCanvas.onclick = () => downloadCanvasArchival('wall');
+}
+
+// Folio Modal Download Action
+$('#btnDownloadFolio').onclick = () => {
+  downloadCanvasArchival(currentExportFmt);
 };
+
+// Mini-Canvas Toolbar Wiring
+const btnNewMini = $('#btnNewMiniCanvas');
+if (btnNewMini) btnNewMini.onclick = newMiniCanvas;
+const btnBlendMini = $('#btnBlendMiniCanvas');
+if (btnBlendMini) btnBlendMini.onclick = blendMiniCanvasIntoWall;
+const btnClearMini = $('#btnClearMiniCanvas');
+if (btnClearMini) btnClearMini.onclick = clearMiniCanvas;
 
 $('#btnFluidity').onclick=()=>{
   fluidityActive=!fluidityActive;
@@ -3024,10 +3186,8 @@ $('#btnPulseWave').onclick=pulseTealWave;
 
 $('#btnRemix').onclick=()=>{
   saveUndo();
-  const subs=['mta','tile','brick','billboard'];
-  const nextSub=subs[(subs.indexOf(currentSubstrate)+1)%subs.length];
-  setSubstrate(nextSub);
-  msg(`Remixed wall substrate to ${nextSub.toUpperCase()}!`);
+  drawSubstrate();
+  msg('✦ Remixed wall stratigraphy: refreshed vellum grain, rag fibers, and bistre patina!');
 };
 $('#btnUndo').onclick=undo;
 
@@ -3134,6 +3294,57 @@ window.addEventListener('keydown',e=>{
 // Canvas Overlay loop (renders stencil mask, cursor cap reticle, and loupe)
 function over(){
   O.clearRect(0,0,W,H);
+
+  // 0. Active Mini-Canvas Cartouche overlay
+  if(activeMiniCanvas){
+    const {x, y, w, h, title} = activeMiniCanvas;
+    O.save();
+    // Warm vellum preview wash
+    O.fillStyle = 'rgba(255, 250, 240, 0.22)';
+    O.fillRect(x, y, w, h);
+
+    // Dashed gold boundary
+    O.strokeStyle = 'rgba(212, 175, 55, 0.85)';
+    O.lineWidth = 1.8;
+    O.setLineDash([8, 5]);
+    O.strokeRect(x, y, w, h);
+    O.setLineDash([]);
+
+    // Illuminated manuscript corner brackets & accents
+    const brkLen = 24;
+    O.lineWidth = 3;
+    O.strokeStyle = '#d4af37';
+    // Top-left
+    O.beginPath(); O.moveTo(x, y + brkLen); O.lineTo(x, y); O.lineTo(x + brkLen, y); O.stroke();
+    // Top-right
+    O.beginPath(); O.moveTo(x + w - brkLen, y); O.lineTo(x + w, y); O.lineTo(x + w, y + brkLen); O.stroke();
+    // Bottom-left
+    O.beginPath(); O.moveTo(x, y + h - brkLen); O.lineTo(x, y + h); O.lineTo(x + brkLen, y + h); O.stroke();
+    // Bottom-right
+    O.beginPath(); O.moveTo(x + w - brkLen, y + h); O.lineTo(x + w, y + h); O.lineTo(x + w, y + h - brkLen); O.stroke();
+
+    // Corner rosettes
+    [[x, y], [x + w, y], [x, y + h], [x + w, y + h]].forEach(([cx, cy]) => {
+      O.fillStyle = '#d4af37';
+      O.beginPath(); O.arc(cx, cy, 3.5, 0, Math.PI * 2); O.fill();
+    });
+
+    // Cartouche Header Ribbon Badge
+    O.fillStyle = 'rgba(27, 20, 14, 0.9)';
+    O.strokeStyle = 'rgba(212, 175, 55, 0.8)';
+    O.lineWidth = 1;
+    O.beginPath();
+    O.roundRect(x + 12, y - 28, Math.min(w - 24, 340), 24, 4);
+    O.fill();
+    O.stroke();
+
+    O.fillStyle = '#f5e6cc';
+    O.font = "600 11px 'Hanken Grotesk',sans-serif";
+    O.textAlign = 'left';
+    O.fillText(`✦ MINI-CANVAS · ${title.toUpperCase()}`, x + 22, y - 12);
+
+    O.restore();
+  }
 
   // 1. Draw Active Pochoir Stencil cutout mask
   if(activeStencil){
@@ -4681,7 +4892,7 @@ requestAnimationFrame(loop);
         title: title,
         writer: writerTag,
         timestamp: Date.now(),
-        substrate: currentSubstrate,
+        substrate: 'Aged Manuscript Vellum Wall',
         cap: currentCap,
         scheme: activeScheme,
         image: webpData,
