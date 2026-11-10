@@ -4,7 +4,7 @@
 [![Art & Copy: CC BY-NC 4.0](https://img.shields.io/badge/Art_%26_Prose-CC_BY--NC_4.0-8e3fb0.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 [![Stack: Vanilla HTML/CSS/JS](https://img.shields.io/badge/Stack-Plain_HTML_%C2%B7_CSS_%C2%B7_JS-b8405e.svg)](#)
 
-> *"Project Qweirdo is a proudly pointless digital sanctuary—and by virtue of that exact refusal, entirely singular. Unencumbered by feeds, algorithmic friction, telemetry, or modern web pollution, it offers a rare pause: a place to drift, doodle, and leave anonymous marks across a living, shared urban wall that quietly breathes with time."*
+> *"Project Qweirdo is a proudly pointless digital sanctuary—and by virtue of that exact refusal, entirely singular. Unencumbered by feeds, algorithmic friction, telemetry, or modern web pollution, it offers a rare pause: a place to drift, doodle, and leave anonymous marks across a living, shared urban wall that breathes with time."*
 
 **Live Installation:** [https://qweirdo.github.io/](https://qweirdo.github.io/)
 
