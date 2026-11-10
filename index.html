@@ -233,10 +233,13 @@ label.c{display:flex;gap:.6rem;margin:1.4rem 0;font-size:.9rem;color:var(--mu);a
 details{margin-top:2rem;border-top:1px solid var(--bd);padding-top:1rem;font-size:.9rem;color:var(--mu)}summary{cursor:pointer;color:var(--tx);font-weight:600}details p{margin:.7rem 0;max-width:60ch}
 #cr{color:var(--s)}#cr a,#cr span{color:var(--tx);margin-right:.8rem}
 .ah{display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap}.ah p{color:var(--mu);font-size:.9rem}
-#ar{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.6rem;margin-top:2.5rem}
-#ar figure:nth-child(3n+2){margin-top:2.5rem}#ar figure{overflow:hidden;border-radius:8px;box-shadow:0 8px 24px -10px rgba(34,20,10,.35);border:1px solid var(--bd)}
-#ar img{width:100%;display:block;transition:transform .5s}#ar figure:hover img{transform:scale(1.04)}
-#ar figcaption{font-size:.8rem;color:var(--mu);margin-top:.5rem;padding:.4rem .2rem}
+#ar{display:flex;flex-direction:column;gap:2rem;margin-top:2.5rem}
+.strata-plate{position:relative;background:var(--sf);border:1px solid var(--bd);border-radius:8px;overflow:hidden;box-shadow:0 12px 32px -12px rgba(34,20,10,.32)}
+.strata-header{display:flex;justify-content:space-between;align-items:center;padding:.6rem 1rem;background:rgba(34,20,10,0.04);border-bottom:1px solid var(--bd);font-family:var(--fd);font-size:.9rem}
+.strata-canvas-wrap{width:100%;aspect-ratio:2/1;background:#ebe0ce;position:relative;display:flex;align-items:center;justify-content:center}
+.strata-canvas-wrap canvas{width:100%;height:100%;display:block}
+.strata-footer{padding:.5rem 1rem;font-size:.82rem;color:var(--mu);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
+.strata-provenance{font-family:var(--fb);font-weight:500}
 footer{margin-top:7rem;padding:0 6vw 2rem}
 .mk{font:300 clamp(4rem,22vw,20rem)/.8 var(--fd);letter-spacing:-.05em;color:#dfcfb9;margin-bottom:1.5rem;user-select:none}
 footer p{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.8rem;color:var(--mu);border-top:1px solid var(--bd);padding-top:1rem}
@@ -1120,6 +1123,19 @@ function setSubstrate(subKey){
 function drawSubstrate(){
   X.save();
   X.globalCompositeOperation='source-over';
+
+  // 0. Palimpsest Ghost: previous edition snapshot at 6% opacity
+  if (typeof arch !== 'undefined' && arch && arch.length > 0 && arch[0].img) {
+    const ghost = new Image();
+    ghost.onload = () => {
+      X.save();
+      X.globalCompositeOperation = 'source-over';
+      X.globalAlpha = 0.06;
+      X.drawImage(ghost, 0, 0, W, H);
+      X.restore();
+    };
+    ghost.src = arch[0].img;
+  }
 
   // 1. Base luminous aged vellum & paper ground
   const bg=X.createRadialGradient(W/2,H/2,W*0.15,W/2,H/2,W*0.75);
@@ -3630,18 +3646,119 @@ function finish(){
   },4800);
 }
 
+function ageEditionCanvas(targetCtx, dateStr, w, h) {
+  if (!targetCtx || !dateStr) return;
+  const ageMs = Math.max(0, Date.now() - new Date(dateStr).getTime());
+  const ageDays = ageMs / (1000 * 60 * 60 * 24);
+  const fade = Math.min(0.4, ageDays * 0.005);
+
+  targetCtx.save();
+  // 1. Pigment fade
+  targetCtx.globalCompositeOperation = 'source-atop';
+  targetCtx.fillStyle = `rgba(235, 224, 206, ${(fade * 0.5).toFixed(3)})`;
+  targetCtx.fillRect(0, 0, w, h);
+
+  // 2. Parchment foxing
+  const foxingCount = Math.min(45, Math.floor(ageDays * 0.6) + 5);
+  let seed = 0;
+  for (let i = 0; i < dateStr.length; i++) seed = (seed * 31 + dateStr.charCodeAt(i)) >>> 0;
+  const rng = seededRng(seed);
+
+  targetCtx.globalCompositeOperation = 'multiply';
+  for (let i = 0; i < foxingCount; i++) {
+    const fx = rng() * w;
+    const fy = rng() * h;
+    const fr = 1 + rng() * 3.5;
+    const fAlpha = (0.04 + rng() * 0.08).toFixed(3);
+    targetCtx.beginPath();
+    targetCtx.arc(fx, fy, fr, 0, Math.PI * 2);
+    targetCtx.fillStyle = `rgba(132, 76, 28, ${fAlpha})`;
+    targetCtx.fill();
+  }
+
+  // 3. Softened edges
+  targetCtx.globalCompositeOperation = 'destination-over';
+  targetCtx.fillStyle = '#ebe0ce';
+  targetCtx.fillRect(0, 0, w, h);
+  targetCtx.restore();
+}
+
 function rA(){
-  const e=$('#ar');e.innerHTML='';
+  const e=$('#ar');
+  if(!e)return;
+  e.innerHTML='';
   if(!arch.length){
     e.innerHTML='<p style="font-weight:400;color:var(--mu)">No completed wall editions yet. The first is currently growing on the wall above.</p>';
     return;
   }
-  arch.forEach(a=>{
-    const f=document.createElement('figure'),i=new Image(),c=document.createElement('figcaption');
-    i.src=a.img;i.alt='Archived canvas edition completed '+fmt(a.d);
-    c.textContent='Edition completed '+fmt(a.d)+(a.n.length?' · Inspired by '+a.n.map(x=>x.name).join(', '):'');
-    f.append(i,c);e.append(f);
+
+  // Vertical strata: newest on top
+  arch.forEach((a, idx)=>{
+    const plate = document.createElement('article');
+    plate.className = 'strata-plate';
+    plate.setAttribute('aria-label', `Edition Strata completed ${fmt(a.d)}`);
+
+    const header = document.createElement('div');
+    header.className = 'strata-header';
+    header.innerHTML = `<span><b>Edition Strata #${arch.length - idx}</b></span><span>${fmt(a.d)}</span>`;
+
+    const canvasWrap = document.createElement('div');
+    canvasWrap.className = 'strata-canvas-wrap';
+    canvasWrap.setAttribute('data-img', a.img);
+    canvasWrap.setAttribute('data-date', a.d);
+
+    const cv = document.createElement('canvas');
+    cv.width = 640;
+    cv.height = 320;
+    cv.setAttribute('aria-label', `Edition strata layer completed ${fmt(a.d)}`);
+    canvasWrap.appendChild(cv);
+
+    const footer = document.createElement('div');
+    footer.className = 'strata-footer';
+    const coauthors = (a.n && a.n.length) ? a.n.map(x=>x.name).join(', ') : 'Anonymous Scribes';
+    footer.innerHTML = `<span class="strata-provenance">Co-creators: ${coauthors}</span>`;
+
+    plate.append(header, canvasWrap, footer);
+    e.appendChild(plate);
   });
+
+  // Lazy-render strata plates with IntersectionObserver
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const wrap = entry.target;
+          const cv = wrap.querySelector('canvas');
+          const imgSrc = wrap.getAttribute('data-img');
+          const dateStr = wrap.getAttribute('data-date');
+          if (cv && imgSrc && !wrap.dataset.rendered) {
+            wrap.dataset.rendered = 'true';
+            renderAgedStrataPlate(cv, imgSrc, dateStr);
+          }
+          obs.unobserve(wrap);
+        }
+      });
+    }, { rootMargin: '120px 0px' });
+
+    document.querySelectorAll('.strata-canvas-wrap').forEach(el => observer.observe(el));
+  } else {
+    document.querySelectorAll('.strata-canvas-wrap').forEach(wrap => {
+      const cv = wrap.querySelector('canvas');
+      const imgSrc = wrap.getAttribute('data-img');
+      const dateStr = wrap.getAttribute('data-date');
+      if (cv && imgSrc) renderAgedStrataPlate(cv, imgSrc, dateStr);
+    });
+  }
+}
+
+function renderAgedStrataPlate(cv, imgSrc, dateStr) {
+  const ctx = cv.getContext('2d');
+  const img = new Image();
+  img.onload = () => {
+    ctx.drawImage(img, 0, 0, cv.width, cv.height);
+    ageEditionCanvas(ctx, dateStr, cv.width, cv.height);
+  };
+  img.src = imgSrc;
 }
 
 function rC(){
