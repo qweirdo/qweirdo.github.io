@@ -24,7 +24,8 @@ server.listen(TEST_PORT, async () => {
         image: `data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==`,
         substrate: 'mta',
         cap: 'fat',
-        scheme: 'gold'
+        scheme: 'gold',
+        inspirers: ['Dondi White', 'Lady Pink']
       });
       if (!res.success) throw new Error(`Post ${i} failed`);
     }

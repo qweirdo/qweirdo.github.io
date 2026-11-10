@@ -356,27 +356,29 @@ main,nav,footer,.folio-modal,.manifesto-modal{position:relative;z-index:1}
       <span style="font-size:.78rem;font-weight:600;color:var(--mu);text-transform:uppercase">Format:</span>
       <button type="button" class="tool-btn active" id="btnFmtPolaroid">📷 1980s Polaroid Film Card</button>
       <button type="button" class="tool-btn" id="btnFmtWall">🖼 Full-Bleed Wall Panorama</button>
-      <button type="button" class="tool-btn" id="btnFmtNFT">⚡ NFT & Web3 Artifact (50/50 Share)</button>
+      <button type="button" class="tool-btn" id="btnFmtNFT">📜 Archival Provenance & License</button>
     </div>
 
-    <!-- NFT Co-Ownership Covenant View (Shown when NFT format is active) -->
+    <!-- Archival Provenance & Cultural Rights Section -->
     <div id="nftCovenantSection" style="display:none">
       <div class="nft-covenant-box">
-        <h3>Collaborative NFT Co-Authorship Covenant · 50/50 Value Partition</h3>
-        <p>This palimpsest canvas operates on collaborative digital humanities provenance between the <b>Writer</b> (you) and the <b>Project Qweirdo Scriptorium</b>. By exporting as an NFT artifact, you agree to an equal 50/50 partnership:</p>
+        <h3>Archival Provenance & Cultural Rights License</h3>
+        <p>Every inscription on The Palimpsest Wall is documented with an immutable cryptographic record. The intellectual property and rights framework is structured as follows:</p>
         <ul class="nft-terms-list">
-          <li><b>50% Value & Proceeds Sharing:</b> 50% of primary sale proceeds and ongoing on-chain secondary royalties are shared with the Project Qweirdo Scriptorium treasury to sustain public open-access digital humanities and street epigraphy preservation.</li>
-          <li><b>Immutable Cryptographic Provenance:</b> The exported artifact is fingerprinted with an algorithmic SHA-256 hash stamped both on the canvas and in the ERC-721/1155 metadata JSON.</li>
-          <li><b>EIP-2981 Standard:</b> Royalties are defined on-chain with dual-beneficiary parity (50% Creator / 50% Platform Treasury).</li>
+          <li><b>Free Sharing & Educational Use:</b> 100% free to share, download, exhibit, study, and teach for non-commercial purposes, provided attribution is given to <b>Project Qweirdo</b> with URL: <code>https://qweirdo.github.io</code>.</li>
+          <li><b>Commercial Use:</b> Restricted. Any commercial use, advertising, broadcast, or merchandising requires contacting the maintainer to negotiate a license and payment based on intended use.</li>
+          <li><b>NFT & Tokenization:</b> Restricted. Commercial NFT minting or tokenization is reserved and can be negotiated upon direct inquiry.</li>
+          <li><b>Cryptographic Provenance Record:</b> Stamped with an immutable SHA-256 hash identifying creation timestamp, substrate stratigraphy, and inspirer lineage.</li>
         </ul>
-        <label class="nft-agree-row">
-          <input type="checkbox" id="chkNftAgree" checked>
-          <span>I accept the 50/50 Co-Authorship & Value-Sharing Covenant for this NFT</span>
-        </label>
+        <div style="font-size:.76rem;font-family:monospace;background:rgba(0,0,0,0.35);padding:.55rem .8rem;border-radius:6px;border:1px solid rgba(255,255,255,0.08);color:var(--gold);line-height:1.6">
+          <div>SHA-256: <span id="provenanceHashDisplay" style="color:#fff;word-break:break-all">Computing…</span></div>
+          <div>INSPIRERS: <span id="provenanceInspirersDisplay" style="color:#fff">None yet</span></div>
+          <div>LICENSE: <span style="color:#fff">CC BY-NC 4.0 · Attribution required</span></div>
+        </div>
       </div>
       <div style="display:flex;gap:.8rem;margin-bottom:1rem;flex-wrap:wrap">
-        <button type="button" id="btnDownloadNftPackage" class="tool-btn" style="background:linear-gradient(135deg,#1b5e5a,#287a74);color:#fff">⚡ Download Full NFT Package (PNG + ERC-721 JSON)</button>
-        <button type="button" id="btnCopyNftJson" class="tool-btn">📋 Copy Metadata JSON</button>
+        <button type="button" id="btnDownloadNftPackage" class="tool-btn" style="background:linear-gradient(135deg,#1b5e5a,#287a74);color:#fff">📜 Download Archival Package (PNG + Provenance JSON)</button>
+        <button type="button" id="btnCopyNftJson" class="tool-btn">📋 Copy Provenance Certificate JSON</button>
       </div>
     </div>
 
@@ -2620,10 +2622,16 @@ if (btnFmtNft) {
 
     currentNftHash = await computeSha256(artUrl);
     const coauth = cred.length ? cred.map(c => c.name).join(', ') : 'Autonomous Subway Writer';
+    const inspirersList = cred.length ? cred.map(c => c.name) : ['Autonomous Street Epigraphy'];
+
+    const hashDisp = $('#provenanceHashDisplay');
+    if (hashDisp) hashDisp.textContent = currentNftHash;
+    const inspDisp = $('#provenanceInspirersDisplay');
+    if (inspDisp) inspDisp.textContent = inspirersList.join(', ');
 
     currentNftMetadata = {
       name: 'Project Qweirdo: The Palimpsest Wall #' + currentNftHash.slice(0, 8).toUpperCase(),
-      description: 'A collaborative digital humanities aerosol inscription created on The Palimpsest Wall (Car No. 4928 R46 Stainless Steel / Scriptorium Studio). Inscribed by ' + coauth + '.',
+      description: 'An archival digital humanities aerosol inscription created on The Palimpsest Wall (Car No. 4928 R46 Stainless Steel / Scriptorium Studio). Inscribed by ' + coauth + '.',
       image: 'ipfs://[UPLOAD_HASH]/' + currentNftHash + '.png',
       external_url: 'https://qweirdo.github.io',
       attributes: [
@@ -2633,54 +2641,51 @@ if (btnFmtNft) {
         { trait_type: 'Aerosol Cap', value: currentCap.toUpperCase() },
         { trait_type: 'Enamel Palette', value: activeScheme.toUpperCase() },
         { trait_type: 'Epoch', value: 'Subway Art Digital Humanities Era' },
-        { trait_type: 'Co-Authorship Share', value: '50% Writer / 50% Project Qweirdo' },
-        { trait_type: 'Royalty BPS', value: 5000 }
+        { trait_type: 'License', value: 'CC BY-NC 4.0' },
+        { trait_type: 'Commercial Rights', value: 'Restricted · Contact maintainer for license' },
+        { trait_type: 'NFT Rights', value: 'Restricted · Negotiable upon inquiry' }
       ],
       properties: {
         sha256_hash: currentNftHash,
         created_at: new Date().toISOString(),
         engine: 'Project Qweirdo Palimpsest Studio Engine',
-        covenant: {
-          agreement: 'Collaborative NFT Co-Authorship & 50/50 Value Partition',
-          creator_share_percent: 50,
-          scriptorium_treasury_share_percent: 50,
-          purpose: 'Scriptorium archive maintenance and open public humanities research'
+        attribution: 'Project Qweirdo (https://qweirdo.github.io)',
+        inspirers: inspirersList,
+        terms: {
+          sharing_and_education: 'Free for non-commercial & educational sharing with attribution to Project Qweirdo (https://qweirdo.github.io)',
+          commercial_use: 'Requires explicit prior agreement with maintainer to negotiate payment based on use',
+          nft_minting: 'Restricted / reserved; negotiable upon direct inquiry'
         },
-        license: 'CC BY-NC-SA 4.0 / Collaborative Provenance'
+        license: 'CC BY-NC 4.0 (Attribution-NonCommercial)'
       }
     };
 
-    msg('NFT 50/50 Artifact ready. SHA-256: ' + currentNftHash.slice(0, 16) + '…');
+    msg('Archival Provenance Certificate ready. SHA-256: ' + currentNftHash.slice(0, 16) + '…');
   };
 }
 
 const btnDownloadNftPkg = $('#btnDownloadNftPackage');
 if (btnDownloadNftPkg) {
   btnDownloadNftPkg.onclick = () => {
-    const agree = $('#chkNftAgree');
-    if (agree && !agree.checked) {
-      alert('To export this collaborative NFT artifact, please accept the 50/50 Co-Authorship & Value-Sharing Covenant.');
-      return;
-    }
     if (!currentNftMetadata) {
-      msg('Please select NFT format first.');
+      msg('Please select Archival Provenance format first.');
       return;
     }
 
     // 1. Download Master Artwork PNG
     const aImg = document.createElement('a');
-    aImg.download = 'qweirdo-nft-artifact-' + currentNftHash.slice(0, 8) + '.png';
+    aImg.download = 'qweirdo-archival-wall-' + currentNftHash.slice(0, 8) + '.png';
     aImg.href = $('#folioPreview').src;
     aImg.click();
 
-    // 2. Download ERC-721 Metadata JSON
+    // 2. Download Provenance & Rights Metadata JSON
     setTimeout(() => {
       const blob = new Blob([JSON.stringify(currentNftMetadata, null, 2)], { type: 'application/json' });
       const aJson = document.createElement('a');
-      aJson.download = 'qweirdo-nft-metadata-' + currentNftHash.slice(0, 8) + '.json';
+      aJson.download = 'qweirdo-provenance-record-' + currentNftHash.slice(0, 8) + '.json';
       aJson.href = URL.createObjectURL(blob);
       aJson.click();
-      msg('Downloaded full NFT package (Master PNG + ERC-721 metadata JSON with 50/50 agreement).');
+      msg('Downloaded Archival Package: Master PNG + Provenance Record JSON (CC BY-NC 4.0 terms).');
     }, 250);
   };
 }
@@ -4392,7 +4397,8 @@ updateUndoUI();
         cap: currentCap,
         scheme: activeScheme,
         customTag: title,
-        image: imgData
+        image: imgData,
+        inspirers: (typeof cred !== 'undefined' && cred.length) ? cred.map(c => c.name) : []
       };
 
       msg('Transmitting piece to live shared wall (50-slot buffer)…');

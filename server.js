@@ -149,8 +149,13 @@ const server = http.createServer((req, res) => {
           timestamp,
           provenance: {
             engine: 'Project Qweirdo Palimpsest Studio',
-            license: 'CC BY-NC-SA 4.0 / Collaborative Provenance',
-            nftOwnershipAgreement: '50% Writer / 50% Project Qweirdo Scriptorium Split'
+            license: 'CC BY-NC 4.0 (Attribution-NonCommercial)',
+            attribution: 'Project Qweirdo (https://qweirdo.github.io)',
+            educationalUse: 'Free for non-commercial & educational purposes with attribution',
+            commercialUse: 'Restricted · Contact maintainer to negotiate commercial terms',
+            nftMinting: 'Restricted · NFT use reserved and negotiable upon inquiry',
+            sha256_hash: hash,
+            inspirers: Array.isArray(payload.inspirers) ? payload.inspirers.slice(0, 20) : []
           }
         };
 
