@@ -182,6 +182,25 @@ footer p{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;fon
 
 
 /* Live Shared Wall Archive (50-Slot Rolling Buffer) */
+
+/* Aesthetic Social Media Share Buttons */
+.hero-share-bar{display:inline-flex;align-items:center;gap:.45rem;margin-top:1.2rem;padding:.35rem .75rem;background:rgba(34,20,10,0.04);border:1px solid var(--bd);border-radius:99px;backdrop-filter:blur(8px);width:fit-content}
+.share-label{font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mu);margin-right:.25rem;font-family:var(--fb)}
+.share-btn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.75);color:var(--tx);border:1px solid rgba(190,170,142,0.45);text-decoration:none;transition:all .25s cubic-bezier(.2,.8,.2,1);cursor:pointer;flex-shrink:0;padding:0}
+.share-btn svg{width:13.5px;height:13.5px;fill:currentColor;transition:transform .2s ease}
+.share-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(34,20,10,0.16)}
+.share-btn:hover svg{transform:scale(1.08)}
+.share-btn.share-x:hover{background:#0f1419;color:#fff;border-color:#0f1419}
+.share-btn.share-bsky:hover{background:#0285ff;color:#fff;border-color:#0285ff}
+.share-btn.share-threads:hover{background:#101010;color:#fff;border-color:#101010}
+.share-btn.share-linkedin:hover{background:#0a66c2;color:#fff;border-color:#0a66c2}
+.share-btn.share-reddit:hover{background:#ff4500;color:#fff;border-color:#ff4500}
+.share-btn.share-link:hover{background:var(--a);color:#fff;border-color:var(--a)}
+.share-btn.copied{background:#10b981!important;color:#fff!important;border-color:#10b981!important}
+
+.folio-share-row{display:inline-flex;align-items:center;gap:.4rem}
+.footer-share-row{display:inline-flex;align-items:center;gap:.45rem;margin-bottom:.8rem}
+
 .live-archive-tray{background:rgba(20,14,8,0.92);border:1px solid rgba(212,175,55,0.35);border-radius:8px;padding:.8rem 1rem;margin:1rem 0;backdrop-filter:blur(10px);color:var(--tx);box-shadow:0 8px 32px rgba(0,0,0,0.28);animation:fadeIn .3s ease}
 .live-archive-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:.5rem;margin-bottom:.7rem}
 .live-pulse-dot{width:8px;height:8px;border-radius:50%;background:#10b981;box-shadow:0 0 8px #10b981;animation:pulseDot 2s infinite}
@@ -260,6 +279,27 @@ main,nav,footer,.folio-modal,.manifesto-modal{position:relative;z-index:1}
     <p class="kick">Charted by Chaos; Ordered by Code</p>
     <h1>Boundless pathways<br><em>Creative pistes</em></h1>
     <p class="hero-lead">Spray with authentic aerosol cap physics and live gravitational drips. Construct algorithmic wildstyle burners and pochoir manifestos across subway steel, IRT tiles, and distressed brick.</p>
+    <div class="hero-share-bar" aria-label="Share Project Qweirdo">
+      <span class="share-label">Share:</span>
+      <button type="button" class="share-btn share-x" data-share="x" title="Share on X" aria-label="Share on X">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </button>
+      <button type="button" class="share-btn share-bsky" data-share="bsky" title="Share on Bluesky" aria-label="Share on Bluesky">
+        <svg viewBox="0 0 568 501" aria-hidden="true"><path d="M123.12 35.65C181.76 79.46 250.72 178.69 284 246.35C317.28 178.69 386.24 79.46 444.88 35.65C487.6 3.73 568 -24.47 568 71.86C568 91.13 556.88 238.48 550.08 263.26C526.4 349.33 438.4 372.2 360.8 358.94C497.6 383.1 530.8 471.21 443.2 559.32C338.4 664.92 298.8 454.4 284 397.6C269.2 454.4 229.6 664.92 124.8 559.32C37.2 471.21 70.4 383.1 207.2 358.94C129.6 372.2 41.6 349.33 17.92 263.26C11.12 238.48 0 91.13 0 71.86C0 -24.47 80.4 3.73 123.12 35.65Z"/></svg>
+      </button>
+      <button type="button" class="share-btn share-threads" data-share="threads" title="Share on Threads" aria-label="Share on Threads">
+        <svg viewBox="0 0 192 192" aria-hidden="true"><path d="M141.537 88.9883C140.71 88.5919 139.87 88.2104 139.019 87.8451C137.537 60.5382 122.616 44.905 97.5619 44.745C97.4484 44.7443 97.3355 44.7443 97.222 44.7443C82.2364 44.7443 69.7731 51.1409 62.102 62.7807L75.881 72.8228C81.4116 64.4447 89.9678 61.1683 97.2483 61.1683C97.3248 61.1683 97.4013 61.1683 97.4784 61.1691C111.455 61.2588 120.315 70.5284 122.684 87.0544C115.111 86.0827 106.91 85.7335 98.1565 86.0121C64.6732 87.078 45.4194 104.42 46.4357 127.476C47.464 150.803 68.3292 165.717 93.6844 165.717C114.288 165.717 127.971 156.402 134.426 137.892C139.695 147.246 148.455 152.481 160.297 152.481C172.934 152.481 182.204 144.383 186.216 129.566L170.36 125.105C168.17 133.197 163.666 136.057 159.972 136.057C153.518 136.057 149.324 130.675 147.886 118.892C154.521 110.126 158.077 99.4795 158.077 87.8972C158.077 56.4957 132.062 31.7853 97.234 31.7853C61.3204 31.7853 34.0207 57.854 34.0207 96.089C34.0207 134.509 61.3204 160.215 97.234 160.215C114.896 160.215 130.407 153.498 141.42 141.071L153.805 151.786C139.67 167.733 120.089 176.643 97.234 176.643C49.9741 176.643 17.5927 141.521 17.5927 96.089C17.5927 50.4705 50.1585 15.3574 97.234 15.3574C141.652 15.3574 174.506 46.5413 174.506 87.8972C174.506 102.775 169.877 116.516 161.428 127.873C158.536 131.761 154.992 135.251 150.923 138.191C145.419 148.657 135.918 153.948 122.95 153.948C108.973 153.948 97.234 146.721 95.8364 131.429C94.4965 116.765 106.877 101.401 123.633 100.868C129.989 100.666 136.007 101.996 141.537 88.9883ZM122.95 116.486C114.618 116.751 108.358 123.864 108.891 130.407C109.424 136.95 116.551 141.246 123.633 140.718C127.674 140.417 131.543 138.567 134.426 135.438C133.003 123.082 128.847 116.299 122.95 116.486Z"/></svg>
+      </button>
+      <button type="button" class="share-btn share-linkedin" data-share="linkedin" title="Share on LinkedIn" aria-label="Share on LinkedIn">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+      </button>
+      <button type="button" class="share-btn share-reddit" data-share="reddit" title="Share on Reddit" aria-label="Share on Reddit">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.197-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+      </button>
+      <button type="button" class="share-btn share-link" data-share="copy" title="Copy Tool Link" aria-label="Copy Tool Link">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -385,7 +425,30 @@ main,nav,footer,.folio-modal,.manifesto-modal{position:relative;z-index:1}
     <div style="max-height:55vh;overflow-y:auto;border-radius:6px;border:1px solid var(--bd)"><img id="folioPreview" alt="Subway Art Archival Preview"></div>
     <div class="folio-actions" style="margin-top:1.2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
       <span style="font-size:.8rem;color:var(--mu)" id="exportResLabel">Resolution: 3200 × 1600 Archival Print · 100% Client-Side</span>
-      <button type="button" id="btnDownloadFolio" style="background:linear-gradient(135deg,#844c1c,#b38600);color:#fff">Download Subway Art (PNG)</button>
+      <div style="display:flex;gap:.8rem;align-items:center;flex-wrap:wrap">
+        <div class="folio-share-row" aria-label="Share Artwork">
+          <span class="share-label" style="font-size:.68rem">Share:</span>
+          <button type="button" class="share-btn share-x" data-share="x" title="Share on X" aria-label="Share on X">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </button>
+          <button type="button" class="share-btn share-bsky" data-share="bsky" title="Share on Bluesky" aria-label="Share on Bluesky">
+            <svg viewBox="0 0 568 501" aria-hidden="true"><path d="M123.12 35.65C181.76 79.46 250.72 178.69 284 246.35C317.28 178.69 386.24 79.46 444.88 35.65C487.6 3.73 568 -24.47 568 71.86C568 91.13 556.88 238.48 550.08 263.26C526.4 349.33 438.4 372.2 360.8 358.94C497.6 383.1 530.8 471.21 443.2 559.32C338.4 664.92 298.8 454.4 284 397.6C269.2 454.4 229.6 664.92 124.8 559.32C37.2 471.21 70.4 383.1 207.2 358.94C129.6 372.2 41.6 349.33 17.92 263.26C11.12 238.48 0 91.13 0 71.86C0 -24.47 80.4 3.73 123.12 35.65Z"/></svg>
+          </button>
+          <button type="button" class="share-btn share-threads" data-share="threads" title="Share on Threads" aria-label="Share on Threads">
+            <svg viewBox="0 0 192 192" aria-hidden="true"><path d="M141.537 88.9883C140.71 88.5919 139.87 88.2104 139.019 87.8451C137.537 60.5382 122.616 44.905 97.5619 44.745C97.4484 44.7443 97.3355 44.7443 97.222 44.7443C82.2364 44.7443 69.7731 51.1409 62.102 62.7807L75.881 72.8228C81.4116 64.4447 89.9678 61.1683 97.2483 61.1683C97.3248 61.1683 97.4013 61.1683 97.4784 61.1691C111.455 61.2588 120.315 70.5284 122.684 87.0544C115.111 86.0827 106.91 85.7335 98.1565 86.0121C64.6732 87.078 45.4194 104.42 46.4357 127.476C47.464 150.803 68.3292 165.717 93.6844 165.717C114.288 165.717 127.971 156.402 134.426 137.892C139.695 147.246 148.455 152.481 160.297 152.481C172.934 152.481 182.204 144.383 186.216 129.566L170.36 125.105C168.17 133.197 163.666 136.057 159.972 136.057C153.518 136.057 149.324 130.675 147.886 118.892C154.521 110.126 158.077 99.4795 158.077 87.8972C158.077 56.4957 132.062 31.7853 97.234 31.7853C61.3204 31.7853 34.0207 57.854 34.0207 96.089C34.0207 134.509 61.3204 160.215 97.234 160.215C114.896 160.215 130.407 153.498 141.42 141.071L153.805 151.786C139.67 167.733 120.089 176.643 97.234 176.643C49.9741 176.643 17.5927 141.521 17.5927 96.089C17.5927 50.4705 50.1585 15.3574 97.234 15.3574C141.652 15.3574 174.506 46.5413 174.506 87.8972C174.506 102.775 169.877 116.516 161.428 127.873C158.536 131.761 154.992 135.251 150.923 138.191C145.419 148.657 135.918 153.948 122.95 153.948C108.973 153.948 97.234 146.721 95.8364 131.429C94.4965 116.765 106.877 101.401 123.633 100.868C129.989 100.666 136.007 101.996 141.537 88.9883ZM122.95 116.486C114.618 116.751 108.358 123.864 108.891 130.407C109.424 136.95 116.551 141.246 123.633 140.718C127.674 140.417 131.543 138.567 134.426 135.438C133.003 123.082 128.847 116.299 122.95 116.486Z"/></svg>
+          </button>
+          <button type="button" class="share-btn share-reddit" data-share="reddit" title="Share on Reddit" aria-label="Share on Reddit">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.197-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+          </button>
+          <button type="button" class="share-btn share-linkedin" data-share="linkedin" title="Share on LinkedIn" aria-label="Share on LinkedIn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+          </button>
+          <button type="button" class="share-btn share-link" data-share="copy" title="Copy Broadside Link" aria-label="Copy Broadside Link">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+          </button>
+        </div>
+        <button type="button" id="btnDownloadFolio" style="background:linear-gradient(135deg,#844c1c,#b38600);color:#fff">Download Subway Art (PNG)</button>
+      </div>
     </div>
   </div>
 </div>
@@ -624,7 +687,31 @@ main,nav,footer,.folio-modal,.manifesto-modal{position:relative;z-index:1}
 
 <section id="archive"><div class="ah"><h2>The <em>archive</em></h2><p>Every finished manuscript edition, dated & co-authored.</p></div><div id="ar"></div></section>
 </main>
-<footer><div class="mk" aria-hidden="true">Qweirdo</div><p><span>Open · Not-for-profit · Digital Humanities</span><span>&copy; Subhradeep Chatterjee &nbsp;|&nbsp; Project Qweirdo &nbsp;|&nbsp; 2026</span></p></footer>
+<footer>
+  <div class="mk" aria-hidden="true">Qweirdo</div>
+  <div class="footer-share-row" aria-label="Share Project Qweirdo">
+    <span class="share-label" style="color:var(--mu);font-size:.7rem">Share Scriptorium:</span>
+    <button type="button" class="share-btn share-x" data-share="x" title="Share on X" aria-label="Share on X">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    </button>
+    <button type="button" class="share-btn share-bsky" data-share="bsky" title="Share on Bluesky" aria-label="Share on Bluesky">
+      <svg viewBox="0 0 568 501" aria-hidden="true"><path d="M123.12 35.65C181.76 79.46 250.72 178.69 284 246.35C317.28 178.69 386.24 79.46 444.88 35.65C487.6 3.73 568 -24.47 568 71.86C568 91.13 556.88 238.48 550.08 263.26C526.4 349.33 438.4 372.2 360.8 358.94C497.6 383.1 530.8 471.21 443.2 559.32C338.4 664.92 298.8 454.4 284 397.6C269.2 454.4 229.6 664.92 124.8 559.32C37.2 471.21 70.4 383.1 207.2 358.94C129.6 372.2 41.6 349.33 17.92 263.26C11.12 238.48 0 91.13 0 71.86C0 -24.47 80.4 3.73 123.12 35.65Z"/></svg>
+    </button>
+    <button type="button" class="share-btn share-threads" data-share="threads" title="Share on Threads" aria-label="Share on Threads">
+      <svg viewBox="0 0 192 192" aria-hidden="true"><path d="M141.537 88.9883C140.71 88.5919 139.87 88.2104 139.019 87.8451C137.537 60.5382 122.616 44.905 97.5619 44.745C97.4484 44.7443 97.3355 44.7443 97.222 44.7443C82.2364 44.7443 69.7731 51.1409 62.102 62.7807L75.881 72.8228C81.4116 64.4447 89.9678 61.1683 97.2483 61.1683C97.3248 61.1683 97.4013 61.1683 97.4784 61.1691C111.455 61.2588 120.315 70.5284 122.684 87.0544C115.111 86.0827 106.91 85.7335 98.1565 86.0121C64.6732 87.078 45.4194 104.42 46.4357 127.476C47.464 150.803 68.3292 165.717 93.6844 165.717C114.288 165.717 127.971 156.402 134.426 137.892C139.695 147.246 148.455 152.481 160.297 152.481C172.934 152.481 182.204 144.383 186.216 129.566L170.36 125.105C168.17 133.197 163.666 136.057 159.972 136.057C153.518 136.057 149.324 130.675 147.886 118.892C154.521 110.126 158.077 99.4795 158.077 87.8972C158.077 56.4957 132.062 31.7853 97.234 31.7853C61.3204 31.7853 34.0207 57.854 34.0207 96.089C34.0207 134.509 61.3204 160.215 97.234 160.215C114.896 160.215 130.407 153.498 141.42 141.071L153.805 151.786C139.67 167.733 120.089 176.643 97.234 176.643C49.9741 176.643 17.5927 141.521 17.5927 96.089C17.5927 50.4705 50.1585 15.3574 97.234 15.3574C141.652 15.3574 174.506 46.5413 174.506 87.8972C174.506 102.775 169.877 116.516 161.428 127.873C158.536 131.761 154.992 135.251 150.923 138.191C145.419 148.657 135.918 153.948 122.95 153.948C108.973 153.948 97.234 146.721 95.8364 131.429C94.4965 116.765 106.877 101.401 123.633 100.868C129.989 100.666 136.007 101.996 141.537 88.9883ZM122.95 116.486C114.618 116.751 108.358 123.864 108.891 130.407C109.424 136.95 116.551 141.246 123.633 140.718C127.674 140.417 131.543 138.567 134.426 135.438C133.003 123.082 128.847 116.299 122.95 116.486Z"/></svg>
+    </button>
+    <button type="button" class="share-btn share-linkedin" data-share="linkedin" title="Share on LinkedIn" aria-label="Share on LinkedIn">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+    </button>
+    <button type="button" class="share-btn share-reddit" data-share="reddit" title="Share on Reddit" aria-label="Share on Reddit">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.197-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg>
+    </button>
+    <button type="button" class="share-btn share-link" data-share="copy" title="Copy Tool Link" aria-label="Copy Tool Link">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+    </button>
+  </div>
+  <p><span>Open · Not-for-profit · Digital Humanities</span><span>&copy; Subhradeep Chatterjee &nbsp;|&nbsp; Project Qweirdo &nbsp;|&nbsp; 2026</span></p>
+</footer>
 <script>
 const CREDITS_ENDPOINT=''; // optional: paste endpoint to receive credit submissions
 const $=s=>document.querySelector(s),C=$('#cv'),X=C.getContext('2d'),O=$('#ov').getContext('2d'),W=1600,H=800,TARGET=150000,R=(a,b)=>a+Math.random()*(b-a);
@@ -4467,6 +4554,74 @@ updateUndoUI();
   // Initialize
   syncPaintings();
   connectLiveStream();
+})();
+
+
+// ==========================================
+// AESTHETIC SOCIAL MEDIA SHARING ENGINE
+// Seamless sharing to X, Bluesky, Threads, LinkedIn, Reddit, and Direct Copy
+// ==========================================
+(function initSocialSharing() {
+  const SHARE_URL = 'https://qweirdo.github.io';
+  const BASE_TEXT = 'Charted by Chaos; Ordered by Code. Explore The Palimpsest Wall — a digitally aided aerosol graffiti studio and open street art manifesto.';
+  const TITLE = 'Project Qweirdo · The Palimpsest Wall';
+
+  function openSharePopup(url, title = 'Share Project Qweirdo') {
+    const w = 600, h = 480;
+    const left = Math.max(0, (window.screen.width - w) / 2);
+    const top = Math.max(0, (window.screen.height - h) / 2);
+    window.open(url, title, `width=${w},height=${h},top=${top},left=${left},toolbar=no,menubar=no,scrollbars=yes,resizable=yes`);
+  }
+
+  function handleShare(platform, btn) {
+    let customText = BASE_TEXT;
+    const folioOpen = document.getElementById('folioModal') && document.getElementById('folioModal').classList.contains('open');
+
+    if (folioOpen) {
+      const coauth = (typeof cred !== 'undefined' && cred.length) ? cred.map(c => c.name).join(', ') : 'Autonomous Writer';
+      customText = `Inscribed on The Palimpsest Wall by ${coauth}. Explore the digitally aided graffiti studio on subway steel:`;
+    }
+
+    if (platform === 'x') {
+      const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(customText)}&url=${encodeURIComponent(SHARE_URL)}&hashtags=ProjectQweirdo,SubwayArt,GenerativeArt`;
+      openSharePopup(xUrl, 'Share on X');
+    } else if (platform === 'bsky') {
+      const bskyUrl = `https://bsky.app/intent/compose?text=${encodeURIComponent(customText + ' ' + SHARE_URL)}`;
+      openSharePopup(bskyUrl, 'Share on Bluesky');
+    } else if (platform === 'threads') {
+      const threadsUrl = `https://www.threads.net/intent/post?text=${encodeURIComponent(customText + ' ' + SHARE_URL)}`;
+      openSharePopup(threadsUrl, 'Share on Threads');
+    } else if (platform === 'linkedin') {
+      const liUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(SHARE_URL)}`;
+      openSharePopup(liUrl, 'Share on LinkedIn');
+    } else if (platform === 'reddit') {
+      const redditUrl = `https://reddit.com/submit?url=${encodeURIComponent(SHARE_URL)}&title=${encodeURIComponent(TITLE)}`;
+      openSharePopup(redditUrl, 'Share on Reddit');
+    } else if (platform === 'copy') {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(SHARE_URL).then(() => {
+          if (btn) {
+            btn.classList.add('copied');
+            setTimeout(() => btn.classList.remove('copied'), 2000);
+          }
+          if (typeof msg === 'function') msg('Link copied to clipboard: ' + SHARE_URL);
+        }).catch(() => {
+          prompt('Copy link to share:', SHARE_URL);
+        });
+      } else {
+        prompt('Copy link to share:', SHARE_URL);
+      }
+    }
+  }
+
+  // Global event delegation for all share buttons
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-share]');
+    if (!btn) return;
+    e.preventDefault();
+    const platform = btn.dataset.share;
+    handleShare(platform, btn);
+  });
 })();
 
 </script></body></html>
