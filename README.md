@@ -1,17 +1,35 @@
-# Living Canvas · Project Qweirdo
+# Project Qweirdo · Digital Graffiti; Perpetual Expressions
 
 [![License: AGPL v3](https://img.shields.io/badge/Code_License-AGPL_v3-4a58c4.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Art & Copy: CC BY-NC-SA 4.0](https://img.shields.io/badge/Art_%26_Prose-CC_BY--NC--SA_4.0-8e3fb0.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+[![Art & Copy: CC BY-NC 4.0](https://img.shields.io/badge/Art_%26_Prose-CC_BY--NC_4.0-8e3fb0.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 [![Stack: Vanilla HTML/CSS/JS](https://img.shields.io/badge/Stack-Plain_HTML_%C2%B7_CSS_%C2%B7_JS-b8405e.svg)](#)
 
-> *"This is art made slowly, and together. Colour gathers the way memory does, layer on layer. Your cursor leaves currents. Your words leave weather. No one hand finishes a canvas."*
+> *"Project Qweirdo is a proudly pointless digital sanctuary—and by virtue of that exact refusal, entirely singular. Unencumbered by feeds, algorithmic friction, telemetry, or modern web pollution, it offers a rare pause: a place to drift, doodle, and leave anonymous marks across a living, shared urban wall that quietly breathes with time."*
 
-**Project Qweirdo** (`qweirdo.github.io`) is an open, not-for-profit digital humanities and generative art project about making art with attention instead of speed. Visitors move their cursor and offer up to five words to release threads of colour across a shared living canvas. Generous, inventive words bloom bright; unkind ones are never repeated, only softened into quiet abstraction. When a canvas reaches **150,000 strokes**, the finished edition is dated, credited to its co-creators, and indexed online in the public archive—while a fresh blank canvas begins.
+**Live Installation:** [https://qweirdo.github.io/](https://qweirdo.github.io/)
 
 ---
 
-- **Source Code:** Licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)**. Anyone who modifies or deploys this software over a network must make the complete source code available under the same license and preserve original copyright notices.
-- **Manifesto Prose, Logo & Indexed Artwork:** Licensed under **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)** in keeping with the project's **Slow · Kind · Open** not-for-profit digital humanities ethos.
+## About the Installation
+
+**Project Qweirdo** is an open, not-for-profit digital humanities and generative street-art sanctuary. Set on a monumental aged manuscript vellum substrate that fuses parchment textures with urban street epigraphy, it invites visitors to pause, create, and collaborate slowly.
+
+### Core Capabilities
+
+- **The Palimpsest Wall & Deckled Mini-Canvases:** A tactile paper-and-wall substrate with laid chain lines, wire watermark grids, rag fibers, and craquelure. Form focused mini-canvases in illuminated cartouches and blend them into the master wall with deckled edges.
+- **Philatelic & Geometric Stamp Forge:** 8 procedural motifs inspired by stamps of philately (perforated postage stamps, circular postmarks, heraldic wax seals) and mathematical wonders (Metatron's cube, golden ratio nautilus spirals, Penrose decagrams, Guilloché banknote rosettes, flower of life).
+- **Premium Scriptorium Palette:** 10 curated mineral enamels (Illuminated Gold, Lapis Lazuli, Venetian Oxblood, Verdigris Teal, Florentine Sage, Tyrian Purple, Walnut Bistre, Pompeian Terracotta, Sterling Silver, Opal Obsidian) plus an infinite spectral color picker.
+- **Real-Time Global Shared Wall:** Serverless pub/sub relay (`ntfy.sh`) streaming live inscriptions worldwide into a rolling 50-slot community gallery without accounts, trackers, or cookies.
+- **Ambient Machine Conservator:** A slow, quiet generative engine that cultivates lichen crystal blooms, mineral patina washes, and water drips strictly around human marks.
+- **Cryptographic Provenance:** Every exported broadside is stamped with an immutable SHA-256 hash validating creation timestamp and inspirer lineage.
+
+---
+
+## Cultural Rights & Licensing
+
+- **Software Source Code:** Licensed under the [GNU Affero General Public License v3.0 (AGPL-3.0)](LICENSE).
+- **Artworks & Prose:** Licensed under [Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/). Artworks are 100% free to share, download, exhibit, and teach with attribution to Project Qweirdo. Commercial exploitation and NFT use are restricted and negotiable.
+- **Zero Telemetry:** Zero ads, zero cookies, zero surveillance analytics. 100% client-side computing.
 
 **Created by [Subhradeep Chatterjee](https://github.com/qweirdo)**  
-*Open · Not-for-profit · Digital Humanities · 2026*
+*Digital Graffiti; Perpetual Expressions · Open · Not-for-Profit · 2026*
