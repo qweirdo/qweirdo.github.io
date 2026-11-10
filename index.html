@@ -62,7 +62,7 @@
       "featureList": [
         "Philatelic & Geometric Stamp Forge with 8 procedural motifs",
         "10-color museum-grade mineral enamel palette & spectrum picker",
-        "Real-Time Serverless Global Shared Wall via ntfy.sh",
+        "Art by Issue & Static Edition Ledger with Seeded PRNG",
         "Parchment & Vellum Stratigraphy with Deckled Mini-Canvases",
         "Cryptographically Validated SHA-256 Archival Downloads",
         "Slow Ambient Machine Conservator generative growth",
@@ -490,7 +490,7 @@ main,nav,footer,.folio-modal{position:relative;z-index:1}
     <button type="button" class="action-btn" id="btnPulseWave" title="Send a fluid tidal wave across the wall">🌊 Pulse Wave</button>
     <button type="button" class="action-btn" id="btnStampTool" title="Stamp Forge: Transfer custom tags and geometric wonders onto the canvas" style="background:linear-gradient(135deg,#1b5e5a,#844c1c);color:#fff;font-weight:700">📐 Stamp & Geometry Forge</button>
     <button type="button" class="tool-btn" id="btnAudio" title="Toggle Sound Effects [Key A]">🔇 Audio: Off</button>
-    <button type="button" class="action-btn" id="btnLiveBroadcast" title="Inscribe current piece to the live shared wall">📡 Inscribe to Live Wall</button>
+    <button type="button" class="action-btn" id="btnLiveBroadcast" title="Submit your 5-word offering to the collective wall via GitHub">✦ Submit Offering via GitHub</button>
     <button type="button" class="action-btn" id="btnToggleArchive" title="Toggle Live Archive Tray">🏛️ Live Archive (<span id="liveSlotCount">0</span>/50) <span id="liveIndicator" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#10b981;margin-left:4px;vertical-align:middle" title="Live Sync Active"></span></button>
     <button type="button" class="action-btn" id="btnExportFolio" title="Export Archival Folio & License">📷 Archival Folio & License</button>
     <button type="button" class="action-btn" id="btnShareTool" title="Share Project Qweirdo">✦ Share Tool</button>
@@ -515,8 +515,8 @@ main,nav,footer,.folio-modal{position:relative;z-index:1}
   <div class="live-archive-header">
     <div style="display:flex;align-items:center;gap:.6rem">
       <span class="live-pulse-dot" id="livePulseDot"></span>
-      <span style="font-weight:700;font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;color:#fff">Shared Wall Archive · 50 Rolling Slots</span>
-      <span class="live-sync-badge" id="liveSyncStatus">● Live Stream Active</span>
+      <span style="font-weight:700;font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;color:#fff">Edition Offerings Ledger</span>
+      <span class="live-sync-badge" id="liveSyncStatus">Edition: 0 offerings</span>
     </div>
     <div style="display:flex;align-items:center;gap:.5rem">
       <button type="button" id="btnRefreshArchive" class="tool-btn" style="min-height:26px;padding:0 .6rem;font-size:.7rem">↺ Sync</button>
@@ -800,7 +800,7 @@ main,nav,footer,.folio-modal{position:relative;z-index:1}
 <div class="ab"><div>
 <p class="lead">Project Qweirdo is a proudly pointless digital sanctuary—and by virtue of that exact refusal, entirely singular. Unencumbered by feeds, algorithmic friction, telemetry, or modern web pollution, it offers a rare pause: a place to drift, doodle, and leave anonymous marks across a living, shared urban wall that breathes with time.</p>
 <p><b>The Wall Canvas.</b> A parchment-like street wall with laid-paper textures and subtle craquelure. Sketch freely on the main surface or frame mini-canvases that blend back into the wall.</p>
-<p><b>Real-Time Shared Wall.</b> A serverless relay (<code>ntfy.sh</code>) streams visitor tags onto the canvas in real time. The last 50 pieces stay in a rolling archive—no accounts, logins, or cookies.</p>
+<p><b>Art by Pull Request.</b> Offerings are submitted publicly via GitHub Issues, approved into <code>data/edition.json</code>, and painted deterministically so all visitors experience the same shared wall. Canvas rendering, archive, and credits stay strictly in your browser.</p>
 <p><b>Ambient Weather.</b> A quiet background engine grows patina, lichen, and moisture runs around user marks, letting the wall age naturally over time without overpowering your art.</p>
 <p><b>Wildstyle & Inks.</b> Algorithmic street lettering with 3D drop blocks and arrowheads, paired with 10 mineral pigments and an open color picker.</p>
 <p><b>Stamp Forge.</b> Transfer custom postage stamps, postal cancellation marks, wax seals, and geometric wonders (Metatron's cube, golden spirals, Penrose decagrams) onto the canvas.</p>
@@ -818,7 +818,7 @@ main,nav,footer,.folio-modal{position:relative;z-index:1}
   <p><b>1. Zero Tracking:</b> No analytics, cookies, fingerprinting, or ads. Your visit is completely untracked.</p>
   <p><b>2. 100% Client-Side:</b> All physics, rendering, and SHA-256 cryptographic hashes run locally in your browser.</p>
   <p><b>3. Local Storage:</b> Strokes, undo history, and download records stay in your browser's <code>localStorage</code>.</p>
-  <p><b>4. Live Wall Relay:</b> Inscribing to the live wall broadcasts only your tag name, title, and canvas thumbnail via <code>ntfy.sh</code>. No personal data is collected or retained.</p>
+  <p><b>4. Public Offerings via GitHub:</b> Submitting an offering to the wall edition is done publicly via GitHub Issues. Approved offerings are recorded in <code>data/edition.json</code> with words and moniker. Canvas rendering, local drafts, and credits stay strictly in your browser; nothing else is sent.</p>
   <p><b>5. Contributor Credits:</b> Submitting your name records only your moniker, optional link, and timestamp on the current edition.</p>
   <p><b>6. License (CC BY-NC 4.0):</b> Artworks are free to share, download, and teach non-commercially with attribution (<code>https://qweirdo.github.io</code>). Commercial and NFT use require prior agreement.</p>
   <p><b>7. Data Erasure:</b> Clear your browser data anytime to erase all locally stored records.</p>
@@ -4247,308 +4247,181 @@ requestAnimationFrame(loop);
 
 
 // ==========================================
-// LIVE SHARED PALIMPSEST WALL (SERVERLESS PUB/SUB VIA NTFY.SH)
-// 50-Slot Rolling Buffer with Global SSE Streaming & Soft Alpha Compositing
 // ==========================================
-(function initLivePalimpsestWall() {
-  const RELAY_TOPIC = 'https://ntfy.sh/qweirdo_palimpsest_wall_v2';
-  const MAX_SLOTS = 50;
-  let livePaintings = [];
-  let sseSource = null;
+// STATIC EDITION LEDGER & DETERMINISTIC PAINTING
+// Offerings fetched from data/edition.json & rendered via seeded PRNG
+// ==========================================
+function seededRng(seed) {
+  let s = seed >>> 0;
+  return function() {
+    s |= 0; s = s + 0x6D2B79F5 | 0;
+    let t = Math.imul(s ^ s >>> 15, 1 | s);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
 
-  function loadLocalPaintings() {
-    try {
-      const stored = localStorage.getItem('qweirdo_live_paintings');
-      if (stored) livePaintings = JSON.parse(stored);
-    } catch (e) {}
-    if (!Array.isArray(livePaintings)) livePaintings = [];
+function hashSeed(id, words) {
+  let str = String(id) + ':' + (Array.isArray(words) ? words.join(' ') : String(words));
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < str.length; i++) {
+    h ^= str.charCodeAt(i);
+    h = Math.imul(h, 16777619) >>> 0;
+  }
+  return h;
+}
+
+let activeEdition = [];
+
+async function loadEditionLedger() {
+  const statusEl = document.getElementById('liveSyncStatus');
+  const countEl = document.getElementById('liveSlotCount');
+  const indEl = document.getElementById('liveIndicator');
+  const scrollEl = document.getElementById('liveArchiveScroll');
+
+  try {
+    const res = await fetch('data/edition.json');
+    if (res.ok) {
+      activeEdition = await res.json();
+    } else {
+      activeEdition = [];
+    }
+  } catch (err) {
+    activeEdition = [];
   }
 
-  function saveLocalPaintings() {
-    try {
-      localStorage.setItem('qweirdo_live_paintings', JSON.stringify(livePaintings.slice(0, MAX_SLOTS)));
-    } catch (e) {}
-  }
+  const count = Array.isArray(activeEdition) ? activeEdition.length : 0;
+  if (statusEl) statusEl.textContent = 'Edition: ' + count + ' offerings';
+  if (countEl) countEl.textContent = count;
+  if (indEl) indEl.style.background = '#10b981';
 
-  function renderArchiveTray() {
-    const scrollEl = document.getElementById('liveArchiveScroll');
-    const countEl = document.getElementById('liveSlotCount');
-    const emptyHint = document.getElementById('liveEmptyHint');
-    if (!scrollEl) return;
-
-    if (countEl) countEl.textContent = livePaintings.length;
+  // Render tray cards
+  if (scrollEl) {
     scrollEl.innerHTML = '';
-
-    if (livePaintings.length === 0) {
-      if (emptyHint) {
-        emptyHint.style.display = 'block';
-        scrollEl.appendChild(emptyHint);
-      }
-      return;
-    }
-
-    livePaintings.forEach((piece) => {
-      const card = document.createElement('div');
-      card.className = 'live-card';
-      const timeAgo = formatTimeAgo(piece.timestamp);
-
-      card.innerHTML = `
-        <img class="live-card-thumb" src="${piece.image}" alt="${piece.title || 'Inscription'}" loading="lazy">
-        <div class="live-card-info">
-          <div class="live-card-title">${piece.title || 'Untitled Burner'}</div>
-          <div class="live-card-sub">
-            <span>${piece.writer || 'Anonymous Scribe'}</span>
-            <span>${timeAgo}</span>
+    if (!count) {
+      const empty = document.createElement('div');
+      empty.className = 'live-empty-hint';
+      empty.textContent = 'No offerings in data/edition.json yet. Submit an offering via GitHub Issue to inscribe your words!';
+      scrollEl.appendChild(empty);
+    } else {
+      activeEdition.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'live-card';
+        const wordsStr = Array.isArray(item.words) ? item.words.join(' ') : String(item.words);
+        card.innerHTML = `
+          <div class="live-card-info" style="padding:.6rem">
+            <div class="live-card-title" style="font-family:var(--fd);font-style:italic">"${wordsStr}"</div>
+            <div class="live-card-sub" style="margin-top:.4rem">
+              <span>${item.name || 'Anonymous Scribe'}</span>
+              <span>#${item.id}</span>
+            </div>
           </div>
-        </div>
-      `;
+        `;
+        scrollEl.appendChild(card);
+      });
+    }
+  }
 
-      card.onclick = () => {
-        loadPieceOntoWall(piece);
-      };
+  // Paint offerings deterministically on load
+  if (count > 0 && typeof renderEdition === 'function') {
+    renderEdition(activeEdition, 1, X);
+  }
+}
 
-      scrollEl.appendChild(card);
+// Global deterministic render function for Phase A/B/D
+function renderEdition(edition, t, ctx, W = 1600, H = 800) {
+  if (!Array.isArray(edition) || edition.length === 0 || !ctx) return;
+  const N = edition.length;
+  const span = 1 / Math.max(1, N);
+
+  const positions = edition.map(item => {
+    const rng = seededRng(hashSeed(item.id, item.words));
+    const x = 120 + rng() * (W - 240);
+    const y = 120 + rng() * (H - 240);
+    return { x, y, item, rng };
+  });
+
+  edition.forEach((offering, idx) => {
+    const tStart = idx / N;
+    if (t < tStart) return;
+
+    const p = Math.min(1, (t - tStart) / span);
+    const pos = positions[idx];
+    const rng = seededRng(hashSeed(offering.id, offering.words));
+    const x = pos.x;
+    const y = pos.y;
+    const words = Array.isArray(offering.words) ? offering.words : [];
+
+    ctx.save();
+    const baseHue = Math.floor(rng() * 360);
+    ctx.strokeStyle = `hsla(${baseHue}, 75%, 52%, 0.65)`;
+    ctx.lineWidth = 1.8;
+
+    // Base shape
+    const pts = CI(0, 0, 20);
+    ctx.beginPath();
+    pts.forEach(([px, py], i) => {
+      const cx = x + px * p;
+      const cy = y + py * p;
+      if (i === 0) ctx.moveTo(cx, cy);
+      else ctx.lineTo(cx, cy);
     });
-  }
+    ctx.closePath();
+    ctx.stroke();
 
-  function formatTimeAgo(timestamp) {
-    if (!timestamp) return 'Just now';
-    const s = Math.floor((Date.now() - timestamp) / 1000);
-    if (s < 60) return 'Just now';
-    if (s < 3600) return Math.floor(s / 60) + 'm ago';
-    if (s < 86400) return Math.floor(s / 3600) + 'h ago';
-    return Math.floor(s / 86400) + 'd ago';
-  }
+    // Inscription text when p >= 0.7
+    if (p >= 0.7) {
+      const textAlpha = (p - 0.7) / 0.3;
+      ctx.fillStyle = `hsla(${baseHue}, 60%, 25%, ${textAlpha.toFixed(2)})`;
+      ctx.font = "italic 13px 'Fraunces', serif";
+      ctx.fillText(words.join(' '), x - 30, y + 36);
 
-  function loadPieceOntoWall(piece) {
-    saveUndo();
-    const img = new Image();
-    img.onload = () => {
-      X.save();
-      X.globalCompositeOperation = 'source-over';
-      X.globalAlpha = 0.88;
-      X.drawImage(img, 0, 0, W, H);
-      X.restore();
-      if (typeof recordUserMark === 'function') recordUserMark(W / 2, H / 2, 200);
-      playCanRattle();
-      msg(`Layered shared inscription "${piece.title}" by ${piece.writer} onto the wall!`);
-    };
-    img.src = piece.image;
-  }
-
-  function addPaintingToBuffer(piece) {
-    if (!piece || !piece.image) return;
-    if (livePaintings.some(p => (piece.id && p.id === piece.id) || (p.hash && piece.hash && p.hash === piece.hash))) return;
-
-    livePaintings.unshift(piece);
-    if (livePaintings.length > MAX_SLOTS) {
-      livePaintings = livePaintings.slice(0, MAX_SLOTS);
+      ctx.fillStyle = `hsla(30, 40%, 25%, ${(textAlpha * 0.8).toFixed(2)})`;
+      ctx.font = "10px 'Hanken Grotesk', sans-serif";
+      ctx.fillText('by ' + (offering.name || 'Anonymous'), x - 30, y + 50);
     }
-    saveLocalPaintings();
-    renderArchiveTray();
-  }
 
-  // Composite incoming global piece onto canvas automatically with soft alpha blending
-  function compositeLivePieceOntoCanvas(piece) {
-    if (!piece || !piece.image) return;
-    const img = new Image();
-    img.onload = () => {
-      saveUndo();
-      X.save();
-      X.globalCompositeOperation = 'source-over';
-      X.globalAlpha = 0.55;
+    ctx.restore();
+  });
+}
 
-      const zoneIdx = Math.floor(Math.random() * 6);
-      const [cx, cy] = slot(zoneIdx);
-      const w = 440, h = 220;
-      const x = Math.max(30, Math.min(W - w - 30, cx - w / 2 + (Math.random() * 80 - 40)));
-      const y = Math.max(30, Math.min(H - h - 30, cy - h / 2 + (Math.random() * 60 - 30)));
-
-      X.drawImage(img, x, y, w, h);
-
-      if (piece.title || piece.writer) {
-        X.font = "italic 600 13px 'Fraunces', serif";
-        X.fillStyle = 'rgba(212, 175, 55, 0.78)';
-        X.shadowColor = 'rgba(0,0,0,0.6)';
-        X.shadowBlur = 4;
-        X.fillText(`✦ ${piece.title || 'Burner'} · ${piece.writer || 'Anonymous'}`, x + 10, y + h - 10);
-      }
-      X.restore();
-      if (typeof recordUserMark === 'function') recordUserMark(x + w / 2, y + h / 2, w / 2);
-      playCanRattle();
-      msg(`📡 Global live inscription: "${piece.title || 'Burner'}" by ${piece.writer || 'Anonymous Scribe'}!`);
-    };
-    img.src = piece.image;
-  }
-
-  // Connect to SSE stream via ntfy
-  function connectLiveStream() {
-    const statusEl = document.getElementById('liveSyncStatus');
-    const dotEl = document.getElementById('livePulseDot');
-    const indEl = document.getElementById('liveIndicator');
-
-    try {
-      if (sseSource) sseSource.close();
-      sseSource = new EventSource(RELAY_TOPIC + '/sse');
-
-      sseSource.onopen = () => {
-        if (statusEl) statusEl.textContent = '● Global Relay Active (ntfy)';
-        if (dotEl) { dotEl.style.background = '#10b981'; dotEl.style.boxShadow = '0 0 8px #10b981'; }
-        if (indEl) indEl.style.background = '#10b981';
-      };
-
-      sseSource.onmessage = (e) => {
-        try {
-          const data = JSON.parse(e.data);
-          if (data && data.event === 'message' && data.message) {
-            let piece = null;
-            try {
-              piece = typeof data.message === 'string' ? JSON.parse(data.message) : data.message;
-            } catch (err) {}
-            if (piece && piece.image) {
-              const isNew = !livePaintings.some(p => p.id === piece.id);
-              addPaintingToBuffer(piece);
-              if (isNew) {
-                compositeLivePieceOntoCanvas(piece);
-              }
-            }
-          }
-        } catch (err) {}
-      };
-
-      sseSource.onerror = () => {
-        if (statusEl) statusEl.textContent = '○ Reconnecting Relay…';
-        if (dotEl) { dotEl.style.background = '#f59e0b'; dotEl.style.boxShadow = '0 0 8px #f59e0b'; }
-        if (indEl) indEl.style.background = '#f59e0b';
-      };
-    } catch (err) {
-      if (statusEl) statusEl.textContent = '○ Local Peer Archive';
+// Wire buttons
+const btnBroadcast = document.getElementById('btnLiveBroadcast');
+if (btnBroadcast) {
+  btnBroadcast.onclick = () => {
+    const issueUrl = 'https://github.com/qweirdo/qweirdo.github.io/issues/new?template=offering.yml';
+    const conf = confirm('Offerings are submitted publicly via GitHub Issue and inscribed upon approval.\n\nOpen GitHub to submit your 5-word offering?');
+    if (conf) {
+      window.open(issueUrl, '_blank', 'noopener,noreferrer');
     }
-  }
+  };
+}
 
-  // Fetch initial global inscriptions via ntfy poll=1&since=all
-  async function syncPaintings() {
-    loadLocalPaintings();
-    renderArchiveTray();
+const btnToggleArchive = document.getElementById('btnToggleArchive');
+const archiveTray = document.getElementById('liveArchiveTray');
+if (btnToggleArchive && archiveTray) {
+  btnToggleArchive.onclick = () => {
+    const isClosed = archiveTray.style.display === 'none';
+    archiveTray.style.display = isClosed ? 'block' : 'none';
+  };
+}
 
-    try {
-      const res = await fetch(RELAY_TOPIC + '/json?poll=1&since=all');
-      if (res.ok) {
-        const text = await res.text();
-        const lines = text.trim().split('\n');
-        lines.forEach(line => {
-          if (!line.trim()) return;
-          try {
-            const data = JSON.parse(line);
-            if (data && data.event === 'message' && data.message) {
-              let piece = null;
-              try {
-                piece = typeof data.message === 'string' ? JSON.parse(data.message) : data.message;
-              } catch (err) {}
-              if (piece && piece.image && !livePaintings.some(lp => lp.id === piece.id)) {
-                livePaintings.push(piece);
-              }
-            }
-          } catch (err) {}
-        });
-        livePaintings.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-        if (livePaintings.length > MAX_SLOTS) livePaintings = livePaintings.slice(0, MAX_SLOTS);
-        saveLocalPaintings();
-        renderArchiveTray();
-      }
-    } catch (err) {}
-  }
+const btnCloseTray = document.getElementById('btnCloseArchiveTray');
+if (btnCloseTray && archiveTray) {
+  btnCloseTray.onclick = () => { archiveTray.style.display = 'none'; };
+}
 
-  // Action Button: Inscribe current canvas to live shared wall
-  const btnBroadcast = document.getElementById('btnLiveBroadcast');
-  if (btnBroadcast) {
-    btnBroadcast.onclick = async () => {
-      const tagPrompt = prompt('Enter your tag moniker or crew name:', 'Anonymous Scribe');
-      if (tagPrompt === null) return;
-      const writerTag = tagPrompt.trim() || 'Anonymous Scribe';
+const btnRefresh = document.getElementById('btnRefreshArchive');
+if (btnRefresh) {
+  btnRefresh.onclick = () => {
+    loadEditionLedger();
+    msg('Synchronized edition ledger.');
+  };
+}
 
-      let title = $('#wd') ? $('#wd').value.trim() : '';
-      if (!title) title = 'Palimpsest Burner';
+// Load on initialization
+loadEditionLedger();
 
-      // Capture compact WebP thumbnail (220x110)
-      const thumbCanvas = document.createElement('canvas');
-      thumbCanvas.width = 220; thumbCanvas.height = 110;
-      const thumbCtx = thumbCanvas.getContext('2d');
-      thumbCtx.drawImage(C, 0, 0, 220, 110);
-      const webpData = thumbCanvas.toDataURL('image/webp', 0.82);
-
-      const piecePayload = {
-        id: 'pw_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
-        title: title,
-        writer: writerTag,
-        timestamp: Date.now(),
-        substrate: 'Aged Manuscript Vellum Wall',
-        cap: currentCap,
-        scheme: activeScheme,
-        image: webpData,
-        inspirers: (typeof cred !== 'undefined' && cred.length) ? cred.map(c => c.name) : []
-      };
-
-      msg('Transmitting piece to global shared wall via serverless pub/sub…');
-
-      let savedToRelay = false;
-      try {
-        const postRes = await fetch(RELAY_TOPIC, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(piecePayload)
-        });
-        if (postRes.ok) {
-          savedToRelay = true;
-          addPaintingToBuffer(piecePayload);
-          msg(`✓ Inscribed to live global wall! Broadcast worldwide.`);
-        }
-      } catch (err) {}
-
-      if (!savedToRelay) {
-        addPaintingToBuffer(piecePayload);
-        msg(`✓ Inscribed to local 50-slot archive (Relay offline, saved locally).`);
-      }
-
-      playCanRattle();
-      const tray = document.getElementById('liveArchiveTray');
-      if (tray) tray.style.display = 'block';
-    };
-  }
-
-  // Toggle Archive Tray
-  const btnToggleArchive = document.getElementById('btnToggleArchive');
-  const archiveTray = document.getElementById('liveArchiveTray');
-  if (btnToggleArchive && archiveTray) {
-    btnToggleArchive.onclick = () => {
-      const isClosed = archiveTray.style.display === 'none';
-      archiveTray.style.display = isClosed ? 'block' : 'none';
-      if (isClosed) renderArchiveTray();
-    };
-  }
-
-  const btnCloseTray = document.getElementById('btnCloseArchiveTray');
-  if (btnCloseTray && archiveTray) {
-    btnCloseTray.onclick = () => {
-      archiveTray.style.display = 'none';
-    };
-  }
-
-  const btnRefresh = document.getElementById('btnRefreshArchive');
-  if (btnRefresh) {
-    btnRefresh.onclick = () => {
-      syncPaintings();
-      msg('Synchronized 50-slot global archive.');
-    };
-  }
-
-  // Initialize
-  syncPaintings();
-  connectLiveStream();
-})();
-
-
-// ==========================================
 // AESTHETIC SOCIAL MEDIA SHARING ENGINE
 // Seamless sharing to X, Facebook, Bluesky, Threads, LinkedIn, Reddit, WhatsApp, and Direct Copy
 // ==========================================

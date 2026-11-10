@@ -1,0 +1,40 @@
+name: Canvas Offering
+description: Submit up to 5 words to be painted onto the collective wall edition.
+title: "[Offering]: "
+labels: ["offering"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Submit your offering to the collective wall edition. Approved offerings are appended to the edition ledger and painted across the canvas.
+  - type: input
+    id: words
+    attributes:
+      label: Five Words
+      description: Enter between 1 and 5 words separated by spaces (max 5 words, max 24 chars per word).
+      placeholder: e.g. luminous drift moss amber flame
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: Display Name
+      description: Moniker or pseudonym for attribution.
+      placeholder: e.g. Anonymous Scribe
+    validations:
+      required: true
+  - type: input
+    id: link
+    attributes:
+      label: Optional Link
+      description: Website or social link (https://...).
+      placeholder: https://...
+    validations:
+      required: false
+  - type: checkboxes
+    id: consent
+    attributes:
+      label: Consent & Rights
+      options:
+        - label: I consent to having this offering and moniker publicly recorded in the open edition ledger under CC BY-NC-SA 4.0.
+          required: true
