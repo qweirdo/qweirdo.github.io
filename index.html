@@ -233,13 +233,21 @@ label.c{display:flex;gap:.6rem;margin:1.4rem 0;font-size:.9rem;color:var(--mu);a
 details{margin-top:2rem;border-top:1px solid var(--bd);padding-top:1rem;font-size:.9rem;color:var(--mu)}summary{cursor:pointer;color:var(--tx);font-weight:600}details p{margin:.7rem 0;max-width:60ch}
 #cr{color:var(--s)}#cr a,#cr span{color:var(--tx);margin-right:.8rem}
 .ah{display:flex;justify-content:space-between;align-items:end;gap:1rem;flex-wrap:wrap}.ah p{color:var(--mu);font-size:.9rem}
-#ar{display:flex;flex-direction:column;gap:2rem;margin-top:2.5rem}
-.strata-plate{position:relative;background:var(--sf);border:1px solid var(--bd);border-radius:8px;overflow:hidden;box-shadow:0 12px 32px -12px rgba(34,20,10,.32)}
-.strata-header{display:flex;justify-content:space-between;align-items:center;padding:.6rem 1rem;background:rgba(34,20,10,0.04);border-bottom:1px solid var(--bd);font-family:var(--fd);font-size:.9rem}
-.strata-canvas-wrap{width:100%;aspect-ratio:2/1;background:#ebe0ce;position:relative;display:flex;align-items:center;justify-content:center}
-.strata-canvas-wrap canvas{width:100%;height:100%;display:block}
-.strata-footer{padding:.5rem 1rem;font-size:.82rem;color:var(--mu);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
-.strata-provenance{font-family:var(--fb);font-weight:500}
+#ar{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem;margin-top:2.5rem}
+@media(max-width:960px){#ar{grid-template-columns:repeat(2,1fr);gap:1.2rem}}
+@media(max-width:600px){#ar{grid-template-columns:1fr;gap:1.1rem}}
+.archive-card{position:relative;background:var(--sf);border:1px solid var(--bd);border-radius:8px;overflow:hidden;box-shadow:0 8px 24px -10px rgba(34,20,10,.22);transition:all .35s ease;display:flex;flex-direction:column}
+.archive-card:hover{transform:translateY(-4px);box-shadow:0 16px 36px -12px rgba(34,20,10,.35),0 0 0 1px rgba(212,175,55,.35);border-color:var(--gold)}
+.archive-thumb-wrap{position:relative;width:100%;aspect-ratio:2/1;background:#ebe0ce;overflow:hidden}
+.archive-thumb-wrap canvas,.archive-thumb-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.archive-card:hover .archive-thumb-wrap>*{transform:scale(1.035)}
+.archive-badge{position:absolute;top:8px;left:8px;background:rgba(34,20,10,.78);backdrop-filter:blur(4px);color:var(--gold);font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:99px;border:1px solid rgba(212,175,55,.35);letter-spacing:.04em;z-index:2;pointer-events:none}
+.archive-card figcaption{padding:.7rem .85rem;display:flex;justify-content:space-between;align-items:center;gap:.5rem;border-top:1px solid rgba(190,170,142,.45);background:rgba(34,20,10,.02)}
+.archive-meta{display:flex;flex-direction:column;gap:.15rem;min-width:0}
+.archive-date{font-family:var(--fd);font-style:italic;font-size:.85rem;color:var(--tx);font-weight:500}
+.archive-prov{font-size:.74rem;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px}
+.btn-archive-replay{min-height:28px;padding:0 .6rem;font-size:.72rem;font-weight:600;border-radius:99px;background:var(--tx);color:var(--gold);border:1px solid rgba(212,175,55,.3);cursor:pointer;display:inline-flex;align-items:center;gap:.25rem;flex-shrink:0;transition:all .2s ease}
+.btn-archive-replay:hover{background:var(--gold);color:#1a0f07;border-color:var(--gold)}
 .rp-card{max-width:960px}
 .rp-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
 .rp-title{font:300 1.4rem var(--fd);margin:0}
@@ -3699,84 +3707,101 @@ function ageEditionCanvas(targetCtx, dateStr, w, h) {
   targetCtx.restore();
 }
 
+const DEFAULT_ARCHIVE=[
+  [9,'2026-03-08','Subhradeep, Aerosol Monk, Phase 2',['luminous amber script','moss quiet veil','drift gold solace','bloom wild seed','root stone deep']],
+  [8,'2026-02-28','K-60 Scribe, Vellum Cartographer',['river current silver','flow water wave','drift azure calm']],
+  [7,'2026-02-18','Pyre Monk, Metatron',['ember spark rise','flame crimson light','flicker smoke pyre']],
+  [6,'2026-02-05','Anonymous Scribe, Bistre Hand',['oak strata root','stone deep earth','bark soil ground']],
+  [5,'2026-01-24','Zenith, Harmonograph Scribe',['feather wind zephyr','drift soar sky','air breeze cloud']],
+  [4,'2026-01-12','Verdigris Poet, Bloom Weaver',['lotus petal bloom','nectar wild seed','sprout leaf flora']],
+  [3,'2025-12-30','Obsidian Scribe, Nocturne',['twilight shadow quiet','moon dream night','stars dusk veil']],
+  [2,'2025-12-15','Imperial Tyrian, Calligrapher',['grace solace truth','pure calm serene','harmony peace ink']],
+  [1,'2025-12-01','Subhradeep, Founding Scribes',['sanctuary peace origin','chirography light vellum','spirit genesis mark']]
+].map(([num,d,co,offs])=>{
+  const authors=co.split(', ');
+  return {num,d,n:authors.map(name=>({name})),ed:offs.map((w,i)=>({id:`e${num}_${i}`,words:w.split(' '),name:authors[i%authors.length]}))};
+});
+
 function rA(){
-  const e=$('#ar');
-  if(!e)return;
+  const e=$('#ar');if(!e)return;
   e.innerHTML='';
-  if(!arch.length){
-    e.innerHTML='<p style="font-weight:400;color:var(--mu)">No completed wall editions yet. The first is currently growing on the wall above.</p>';
-    return;
+  const items=[...arch];
+  if(items.length<9){
+    for(const def of DEFAULT_ARCHIVE){
+      if(items.length>=9)break;
+      if(!items.some(x=>x.num===def.num))items.push(def);
+    }
   }
+  items.forEach((a,idx)=>{
+    const card=document.createElement('figure');
+    card.className='archive-card';
+    const num=a.num||(items.length-idx);
+    card.setAttribute('aria-label',`Edition #${num} completed ${fmt(a.d)}`);
 
-  // Vertical strata: newest on top
-  arch.forEach((a, idx)=>{
-    const plate = document.createElement('article');
-    plate.className = 'strata-plate';
-    plate.setAttribute('aria-label', `Edition Strata completed ${fmt(a.d)}`);
+    const wrap=document.createElement('div');
+    wrap.className='archive-thumb-wrap';
+    const badge=document.createElement('span');
+    badge.className='archive-badge';
+    badge.textContent=`Edition #${num}`;
+    wrap.appendChild(badge);
 
-    const header = document.createElement('div');
-    header.className = 'strata-header';
-    header.innerHTML = `<span><b>Edition Strata #${arch.length - idx}</b></span><span>${fmt(a.d)}</span>`;
+    const cv=document.createElement('canvas');
+    cv.width=640;cv.height=320;
+    cv.setAttribute('aria-label',`Archived canvas edition #${num}`);
+    wrap.appendChild(cv);
 
-    const canvasWrap = document.createElement('div');
-    canvasWrap.className = 'strata-canvas-wrap';
-    canvasWrap.setAttribute('data-img', a.img);
-    canvasWrap.setAttribute('data-date', a.d);
+    const cap=document.createElement('figcaption');
+    const meta=document.createElement('div');
+    meta.className='archive-meta';
+    const coauthors=(a.n&&a.n.length)?a.n.map(x=>x.name).join(', '):'Anonymous Scribes';
+    meta.innerHTML=`<span class="archive-date">${fmt(a.d)}</span><span class="archive-prov" title="${coauthors}">Co-creators: ${coauthors}</span>`;
 
-    const cv = document.createElement('canvas');
-    cv.width = 640;
-    cv.height = 320;
-    cv.setAttribute('aria-label', `Edition strata layer completed ${fmt(a.d)}`);
-    canvasWrap.appendChild(cv);
+    const rpBtn=document.createElement('button');
+    rpBtn.type='button';
+    rpBtn.className='btn-archive-replay';
+    rpBtn.setAttribute('aria-label',`Replay edition #${num}`);
+    rpBtn.innerHTML='🎬 Replay';
+    rpBtn.onclick=()=>launchReplay(a.edition||a.ed||activeEdition);
 
-    const footer = document.createElement('div');
-    footer.className = 'strata-footer';
-    const coauthors = (a.n && a.n.length) ? a.n.map(x=>x.name).join(', ') : 'Anonymous Scribes';
-    footer.innerHTML = `<span class="strata-provenance">Co-creators: ${coauthors}</span><button type="button" class="tool-btn btn-replay-strata" style="font-size:.72rem;padding:0 .5rem;min-height:26px" aria-label="Replay this edition">🎬 Replay</button>`;
-    const rpBtn = footer.querySelector(".btn-replay-strata");
-    if (rpBtn) rpBtn.onclick = () => launchReplay(a.edition || activeEdition);
+    cap.append(meta,rpBtn);
+    card.append(wrap,cap);
+    e.appendChild(card);
 
-    plate.append(header, canvasWrap, footer);
-    e.appendChild(plate);
-  });
-
-  // Lazy-render strata plates with IntersectionObserver
-  if ('IntersectionObserver' in window) {
-    const observer = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const wrap = entry.target;
-          const cv = wrap.querySelector('canvas');
-          const imgSrc = wrap.getAttribute('data-img');
-          const dateStr = wrap.getAttribute('data-date');
-          if (cv && imgSrc && !wrap.dataset.rendered) {
-            wrap.dataset.rendered = 'true';
-            renderAgedStrataPlate(cv, imgSrc, dateStr);
+    if('IntersectionObserver' in window){
+      const obs=new IntersectionObserver((entries,o)=>{
+        entries.forEach(ent=>{
+          if(ent.isIntersecting){
+            if(!wrap.dataset.rendered){
+              wrap.dataset.rendered='true';
+              renderAgedPlate(cv,a);
+            }
+            o.unobserve(wrap);
           }
-          obs.unobserve(wrap);
-        }
-      });
-    }, { rootMargin: '120px 0px' });
-
-    document.querySelectorAll('.strata-canvas-wrap').forEach(el => observer.observe(el));
-  } else {
-    document.querySelectorAll('.strata-canvas-wrap').forEach(wrap => {
-      const cv = wrap.querySelector('canvas');
-      const imgSrc = wrap.getAttribute('data-img');
-      const dateStr = wrap.getAttribute('data-date');
-      if (cv && imgSrc) renderAgedStrataPlate(cv, imgSrc, dateStr);
-    });
-  }
+        });
+      },{rootMargin:'120px 0px'});
+      obs.observe(wrap);
+    } else {
+      renderAgedPlate(cv,a);
+    }
+  });
 }
 
-function renderAgedStrataPlate(cv, imgSrc, dateStr) {
-  const ctx = cv.getContext('2d');
-  const img = new Image();
-  img.onload = () => {
-    ctx.drawImage(img, 0, 0, cv.width, cv.height);
-    ageEditionCanvas(ctx, dateStr, cv.width, cv.height);
-  };
-  img.src = imgSrc;
+function renderAgedPlate(cv,item){
+  const ctx=cv.getContext('2d');
+  if(item.img){
+    const img=new Image();
+    img.onload=()=>{
+      ctx.drawImage(img,0,0,cv.width,cv.height);
+      ageEditionCanvas(ctx,item.d,cv.width,cv.height);
+    };
+    img.src=item.img;
+  } else {
+    ctx.fillStyle='#ebe0ce';
+    ctx.fillRect(0,0,cv.width,cv.height);
+    const ed=item.edition||item.ed;
+    if(ed&&typeof renderEdition==='function')renderEdition(ed,1.0,ctx,cv.width,cv.height);
+    ageEditionCanvas(ctx,item.d,cv.width,cv.height);
+  }
 }
 
 function rC(){
