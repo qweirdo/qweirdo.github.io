@@ -4329,11 +4329,56 @@ async function loadEditionLedger() {
 }
 
 // Global deterministic render function for Phase A/B/D
+const BEHAVIOUR_LEXICON = {
+  flow: 'water river rain wave ocean sea stream tear drop mist fluid ripple deluge tide current soak wash cascade surge flood brook lake splash seep aqua vapor channel pour fountain torrent moisture damp liquid dew swim drift flow ice thaw glacier marine fountain whirlpool basin plunge sluice eddy gutter guttering well wellspring tributary estuary delta cove harbor bay lagoon marsh swamp bog puddle fountain aqueduct conduit canal fjord geyser rainstorm drizzle storm surge monsoon raincloud waterspout'.split(' '),
+  rise: 'fire flame smoke ash ember spark burn blaze pyre cinder inferno rise heat sun torch flare glow warm ignite radiant beacon phoenix lava magma alight ascend candle climb lightning storm fury comet solar burst combust incinerate forge furnace kiln chimney plume flare-up wildfire scald sear scorch blister volcanic smolder bonfire hearth ignite fiery sizzle boil overheat beam ray starburst'.split(' '),
+  root: 'earth stone rock tree wood dirt clay ground cave mineral soil sand moss trunk bough oak pine deep anchor boulder bedrock strata cavern fossil granite marble crystal mountain cliff hill valley ore bronze copper iron subterranean burrow pebble sediment basalt shale gravel loam peat quarry trench tunnel abyss loam mulch timber stump knot bark rootstock rhizome mycorrhiza'.split(' '),
+  drift: 'air wind bird cloud feather wing fly sky breath breeze gale draft zephyr float soar glide gust whisper echo shadow ghost veil ether haze silent quiet twilight dusk dawn night dream space void flight raven gull hawk owl eagle sparrow swallow gusty drafty mistral scud cirrus cumulus stratus loft drift aloft hover flutter billow waft vaporous weightless ethereal updraft thermals'.split(' '),
+  bloom: 'plant flower leaf petal seed grass bud spring sprout blossom flora meadow vine ivy garden branch pollen berry forest grove fruit nectar stem foliage shoot rose lotus lily green herb clover weed wild bloom willow orchid iris jasmine poppy daisy tulip violet fern moss lichen kelp sapling brier bramble thistle undergrowth canopy deciduous perennial botanic bouquet'.split(' ')
+};
+
+const BEHAVIOUR_MAP = {};
+Object.entries(BEHAVIOUR_LEXICON).forEach(([cls, words]) => {
+  words.forEach(w => { if (w) BEHAVIOUR_MAP[w] = cls; });
+});
+
+const KIND_WORDS = new Set([
+  'kind','love','peace','hope','joy','grace','gentle','care','light','heart','friend','heal',
+  'gift','warmth','truth','solace','calm','pure','sweet','brave','tender','dream','beauty',
+  'smile','trust','share','hold','free','shine','quiet','compassion','blessing','harmony','bliss',
+  'mercy','unity','sanctuary','courage','comfort','patience','faith','delight','radiant','beloved'
+]);
+
+function getWordClass(word) {
+  const norm = String(word).toLowerCase().replace(/[^a-z]/g, '');
+  if (!norm) return 'flow';
+  if (BEHAVIOUR_MAP[norm]) return BEHAVIOUR_MAP[norm];
+  if (/wat|aqu|riv|sea|oce|wav|flu|dri|rai|dew/.test(norm)) return 'flow';
+  if (/fir|fla|bur|smo|emb|spa|ris|sun|hea|bla/.test(norm)) return 'rise';
+  if (/roo|ear|tre|sto|roc|gro|cla|dee|min|san/.test(norm)) return 'root';
+  if (/air|win|bir|sky|bre|clo|fly|win|fea|gho/.test(norm)) return 'drift';
+  if (/flo|lea|pet|see|gra|bud|spr|blo|pla|gar/.test(norm)) return 'bloom';
+  const classes = ['flow', 'rise', 'root', 'drift', 'bloom'];
+  let h = 0;
+  for (let i = 0; i < norm.length; i++) h = (h * 31 + norm.charCodeAt(i)) >>> 0;
+  return classes[h % 5];
+}
+
+// 18 drawn shapes: 11 in K + 7 procedural / geometric
+const ALL_SHAPE_KEYS = [...Object.keys(K), 'circle16', 'circle18', 'circle20', 'circle22', 'ring18', 'ring24', 'lozenge'];
+
+function getShapePoints(key, prng) {
+  if (K[key]) return K[key];
+  if (SH[key]) return SH[key];
+  return CI(0, 0, 18, 24);
+}
+
 function renderEdition(edition, t, ctx, W = 1600, H = 800) {
   if (!Array.isArray(edition) || edition.length === 0 || !ctx) return;
   const N = edition.length;
   const span = 1 / Math.max(1, N);
 
+  // Derive fixed positions using seeded PRNG derived from each offering's id + words
   const positions = edition.map(item => {
     const rng = seededRng(hashSeed(item.id, item.words));
     const x = 120 + rng() * (W - 240);
@@ -4352,13 +4397,47 @@ function renderEdition(edition, t, ctx, W = 1600, H = 800) {
     const y = pos.y;
     const words = Array.isArray(offering.words) ? offering.words : [];
 
-    ctx.save();
-    const baseHue = Math.floor(rng() * 360);
-    ctx.strokeStyle = `hsla(${baseHue}, 75%, 52%, 0.65)`;
-    ctx.lineWidth = 1.8;
+    const hasBad = words.some(w => typeof isBad === 'function' && isBad(w));
+    const hasKind = words.some(w => KIND_WORDS.has(String(w).toLowerCase()));
 
-    // Base shape
-    const pts = CI(0, 0, 20);
+    // Determine primary behaviour class from words
+    const primaryClass = words.length ? getWordClass(words[0]) : 'flow';
+
+    // Vividness by creativity logic (more distinct words & length boost vividness)
+    const uniqueWordCount = new Set(words.map(w => w.toLowerCase())).size;
+    const creativityScore = Math.min(1, 0.5 + (uniqueWordCount * 0.1) + (words.length * 0.05));
+    const vividL = Math.floor(creativityScore * 40 + 35);
+
+    const baseHue = Math.floor(rng() * 360);
+    const strokeCol = `hsla(${baseHue}, 75%, ${vividL}%, ${hasBad ? 0.22 : 0.68})`;
+
+    ctx.save();
+
+    // 1. Blocklisted words: soft abstraction with warning
+    if (hasBad) {
+      ctx.beginPath();
+      ctx.arc(x, y, 40 * p, 0, Math.PI * 2);
+      ctx.fillStyle = 'hsla(30, 20%, 50%, 0.18)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(180, 50, 40, 0.45)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      if (p >= 0.7) {
+        ctx.fillStyle = 'rgba(160, 40, 30, 0.85)';
+        ctx.font = "italic 11px 'Fraunces', serif";
+        ctx.fillText('[Soft abstraction: filtered word]', x - 50, y + 5);
+      }
+      ctx.restore();
+      return;
+    }
+
+    // 2. Select from the 18 drawn shapes
+    const shapeKey = ALL_SHAPE_KEYS[Math.floor(rng() * ALL_SHAPE_KEYS.length)];
+    const pts = getShapePoints(shapeKey, rng);
+
+    ctx.strokeStyle = strokeCol;
+    ctx.lineWidth = 1.8;
     ctx.beginPath();
     pts.forEach(([px, py], i) => {
       const cx = x + px * p;
@@ -4369,7 +4448,73 @@ function renderEdition(edition, t, ctx, W = 1600, H = 800) {
     ctx.closePath();
     ctx.stroke();
 
-    // Inscription text when p >= 0.7
+    // 3. Behaviour-class specific strokes
+    const strokeCount = Math.floor(10 * p);
+    for (let s = 0; s < strokeCount; s++) {
+      let sx = x + (rng() - 0.5) * 36;
+      let sy = y + (rng() - 0.5) * 36;
+      ctx.beginPath();
+      ctx.moveTo(sx, sy);
+
+      const numSteps = 12;
+      for (let st = 0; st < numSteps; st++) {
+        if (primaryClass === 'flow') {
+          // Flow: descends and meanders
+          sx += Math.sin(st * 0.7 + rng() * 2) * 4.2;
+          sy += 3.4;
+        } else if (primaryClass === 'rise') {
+          // Rise: ascends with flicker
+          sx += (rng() - 0.5) * 6.5;
+          sy -= 3.6;
+        } else if (primaryClass === 'root') {
+          // Root: grows downward in branches
+          sx += (st % 2 === 0 ? 1 : -1) * (st * 1.4) * (rng() - 0.38);
+          sy += 3.2;
+        } else if (primaryClass === 'drift') {
+          // Drift: moves laterally and slowly
+          sx += (rng() > 0.5 ? 4.2 : -4.2);
+          sy += Math.sin(st * 0.45) * 1.6;
+        } else {
+          // Bloom: radiates outward
+          const ang = (s / 10) * Math.PI * 2 + (st * 0.12);
+          sx += Math.cos(ang) * 3.2;
+          sy += Math.sin(ang) * 3.2;
+        }
+        ctx.lineTo(sx, sy);
+      }
+      ctx.stroke();
+    }
+
+    // 4. Kind words: grow thin mycelium-like threads to nearest neighbor
+    if (hasKind && positions.length > 1) {
+      let nearest = null;
+      let minDist = 1e9;
+      positions.forEach((other, oIdx) => {
+        if (oIdx === idx) return;
+        const d = Math.hypot(other.x - x, other.y - y);
+        if (d < minDist) {
+          minDist = d;
+          nearest = other;
+        }
+      });
+
+      if (nearest) {
+        ctx.strokeStyle = `hsla(${baseHue}, 55%, 72%, 0.35)`;
+        ctx.lineWidth = 0.85;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        const steps = 8;
+        for (let i = 1; i <= steps; i++) {
+          const frac = (i / steps) * p;
+          const mx = x + (nearest.x - x) * frac + Math.sin(i * 1.25 + rng()) * 16;
+          const my = y + (nearest.y - y) * frac + Math.cos(i * 1.25 + rng()) * 16;
+          ctx.lineTo(mx, my);
+        }
+        ctx.stroke();
+      }
+    }
+
+    // 5. Inscription text when p >= 0.7
     if (p >= 0.7) {
       const textAlpha = (p - 0.7) / 0.3;
       ctx.fillStyle = `hsla(${baseHue}, 60%, 25%, ${textAlpha.toFixed(2)})`;
