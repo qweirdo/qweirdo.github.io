@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <!-- Aged Vellum Paper Texture -->
+    <linearGradient id="vellumGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f6ede0"/>
+      <stop offset="50%" stop-color="#ebe0ce"/>
+      <stop offset="100%" stop-color="#dfcfb7"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5e6a3"/>
+      <stop offset="50%" stop-color="#d4af37"/>
+      <stop offset="100%" stop-color="#844c1c"/>
+    </linearGradient>
+    <linearGradient id="tealGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#287a74"/>
+      <stop offset="100%" stop-color="#1b5e5a"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#22140a" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <!-- Vellum Substrate -->
+  <rect width="1200" height="630" fill="url(#vellumGrad)"/>
+
+  <!-- Ornate Double Border with Perforated Stamp Framing -->
+  <rect x="36" y="36" width="1128" height="558" fill="none" stroke="#beaa8e" stroke-width="2" stroke-dasharray="8,6" opacity="0.8"/>
+  <rect x="48" y="48" width="1104" height="534" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.9"/>
+  <rect x="54" y="54" width="1092" height="522" fill="none" stroke="#beaa8e" stroke-width="0.8" opacity="0.6"/>
+
+  <!-- Corner Rosettes -->
+  <g fill="#d4af37" stroke="#844c1c" stroke-width="1">
+    <circle cx="48" cy="48" r="6"/>
+    <circle cx="1152" cy="48" r="6"/>
+    <circle cx="48" cy="582" r="6"/>
+    <circle cx="1152" cy="582" r="6"/>
+  </g>
+
+  <!-- Left: Geometric Sacred Wonder (Metatron & Nautilus Rosette) -->
+  <g transform="translate(240, 315)" opacity="0.25" stroke="#844c1c" stroke-width="1.2" fill="none">
+    <circle cx="0" cy="0" r="170"/>
+    <circle cx="0" cy="0" r="130"/>
+    <circle cx="0" cy="0" r="70"/>
+    <!-- 12-petal sacred rosette -->
+    <path d="M0 -170 L0 170 M-170 0 L170 0 M-120 -120 L120 120 M-120 120 L120 -120"/>
+    <circle cx="0" cy="-85" r="85"/>
+    <circle cx="0" cy="85" r="85"/>
+    <circle cx="-85" cy="0" r="85"/>
+    <circle cx="85" cy="0" r="85"/>
+  </g>
+
+  <!-- Center-Left: The Illuminated Q Logo -->
+  <g transform="translate(130, 180)" filter="url(#shadow)">
+    <!-- Outer Crest Ring -->
+    <circle cx="135" cy="135" r="105" fill="none" stroke="url(#goldGrad)" stroke-width="6"/>
+    <circle cx="135" cy="135" r="88" fill="#22140a"/>
+    <circle cx="135" cy="135" r="60" fill="url(#vellumGrad)"/>
+    <circle cx="135" cy="135" r="32" fill="#22140a"/>
+    <!-- Q Letterform Flourish -->
+    <path d="M165 170 Q215 220 235 240 Q250 255 240 262 Q230 268 210 250 Z" fill="url(#goldGrad)"/>
+    <!-- Accent Dots -->
+    <circle cx="238" cy="242" r="7" fill="#1b5e5a"/>
+    <circle cx="250" cy="254" r="5" fill="#8b1c28"/>
+  </g>
+
+  <!-- Main Typography & Brand Identity -->
+  <g transform="translate(420, 150)">
+    <!-- Top Category Ribbon -->
+    <text x="0" y="30" font-family="'Hanken Grotesk', system-ui, sans-serif" font-size="16" font-weight="700" letter-spacing="4" fill="#844c1c" text-transform="uppercase">
+      DIGITAL HUMANITIES · GENERATIVE STREET EPIGRAPHY
+    </text>
+
+    <!-- Main Title -->
+    <text x="0" y="105" font-family="'Fraunces', Georgia, serif" font-size="64" font-weight="300" letter-spacing="-1" fill="#22140a">
+      Project <tspan font-weight="600" fill="#844c1c">Qweirdo</tspan>
+    </text>
+
+    <!-- Subtitle -->
+    <text x="0" y="155" font-family="'Fraunces', Georgia, serif" font-size="28" font-style="italic" fill="#634e3a">
+      The Palimpsest Wall &amp; Philatelic Stamp Forge
+    </text>
+
+    <!-- Value Proposition -->
+    <text x="0" y="210" font-family="'Hanken Grotesk', system-ui, sans-serif" font-size="18" font-weight="400" fill="#22140a" opacity="0.9">
+      Charted by Chaos; Ordered by Code.
+    </text>
+    <text x="0" y="238" font-family="'Hanken Grotesk', system-ui, sans-serif" font-size="16" font-weight="400" fill="#634e3a">
+      Aged manuscript vellum studio with 10 mineral enamels, sacred geometry
+    </text>
+    <text x="0" y="262" font-family="'Hanken Grotesk', system-ui, sans-serif" font-size="16" font-weight="400" fill="#634e3a">
+      stamps, algorithmic wildstyle, and cryptographic archival downloads.
+    </text>
+
+    <!-- Feature Pills -->
+    <g transform="translate(0, 300)">
+      <!-- Pill 1 -->
+      <rect x="0" y="0" width="190" height="36" rx="18" fill="#decbb1" stroke="#beaa8e" stroke-width="1"/>
+      <text x="95" y="23" font-family="'Hanken Grotesk', sans-serif" font-size="13" font-weight="600" fill="#22140a" text-anchor="middle">📮 Philatelic Stamps</text>
+
+      <!-- Pill 2 -->
+      <rect x="202" y="0" width="180" height="36" rx="18" fill="#decbb1" stroke="#beaa8e" stroke-width="1"/>
+      <text x="292" y="23" font-family="'Hanken Grotesk', sans-serif" font-size="13" font-weight="600" fill="#22140a" text-anchor="middle">🔯 Sacred Geometry</text>
+
+      <!-- Pill 3 -->
+      <rect x="394" y="0" width="190" height="36" rx="18" fill="#decbb1" stroke="#beaa8e" stroke-width="1"/>
+      <text x="489" y="23" font-family="'Hanken Grotesk', sans-serif" font-size="13" font-weight="600" fill="#22140a" text-anchor="middle">⚡ Real-Time Shared Wall</text>
+
+      <!-- Pill 4 -->
+      <rect x="596" y="0" width="114" height="36" rx="18" fill="#decbb1" stroke="#beaa8e" stroke-width="1"/>
+      <text x="653" y="23" font-family="'Hanken Grotesk', sans-serif" font-size="13" font-weight="600" fill="#22140a" text-anchor="middle">🔐 SHA-256</text>
+    </g>
+  </g>
+
+  <!-- Bottom Colophon Bar -->
+  <g transform="translate(68, 545)">
+    <!-- Palette Inks Preview -->
+    <g transform="translate(0, 0)">
+      <circle cx="10" cy="10" r="8" fill="#d4af37" stroke="#beaa8e" stroke-width="1"/>
+      <circle cx="32" cy="10" r="8" fill="#1c3b72" stroke="#beaa8e" stroke-width="1"/>
+      <circle cx="54" cy="10" r="8" fill="#8b1c28" stroke="#beaa8e" stroke-width="1"/>
+      <circle cx="76" cy="10" r="8" fill="#1b5e5a" stroke="#beaa8e" stroke-width="1"/>
+      <circle cx="98" cy="10" r="8" fill="#5a7d65" stroke="#beaa8e" stroke-width="1"/>
+      <text x="118" y="15" font-family="'Hanken Grotesk', sans-serif" font-size="12" font-weight="600" fill="#634e3a">10 Museum-Grade Mineral Enamels</text>
+    </g>
+
+    <!-- Canonical URL -->
+    <text x="1064" y="15" font-family="monospace" font-size="14" font-weight="700" fill="#844c1c" text-anchor="end">
+      https://qweirdo.github.io/
+    </text>
+  </g>
+</svg>
