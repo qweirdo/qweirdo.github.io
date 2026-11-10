@@ -274,7 +274,8 @@ footer p{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;fon
 
 /* Folio Modal */
 .folio-modal{position:fixed;inset:0;background:rgba(26,15,8,0.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:1000;padding:2rem}
-.folio-modal.open{display:flex;animation:up .3s ease-out}
+.folio-modal.open,.rp-modal.open{display:flex!important;animation:up .3s ease-out}
+.rp-modal{position:fixed!important;inset:0!important;z-index:1000!important}
 .folio-card{background:var(--bg);border:2px solid var(--gold);border-radius:12px;padding:1.6rem;max-width:960px;width:100%;box-shadow:0 25px 60px rgba(0,0,0,0.65)}
 .folio-card img{width:100%;border:1px solid var(--bd);border-radius:6px;display:block;margin:1rem 0;box-shadow:0 10px 30px rgba(0,0,0,0.3)}
 
@@ -419,7 +420,7 @@ footer p{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;fon
 
 /* Site-Wide Fluid Teal Waves & Fluidity Styles */
 #site-waves{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:0;opacity:.78;mix-blend-mode:multiply;transition:opacity .5s ease}
-main,nav,footer,.folio-modal{position:relative;z-index:1}
+main,nav,footer{position:relative;z-index:1}
 .tool-btn.active-waves{border-color:var(--teal);background:linear-gradient(135deg,#1b5e5a,#287a74);color:#fff;box-shadow:0 0 10px rgba(27,94,90,0.5)}
 .tool-btn.active-fluid{border-color:var(--teal);background:var(--tx);color:#38a3a5;box-shadow:0 0 8px rgba(56,163,165,0.4)}
 #btnPulseWave{background:linear-gradient(135deg,#1b5e5a,#287a74);color:#fff;border-color:transparent}
@@ -4692,14 +4693,15 @@ function renderEdition(edition, t, ctx, W = 1600, H = 800) {
 
 // Lazy-loaded Edition Replay Launcher
 async function launchReplay(editionData) {
-  const data = (Array.isArray(editionData) && editionData.length) ? editionData : (activeEdition && activeEdition.length ? activeEdition : [{ id: 1, words: ['sanctuary', 'moss', 'drift'], name: 'Subhradeep' }]);
+  const data = (Array.isArray(editionData) && editionData.length) ? editionData : (activeEdition && activeEdition.length ? activeEdition : ((typeof DEFAULT_ARCHIVE!=='undefined'&&DEFAULT_ARCHIVE.length)?DEFAULT_ARCHIVE[0].ed:[{ id: 1, words: ['sanctuary', 'moss', 'drift'], name: 'Subhradeep' }]));
   try {
     const mod = await import('./replay.js');
-    mod.initReplay(data);
+    if (mod && mod.initReplay) mod.initReplay(data, null, { renderEdition });
   } catch (err) {
     console.error('Failed to load replay module:', err);
   }
 }
+window.renderEdition = renderEdition;
 
 // Wire buttons
 const btnReplayWall = document.getElementById('btnReplayWall');
