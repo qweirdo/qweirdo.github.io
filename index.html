@@ -429,12 +429,12 @@ main,nav,footer,.folio-modal{position:relative;z-index:1}
     </g><path id="qTail0" d="M70.8 69.1L71.9 69.9L72.9 70.8L74.0 71.7L75.1 72.7L76.1 73.7L77.2 74.8L78.0 75.5L78.7 76.3L79.5 77.0L80.2 77.8L81.0 78.5L81.7 79.2L82.5 79.9L83.3 80.6L84.0 81.3L84.8 81.9L85.6 82.5L86.4 83.0L87.2 83.5L88.0 84.0L88.8 84.4L89.7 84.8L90.5 85.1" stroke="#b38600" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path id="qTail1" d="M70.1 70.0L71.1 70.8L72.2 71.7L73.2 72.6L74.3 73.6L75.3 74.6L76.4 75.6L77.2 76.3L77.9 77.1L78.7 77.9L79.4 78.6L80.2 79.4L80.9 80.1L81.7 80.8L82.5 81.5L83.3 82.2L84.1 82.8L84.9 83.4L85.7 84.0L86.6 84.5L87.5 85.0L88.3 85.5L89.2 85.9L90.2 86.2L91.1 86.5L92.1 86.8L93.1 86.9" stroke="#844c1c" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path id="qTail2" d="M69.4 70.9L70.4 71.7L71.4 72.6L72.5 73.5L73.5 74.4L74.6 75.4L75.6 76.4L76.3 77.2L77.1 77.9L77.9 78.7L78.6 79.4L79.4 80.2L80.2 80.9L81.0 81.6L81.8 82.4L82.6 83.0L83.4 83.7L84.2 84.3L85.1 84.9L86.0 85.5L86.9 86.0L87.8 86.5L88.8 86.9L89.8 87.3L90.8 87.6" stroke="#d4af37" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path id="qTail3" d="M68.7 71.8L69.7 72.6L70.7 73.4L71.7 74.3L72.7 75.3L73.8 76.2L74.8 77.2L75.5 78.0L76.3 78.7L77.0 79.5L77.8 80.3L78.6 81.0L79.4 81.8L80.2 82.5L81.0 83.2L81.8 83.9L82.7 84.6L83.6 85.3L84.5 85.9L85.4 86.5L86.4 87.0L87.3 87.5L88.4 88.0" stroke="#9a3528" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
       <span class="hero-brand-name" aria-hidden="true">weirdo</span>
     </div>
-    <p class="hero-sub">The Palimpsest Wall: A digitally aided aerosol studio and living manifesto on street typography, subway train lore, and urban chirography.</p>
+    <p class="hero-sub">Digital Graffiti; Perpetual Expressions</p>
   </div>
   <div class="hero-right">
     <p class="kick">Charted by Chaos; Ordered by Code</p>
     <h1>Boundless pathways<br><em>Creative pistes</em></h1>
-    <p class="hero-lead">Spray with authentic mineral inks and aerosol cap physics. Construct algorithmic wildstyle burners, form layered mini-canvases, and blend illuminated manifestos across an aged manuscript vellum wall.</p>
+    <p class="hero-lead">Shake the can, spray wild tags, and play on the living wall.</p>
     <div class="hero-share-bar" aria-label="Share Project Qweirdo">
       <span class="share-label">Share:</span>
       <button type="button" class="share-btn share-x" data-share="x" title="Share on X" aria-label="Share on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></button>
@@ -2550,6 +2550,7 @@ function unloadStencil() {
   playCanRattle();
   drawOverlay();
 }
+const releaseStencil = unloadStencil;
 
 function stampPochoirStencil(key, x, y, schemeKey) {
   transferStampToWall(activeStampMotif, activeStampTag, x, y, activeStampStyle);
