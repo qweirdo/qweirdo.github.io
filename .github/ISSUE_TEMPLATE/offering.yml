@@ -11,7 +11,7 @@ body:
     id: words
     attributes:
       label: Five Words
-      description: Enter between 1 and 5 words separated by spaces (max 5 words, max 24 chars per word).
+      description: Enter between 1 and 5 words separated by spaces (max 5 words, max 24 chars per word). Politically sensitive, divisive, or religiously blasphemous terms are strictly prohibited and filtered.
       placeholder: e.g. luminous drift moss amber flame
     validations:
       required: true
@@ -19,7 +19,7 @@ body:
     id: name
     attributes:
       label: Display Name
-      description: Moniker or pseudonym for attribution.
+      description: Moniker or pseudonym for attribution. Must not contain sensitive, divisive, or blasphemous terms.
       placeholder: e.g. Anonymous Scribe
     validations:
       required: true
@@ -36,5 +36,5 @@ body:
     attributes:
       label: Consent & Rights
       options:
-        - label: I consent to having this offering and moniker publicly recorded in the open edition ledger under CC BY-NC-SA 4.0.
+        - label: I consent to having this offering and moniker publicly recorded in the open edition ledger under CC BY-NC-SA 4.0, and certify it is free of politically sensitive or religiously blasphemous content.
           required: true

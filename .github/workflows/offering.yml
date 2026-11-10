@@ -25,11 +25,11 @@ jobs:
             const issue = context.payload.issue;
             const body = issue.body || '';
 
-            // Blocklist definitions from index.html
-            const BAD = ['fuck','shit','bitch','cunt','dick','cock','pussy','asshole','bastard','slut','whore','nigg','fag','retard','rape','porn','nazi','cum','sex','ass','tits','piss','twat','wank'];
-            const SUB = ['fuck','shit','bitch','cunt','pussy','asshole','whore','nigg','retard','porn','nazi','wank'];
-            const norm = w => w.toLowerCase().replace(/0/g,'o').replace(/[1!|]/g,'i').replace(/3/g,'e').replace(/[4@]/g,'a').replace(/[5$]/g,'s').replace(/[^a-z]/g,'');
-            const isBad = w => { const n = norm(w); return BAD.includes(n) || SUB.some(s => n.includes(s)); };
+            // Comprehensive Content Security Definitions (Political Extremism, Terror, Hate & Religious Blasphemy)
+            const SUB = 'fuck shit bitch cunt pussy asshole whore slut dick cock retard rape porn wank twat fck fuk nigg fag kike chink spic gook nazi hitler swastik aryan whitepower kkk fascis gestapo holocaust apartheid genocid terror jihad isis isil daesh alqaeda taliban hamas hezbollah insurrect assassin boko blasphem sacrileg desecrat defile burnquran burnbible kaffir kafir infidel sedition extremist dhimmi heretic'.split(' ');
+            const BAD = new Set('ass sex cum tits piss'.split(' '));
+            const norm = w => String(w).toLowerCase().replace(/0/g,'o').replace(/[1!|]/g,'i').replace(/3/g,'e').replace(/[4@]/g,'a').replace(/[5$]/g,'s').replace(/[^a-z]/g,'');
+            const isBad = w => { const n = norm(w); return !n || BAD.has(n) || SUB.some(s => n.includes(s)); };
 
             function getField(label) {
               const regex = new RegExp(`###\\s*${label}\\s*\\n\\n([^#]+)`, 'i');
@@ -77,10 +77,20 @@ jobs:
                   owner: context.repo.owner,
                   repo: context.repo.repo,
                   issue_number: issue.number,
-                  body: '❌ Offering rejected: Content does not pass word filter.'
+                  body: '❌ Offering rejected: Content contains politically sensitive, religiously blasphemous, or restricted terms.'
                 });
                 return;
               }
+            }
+
+            if (rawName && rawName.split(/\s+/).some(isBad)) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: '❌ Offering rejected: Contributor name contains politically sensitive or restricted terms.'
+              });
+              return;
             }
 
             const name = (rawName || 'Anonymous Scribe').slice(0, 60);

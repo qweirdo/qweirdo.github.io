@@ -1820,7 +1820,7 @@ function stampBubbleSoftie(text,x,y,schemeKey){
 
 function stampHandstyle(text,x,y,schemeKey){
   if(!text||!text.trim())text='TAKI 183';
-  text=text.trim().slice(0,35);
+  if(text.split(/\s+/).some(isBad)){msg('Restricted tag rejected.',true);return;}text=text.trim().slice(0,35);
   const sc=SCHEMES[schemeKey]||SCHEMES.gold;
 
   saveUndo();
@@ -2491,7 +2491,7 @@ function renderStampPreview() {
 
 // Transfer stamp directly onto the main monumental canvas or active mini-canvas
 function transferStampToWall(motifKey, tagText, cx, cy, styleKey) {
-  const sc = SCHEMES[activeScheme] || SCHEMES.gold;
+  if(tagText&&tagText.split(/\s+/).some(isBad)){msg('Restricted tag rejected.',true);return;}const sc = SCHEMES[activeScheme] || SCHEMES.gold;
   saveUndo();
   X.save();
 
@@ -3867,9 +3867,10 @@ const SH={
   tree:CI(0,0,18)
 };
 const STOP=new Set('the a an and or of to in is it test hello hi asdf abc lol ok'.split(' '));
-const BAD=['fuck','shit','bitch','cunt','dick','cock','pussy','asshole','bastard','slut','whore','nigg','fag','retard','rape','porn','nazi','cum','sex','ass','tits','piss','twat','wank'],SUB=['fuck','shit','bitch','cunt','pussy','asshole','whore','nigg','retard','porn','nazi','wank'];
-const norm=w=>w.toLowerCase().replace(/0/g,'o').replace(/[1!|]/g,'i').replace(/3/g,'e').replace(/[4@]/g,'a').replace(/[5$]/g,'s').replace(/[^a-z]/g,'');
-const isBad=w=>{const n=norm(w);return BAD.includes(n)||SUB.some(s=>n.includes(s))};
+const SUB='fuck shit bitch cunt pussy asshole whore slut dick cock retard rape porn wank twat fck fuk nigg fag kike chink spic gook nazi hitler swastik aryan whitepower kkk fascis gestapo holocaust apartheid genocid terror jihad isis isil daesh alqaeda taliban hamas hezbollah insurrect assassin boko blasphem sacrileg desecrat defile burnquran burnbible kaffir kafir infidel sedition extremist dhimmi heretic'.split(' ');
+const BAD=new Set('ass sex cum tits piss'.split(' '));
+const norm=w=>String(w).toLowerCase().replace(/0/g,'o').replace(/[1!|]/g,'i').replace(/3/g,'e').replace(/[4@]/g,'a').replace(/[5$]/g,'s').replace(/[^a-z]/g,'');
+const isBad=w=>{const n=norm(w);return !n||BAD.has(n)||SUB.some(s=>n.includes(s))};
 const hs=w=>[...w].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
 
 let cov=Array(128).fill(0);
@@ -4498,17 +4499,9 @@ const BEHAVIOUR_LEXICON = {
   bloom: 'plant flower leaf petal seed grass bud spring sprout blossom flora meadow vine ivy garden branch pollen berry forest grove fruit nectar stem foliage shoot rose lotus lily green herb clover weed wild bloom willow orchid iris jasmine poppy daisy tulip violet fern moss lichen kelp sapling brier bramble thistle undergrowth canopy deciduous perennial botanic bouquet'.split(' ')
 };
 
-const BEHAVIOUR_MAP = {};
-Object.entries(BEHAVIOUR_LEXICON).forEach(([cls, words]) => {
-  words.forEach(w => { if (w) BEHAVIOUR_MAP[w] = cls; });
-});
+const BEHAVIOUR_MAP={};Object.entries(BEHAVIOUR_LEXICON).forEach(([c,ws])=>ws.forEach(w=>{if(w)BEHAVIOUR_MAP[w]=c;}));
 
-const KIND_WORDS = new Set([
-  'kind','love','peace','hope','joy','grace','gentle','care','light','heart','friend','heal',
-  'gift','warmth','truth','solace','calm','pure','sweet','brave','tender','dream','beauty',
-  'smile','trust','share','hold','free','shine','quiet','compassion','blessing','harmony','bliss',
-  'mercy','unity','sanctuary','courage','comfort','patience','faith','delight','radiant','beloved'
-]);
+const KIND_WORDS = new Set('kind love peace hope joy grace gentle care light heart friend heal gift warmth truth solace calm pure sweet brave tender dream beauty smile trust share hold free shine quiet compassion blessing harmony bliss mercy unity sanctuary courage comfort patience faith delight radiant beloved'.split(' '));
 
 function getWordClass(word) {
   const norm = String(word).toLowerCase().replace(/[^a-z]/g, '');
@@ -4539,13 +4532,7 @@ function renderEdition(edition, t, ctx, W = 1600, H = 800) {
   const N = edition.length;
   const span = 1 / Math.max(1, N);
 
-  // Derive fixed positions using seeded PRNG derived from each offering's id + words
-  const positions = edition.map(item => {
-    const rng = seededRng(hashSeed(item.id, item.words));
-    const x = 120 + rng() * (W - 240);
-    const y = 120 + rng() * (H - 240);
-    return { x, y, item, rng };
-  });
+  const positions=edition.map(it=>{const r=seededRng(hashSeed(it.id,it.words));return{x:120+r()*(W-240),y:120+r()*(H-240),item:it,rng:r};});
 
   edition.forEach((offering, idx) => {
     const tStart = idx / N;

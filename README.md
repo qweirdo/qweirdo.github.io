@@ -21,6 +21,7 @@
 - **Premium Scriptorium Palette:** 10 curated mineral enamels (Illuminated Gold, Lapis Lazuli, Venetian Oxblood, Verdigris Teal, Florentine Sage, Tyrian Purple, Walnut Bistre, Pompeian Terracotta, Sterling Silver, Opal Obsidian) plus an infinite spectral color picker.
 - **Art by Issue & Static Edition Ledger:** Public offerings submitted via GitHub Issues are validated and committed to `data/edition.json` via GitHub Actions. Every visitor renders the exact same wall deterministically through a seeded PRNG derived from offering IDs and words. (`server.js` is preserved as an optional, unused standalone relay; GitHub Pages runs 100% static).
 - **Ambient Machine Conservator:** A slow, quiet generative engine that cultivates lichen crystal blooms, mineral patina washes, and water drips strictly around human marks.
+- **Content Security & Respectful Commons:** Multi-layered security filters prevent politically sensitive, extremist, terror-affiliated, and religiously blasphemous or sacrilegious messages across the canvas and issue submission ledger, safeguarding a contemplative digital sanctuary.
 - **Cryptographic Provenance:** Every exported broadside is stamped with an immutable SHA-256 hash validating creation timestamp and inspirer lineage.
 
 ---
