@@ -239,7 +239,22 @@ details{margin-top:2rem;border-top:1px solid var(--bd);padding-top:1rem;font-siz
 .strata-canvas-wrap{width:100%;aspect-ratio:2/1;background:#ebe0ce;position:relative;display:flex;align-items:center;justify-content:center}
 .strata-canvas-wrap canvas{width:100%;height:100%;display:block}
 .strata-footer{padding:.5rem 1rem;font-size:.82rem;color:var(--mu);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
-.strata-provenance{font-family:var(--fb);font-weight:500}
+.strata-provenance{font-family:var(--fb);font-weight:500}
+.rp-card{max-width:960px}
+.rp-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.rp-title{font:300 1.4rem var(--fd);margin:0}
+.rp-wrap{position:relative;width:100%;aspect-ratio:2/1;background:#ebe0ce;border-radius:6px;overflow:hidden;border:1px solid var(--bd)}
+.rp-wrap canvas{width:100%;height:100%;display:block}
+.rp-tip{position:absolute;bottom:8px;left:8px;background:var(--tx);color:var(--bg);font-size:.75rem;padding:.2rem .4rem;border-radius:3px;display:none;pointer-events:none;z-index:5;font-family:var(--fb)}
+.rp-ctrls{margin-top:.6rem;display:flex;flex-direction:column;gap:.3rem}
+.rp-bar{position:relative;width:100%}
+.rp-slider{width:100%;cursor:pointer;height:6px;accent-color:var(--a)}
+.rp-ticks{position:relative;width:100%;height:8px}
+.rp-dot{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--a);cursor:pointer;transform:translateX(-50%)}
+.rp-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
+.rp-btns{display:flex;gap:.4rem;align-items:center}
+.rp-lbl{font-size:.78rem;color:var(--mu);margin-left:.3rem;font-family:var(--fb)}
+.rp-exp-btn{background:var(--tx);color:var(--bg);font-weight:600}
 footer{margin-top:7rem;padding:0 6vw 2rem}
 .mk{font:300 clamp(4rem,22vw,20rem)/.8 var(--fd);letter-spacing:-.05em;color:#dfcfb9;margin-bottom:1.5rem;user-select:none}
 footer p{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;font-size:.8rem;color:var(--mu);border-top:1px solid var(--bd);padding-top:1rem}
@@ -494,6 +509,7 @@ main,nav,footer,.folio-modal{position:relative;z-index:1}
     <button type="button" class="action-btn" id="btnStampTool" title="Stamp Forge: Transfer custom tags and geometric wonders onto the canvas" style="background:linear-gradient(135deg,#1b5e5a,#844c1c);color:#fff;font-weight:700">📐 Stamp & Geometry Forge</button>
     <button type="button" class="tool-btn" id="btnAudio" title="Toggle Sound Effects [Key A]">🔇 Audio: Off</button>
     <button type="button" class="action-btn" id="btnLiveBroadcast" title="Submit your 5-word offering to the collective wall via GitHub">✦ Submit Offering via GitHub</button>
+    <button type="button" class="action-btn" id="btnReplayWall" title="Launch deterministic replay of all edition offerings">🎬 Replay Edition</button>
     <button type="button" class="action-btn" id="btnToggleArchive" title="Toggle Live Archive Tray">🏛️ Live Archive (<span id="liveSlotCount">0</span>/50) <span id="liveIndicator" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#10b981;margin-left:4px;vertical-align:middle" title="Live Sync Active"></span></button>
     <button type="button" class="action-btn" id="btnExportFolio" title="Export Archival Folio & License">📷 Archival Folio & License</button>
     <button type="button" class="action-btn" id="btnShareTool" title="Share Project Qweirdo">✦ Share Tool</button>
@@ -3716,7 +3732,9 @@ function rA(){
     const footer = document.createElement('div');
     footer.className = 'strata-footer';
     const coauthors = (a.n && a.n.length) ? a.n.map(x=>x.name).join(', ') : 'Anonymous Scribes';
-    footer.innerHTML = `<span class="strata-provenance">Co-creators: ${coauthors}</span>`;
+    footer.innerHTML = `<span class="strata-provenance">Co-creators: ${coauthors}</span><button type="button" class="tool-btn btn-replay-strata" style="font-size:.72rem;padding:0 .5rem;min-height:26px" aria-label="Replay this edition">🎬 Replay</button>`;
+    const rpBtn = footer.querySelector(".btn-replay-strata");
+    if (rpBtn) rpBtn.onclick = () => launchReplay(a.edition || activeEdition);
 
     plate.append(header, canvasWrap, footer);
     e.appendChild(plate);
@@ -4647,7 +4665,22 @@ function renderEdition(edition, t, ctx, W = 1600, H = 800) {
   });
 }
 
+// Lazy-loaded Edition Replay Launcher
+async function launchReplay(editionData) {
+  const data = (Array.isArray(editionData) && editionData.length) ? editionData : (activeEdition && activeEdition.length ? activeEdition : [{ id: 1, words: ['sanctuary', 'moss', 'drift'], name: 'Subhradeep' }]);
+  try {
+    const mod = await import('./replay.js');
+    mod.initReplay(data);
+  } catch (err) {
+    console.error('Failed to load replay module:', err);
+  }
+}
+
 // Wire buttons
+const btnReplayWall = document.getElementById('btnReplayWall');
+if (btnReplayWall) {
+  btnReplayWall.onclick = () => launchReplay(activeEdition);
+}
 const btnBroadcast = document.getElementById('btnLiveBroadcast');
 if (btnBroadcast) {
   btnBroadcast.onclick = () => {
