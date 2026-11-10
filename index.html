@@ -153,6 +153,21 @@ footer p{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;fon
 .res-export-btn{font:600 .78rem var(--fb);min-height:36px;padding:0 .85rem;border-radius:8px;border:1px solid var(--bd);background:var(--bg);color:var(--tx);cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:.4rem}
 .res-export-btn:hover{background:var(--tx);color:var(--gold);border-color:var(--gold);transform:translateY(-1px)}
 
+/* Resonance Sigil & Stencil Forge Elements */
+.res-sigil-input-row{display:flex;gap:.5rem;margin-top:.4rem}
+.res-sigil-input{flex:1;background:var(--sf);border:1px solid var(--bd);border-radius:6px;padding:.55rem .8rem;font:600 .85rem var(--fb);color:var(--tx);outline:none;letter-spacing:.04em}
+.res-sigil-input:focus{border-color:var(--a);box-shadow:0 0 0 2px rgba(132,76,28,0.18)}
+.res-simple-actions{display:flex;gap:.8rem;margin-top:1.2rem;flex-wrap:wrap}
+.res-stencil-forge-btn{font:700 .84rem var(--fb);letter-spacing:.04em;text-transform:uppercase;min-height:42px;padding:0 1.25rem;border-radius:99px;border:none;background:linear-gradient(135deg,#844c1c,#b38600);color:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:.45rem;box-shadow:0 6px 18px rgba(132,76,28,0.28);transition:all .2s ease;flex:1.2}
+.res-stencil-forge-btn:hover{background:linear-gradient(135deg,#9e5d26,#c79a0f);transform:translateY(-1px);box-shadow:0 8px 24px rgba(132,76,28,0.38)}
+.res-pro-drawer{margin-top:1.3rem;border-top:1px dashed var(--bd);padding-top:1rem}
+.res-pro-toggle{width:100%;display:flex;justify-content:space-between;align-items:center;background:rgba(34,20,10,0.04);border:1px solid var(--bd);border-radius:8px;padding:.65rem .9rem;font:600 .82rem var(--fb);color:var(--tx);cursor:pointer;transition:all .2s ease}
+.res-pro-toggle:hover{background:rgba(34,20,10,0.08);border-color:var(--a)}
+.res-pro-content{margin-top:.9rem;padding:1rem;background:rgba(255,255,255,0.45);border:1px solid var(--bd);border-radius:8px}
+.res-preset-pills.mini{gap:.4rem}
+.res-preset-pills.mini .res-pill{font-size:.72rem;padding:.3rem .65rem}
+.res-editorial-share-strip{display:flex;align-items:center;gap:.45rem;margin-top:1.4rem;padding:.4rem .85rem;background:rgba(34,20,10,0.04);border:1px solid var(--bd);border-radius:99px;width:fit-content;backdrop-filter:blur(6px)}
+
 @media(max-width:1020px){.res-layout{grid-template-columns:1fr}}
 @media(max-width:600px){.res-sliders-grid{grid-template-columns:1fr}}
 
@@ -690,10 +705,9 @@ main,nav,footer,.folio-modal,.manifesto-modal{position:relative;z-index:1}
 <!-- The Resonance Canvas: Kinetic Harmonograph & Guilloché Scriptorium -->
 <section id="resonance" class="res-section">
   <div class="res-intro">
-    <p class="kick">Alternative Canvas Paradigm</p>
-    <h2>The <em>Resonance Canvas</em></h2>
-    <p class="lead">A rethink of the canvas. Here, art is not drawn by arbitrary strokes, but sculpted by the physical geometry of gravity, coupled harmonic pendulums, and musical intervals.</p>
-    <p class="res-sub">Suspended above the parchment, three orthogonal pendulums swing through space. As friction slowly dissipates their kinetic energy, the virtual stylus traces the geometry of acoustic harmony—creating sacred Guilloché rosettes, Lissajous figures, and orbital precessions.</p>
+    <p class="kick">Harmonic Geometry & Street Epigraphy</p>
+    <h2>Resonance Sigil & <em>Stencil Forge</em></h2>
+    <p class="lead">A kinetic scriptorium bridging sacred mathematics and street stencil lore. Convert words into deterministic geometric sigils, sculpt harmonic pendulums, and transfer authentic pochoir stencils directly onto the Palimpsest Wall.</p>
   </div>
 
   <div class="res-layout">
@@ -707,52 +721,30 @@ main,nav,footer,.folio-modal,.manifesto-modal{position:relative;z-index:1}
     </div>
 
     <div class="res-panel">
-      <!-- Archetypes / Presets -->
-      <div class="res-control-box">
-        <label class="res-lbl">Harmonic Archetypes (Ratios & Orbits)</label>
-        <div class="res-preset-pills">
-          <button type="button" class="res-pill active" data-preset="fifth">3:2 Perfect Fifth</button>
-          <button type="button" class="res-pill" data-preset="octave">2:1 Celestial Octave</button>
-          <button type="button" class="res-pill" data-preset="fourth">4:3 Pythagorean Fourth</button>
-          <button type="button" class="res-pill" data-preset="third">5:4 Major Third</button>
-          <button type="button" class="res-pill" data-preset="rose">5:6 Cathedral Rose</button>
-          <button type="button" class="res-pill" data-preset="guilloche">11:12 Banknote Guilloché</button>
-          <button type="button" class="res-pill" data-preset="golden">1.618:1 Golden Spiral (Φ)</button>
-          <button type="button" class="res-pill" data-preset="nebula">3.01:2.00 Galactic Precession</button>
+      <!-- SIMPLE MODE -->
+      <div class="res-simple-mode">
+        <!-- 1. Word-to-Sigil Deterministic Cipher -->
+        <div class="res-control-box">
+          <label for="sigilWordInput" class="res-lbl">Word-to-Sigil Deterministic Cipher:</label>
+          <div class="res-sigil-input-row">
+            <input type="text" id="sigilWordInput" class="res-sigil-input" placeholder="Type word, name, or moniker (e.g. QWEIRDO, LIBERTY, CHAOS)…" value="QWEIRDO" maxlength="40" aria-label="Word to Sigil cipher">
+            <button type="button" id="btnForgeSigil" class="res-action-btn primary" title="Generate deterministic harmonic sigil from input">✦ Forge Sigil</button>
+          </div>
         </div>
-      </div>
 
-      <!-- Oscillation Sliders -->
-      <div class="res-sliders-grid">
-        <div class="res-slider-unit">
-          <div class="res-slider-hdr"><span>Pendulum X (Lateral)</span><b id="valF1">3.00</b></div>
-          <input type="range" id="sliderF1" min="1.0" max="8.0" step="0.01" value="3.00" aria-label="Frequency 1">
+        <!-- 2. 4 Curated Mood Pills -->
+        <div class="res-control-box">
+          <label class="res-lbl">Curated Mood Archetypes:</label>
+          <div class="res-preset-pills">
+            <button type="button" class="res-pill active" data-preset="fifth">✦ Radiant Solar (3:2 Fifth)</button>
+            <button type="button" class="res-pill" data-preset="octave">✦ Nocturne Wave (2:1 Octave)</button>
+            <button type="button" class="res-pill" data-preset="rose">✦ Cathedral Rose (5:6 Rose)</button>
+            <button type="button" class="res-pill" data-preset="golden">✦ Alchemical Spiral (Φ 1.618)</button>
+          </div>
         </div>
-        <div class="res-slider-unit">
-          <div class="res-slider-hdr"><span>Pendulum Y (Transverse)</span><b id="valF2">2.00</b></div>
-          <input type="range" id="sliderF2" min="1.0" max="8.0" step="0.01" value="2.00" aria-label="Frequency 2">
-        </div>
-        <div class="res-slider-unit">
-          <div class="res-slider-hdr"><span>Rotary Precession (Table)</span><b id="valF3">0.00</b></div>
-          <input type="range" id="sliderF3" min="-2.0" max="2.0" step="0.01" value="0.00" aria-label="Rotary Precession">
-        </div>
-        <div class="res-slider-unit">
-          <div class="res-slider-hdr"><span>Phase Delta θ</span><b id="valPhase">90°</b></div>
-          <input type="range" id="sliderPhase" min="0" max="360" step="1" value="90" aria-label="Phase Delta">
-        </div>
-        <div class="res-slider-unit">
-          <div class="res-slider-hdr"><span>Damping Decay</span><b id="valDamp">0.0014</b></div>
-          <input type="range" id="sliderDamp" min="0.0003" max="0.0040" step="0.0001" value="0.0014" aria-label="Damping">
-        </div>
-        <div class="res-slider-unit">
-          <div class="res-slider-hdr"><span>Ink Stroke Weight</span><b id="valWidth">1.2px</b></div>
-          <input type="range" id="sliderWidth" min="0.5" max="3.5" step="0.1" value="1.2" aria-label="Stroke Weight">
-        </div>
-      </div>
 
-      <!-- Inks & Action Controls -->
-      <div class="res-controls-footer">
-        <div class="res-ink-selection">
+        <!-- 3. 5 Mineral Inks -->
+        <div class="res-control-box">
           <span class="res-lbl">Mineral Ink:</span>
           <div class="res-ink-options">
             <button type="button" class="res-ink-dot active" data-ink="gold" style="background:linear-gradient(135deg,#d4af37,#aa7c11)" title="Oxidized Gold Leaf"></button>
@@ -763,18 +755,87 @@ main,nav,footer,.folio-modal,.manifesto-modal{position:relative;z-index:1}
           </div>
         </div>
 
-        <div class="res-button-cluster">
-          <button type="button" id="btnResFling" class="res-action-btn primary" title="Impart kinetic momentum to pendulums">⚡ Fling Pendulums</button>
-          <button type="button" id="btnResInstant" class="res-action-btn" title="Instantly render complete mathematical curve">✦ Instant Inscribe</button>
-          <button type="button" id="btnResClear" class="res-action-btn" title="Clear current slate">Clear</button>
-          <button type="button" id="btnResAudio" class="res-action-btn" title="Toggle Sympathetic Web Audio Chimes">🔊 Chimes: Off</button>
+        <!-- 4. Primary Actions: Load as Wall Stencil & Watermark -->
+        <div class="res-simple-actions">
+          <button type="button" id="btnLoadWallStencil" class="res-stencil-forge-btn" title="Convert this harmonic curve into a pochoir stencil mask on the Palimpsest Wall above">📐 Load as Wall Stencil</button>
+          <button type="button" id="btnResImprint" class="res-imprint-btn" title="Imprint this harmonic geometry onto the Living Canvas above as an illuminated watermark">✨ Watermark onto Wall</button>
         </div>
+      </div>
 
-        <div class="res-export-cluster">
-          <button type="button" id="btnResImprint" class="res-imprint-btn" title="Imprint this harmonic geometry onto the Living Canvas above as an illuminated watermark">✨ Imprint onto Living Canvas</button>
-          <button type="button" id="btnResSvg" class="res-export-btn" title="Download Scalable Vector Graphics (.svg) for pen-plotters and digital art">🖋 Export Vector SVG</button>
-          <button type="button" id="btnResPng" class="res-export-btn" title="Download High-Resolution Archival PNG">📥 Export PNG</button>
+      <!-- COLLAPSIBLE PRO PLOTTER MODE (FREE) DRAWER -->
+      <div class="res-pro-drawer">
+        <button type="button" id="btnToggleProMode" class="res-pro-toggle" aria-expanded="false" aria-controls="resProControls">
+          <span>⚙ Pro Plotter Mode (Free)</span>
+          <span class="res-pro-arrow">▾</span>
+        </button>
+
+        <div id="resProControls" class="res-pro-content" style="display:none">
+          <!-- Harmonic Sliders Grid -->
+          <div class="res-sliders-grid">
+            <div class="res-slider-unit">
+              <div class="res-slider-hdr"><span>Pendulum X (Lateral)</span><b id="valF1">3.00</b></div>
+              <input type="range" id="sliderF1" min="1.0" max="8.0" step="0.01" value="3.00" aria-label="Frequency 1">
+            </div>
+            <div class="res-slider-unit">
+              <div class="res-slider-hdr"><span>Pendulum Y (Transverse)</span><b id="valF2">2.00</b></div>
+              <input type="range" id="sliderF2" min="1.0" max="8.0" step="0.01" value="2.00" aria-label="Frequency 2">
+            </div>
+            <div class="res-slider-unit">
+              <div class="res-slider-hdr"><span>Rotary Precession</span><b id="valF3">0.00</b></div>
+              <input type="range" id="sliderF3" min="-2.0" max="2.0" step="0.01" value="0.00" aria-label="Rotary Precession">
+            </div>
+            <div class="res-slider-unit">
+              <div class="res-slider-hdr"><span>Phase Delta θ</span><b id="valPhase">90°</b></div>
+              <input type="range" id="sliderPhase" min="0" max="360" step="1" value="90" aria-label="Phase Delta">
+            </div>
+            <div class="res-slider-unit">
+              <div class="res-slider-hdr"><span>Damping Decay</span><b id="valDamp">0.0014</b></div>
+              <input type="range" id="sliderDamp" min="0.0003" max="0.0040" step="0.0001" value="0.0014" aria-label="Damping">
+            </div>
+            <div class="res-slider-unit">
+              <div class="res-slider-hdr"><span>Ink Stroke Weight</span><b id="valWidth">1.2px</b></div>
+              <input type="range" id="sliderWidth" min="0.5" max="3.5" step="0.1" value="1.2" aria-label="Stroke Weight">
+            </div>
+          </div>
+
+          <!-- Extended Presets in Pro Mode -->
+          <div class="res-control-box" style="margin-top:.8rem">
+            <label class="res-lbl">Extended Geometric Archetypes:</label>
+            <div class="res-preset-pills mini">
+              <button type="button" class="res-pill" data-preset="fourth">4:3 Fourth</button>
+              <button type="button" class="res-pill" data-preset="third">5:4 Third</button>
+              <button type="button" class="res-pill" data-preset="guilloche">11:12 Guilloché</button>
+              <button type="button" class="res-pill" data-preset="nebula">3.01:2.00 Precession</button>
+            </div>
+          </div>
+
+          <!-- Pro Action & Simulation Buttons -->
+          <div class="res-button-cluster" style="margin-top:.8rem">
+            <button type="button" id="btnResFling" class="res-action-btn primary" title="Impart kinetic momentum to pendulums">⚡ Fling</button>
+            <button type="button" id="btnResInstant" class="res-action-btn" title="Instantly render complete mathematical curve">✦ Instant Inscribe</button>
+            <button type="button" id="btnResClear" class="res-action-btn" title="Clear current slate">Clear</button>
+            <button type="button" id="btnResAudio" class="res-action-btn" title="Toggle Sympathetic Web Audio Chimes">🔊 Chimes: Off</button>
+          </div>
+
+          <!-- Pro Exports Cluster -->
+          <div class="res-export-cluster" style="margin-top:.8rem">
+            <button type="button" id="btnResSvg" class="res-export-btn" title="Download Scalable Vector Graphics (.svg) for pen-plotters and digital art">🖋 Export Vector SVG</button>
+            <button type="button" id="btnResPng" class="res-export-btn" title="Download High-Resolution Archival PNG">📥 Export PNG</button>
+          </div>
         </div>
+      </div>
+
+      <!-- EDITORIAL SOCIAL SHARE STRIP -->
+      <div class="res-editorial-share-strip" aria-label="Share Resonance Sigil & Stencil Forge">
+        <span class="share-label" style="font-size:.72rem">Share Sigil Forge:</span>
+        <button type="button" class="share-btn share-x" data-share="x" title="Share on X" aria-label="Share on X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></button>
+        <button type="button" class="share-btn share-fb" data-share="facebook" title="Share on Facebook" aria-label="Share on Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></button>
+        <button type="button" class="share-btn share-bsky" data-share="bsky" title="Share on Bluesky" aria-label="Share on Bluesky"><svg viewBox="0 0 568 501" aria-hidden="true"><path d="M123.12 35.65C181.76 79.46 250.72 178.69 284 246.35C317.28 178.69 386.24 79.46 444.88 35.65C487.6 3.73 568 -24.47 568 71.86C568 91.13 556.88 238.48 550.08 263.26C526.4 349.33 438.4 372.2 360.8 358.94C497.6 383.1 530.8 471.21 443.2 559.32C338.4 664.92 298.8 454.4 284 397.6C269.2 454.4 229.6 664.92 124.8 559.32C37.2 471.21 70.4 383.1 207.2 358.94C129.6 372.2 41.6 349.33 17.92 263.26C11.12 238.48 0 91.13 0 71.86C0 -24.47 80.4 3.73 123.12 35.65Z"/></svg></button>
+        <button type="button" class="share-btn share-threads" data-share="threads" title="Share on Threads" aria-label="Share on Threads"><svg viewBox="0 0 192 192" aria-hidden="true"><path d="M141.537 88.9883C140.71 88.5919 139.87 88.2104 139.019 87.8451C137.537 60.5382 122.616 44.905 97.5619 44.745C97.4484 44.7443 97.3355 44.7443 97.222 44.7443C82.2364 44.7443 69.7731 51.1409 62.102 62.7807L75.881 72.8228C81.4116 64.4447 89.9678 61.1683 97.2483 61.1683C97.3248 61.1683 97.4013 61.1683 97.4784 61.1691C111.455 61.2588 120.315 70.5284 122.684 87.0544C115.111 86.0827 106.91 85.7335 98.1565 86.0121C64.6732 87.078 45.4194 104.42 46.4357 127.476C47.464 150.803 68.3292 165.717 93.6844 165.717C114.288 165.717 127.971 156.402 134.426 137.892C139.695 147.246 148.455 152.481 160.297 152.481C172.934 152.481 182.204 144.383 186.216 129.566L170.36 125.105C168.17 133.197 163.666 136.057 159.972 136.057C153.518 136.057 149.324 130.675 147.886 118.892C154.521 110.126 158.077 99.4795 158.077 87.8972C158.077 56.4957 132.062 31.7853 97.234 31.7853C61.3204 31.7853 34.0207 57.854 34.0207 96.089C34.0207 134.509 61.3204 160.215 97.234 160.215C114.896 160.215 130.407 153.498 141.42 141.071L153.805 151.786C139.67 167.733 120.089 176.643 97.234 176.643C49.9741 176.643 17.5927 141.521 17.5927 96.089C17.5927 50.4705 50.1585 15.3574 97.234 15.3574C141.652 15.3574 174.506 46.5413 174.506 87.8972C174.506 102.775 169.877 116.516 161.428 127.873C158.536 131.761 154.992 135.251 150.923 138.191C145.419 148.657 135.918 153.948 122.95 153.948C108.973 153.948 97.234 146.721 95.8364 131.429C94.4965 116.765 106.877 101.401 123.633 100.868C129.989 100.666 136.007 101.996 141.537 88.9883ZM122.95 116.486C114.618 116.751 108.358 123.864 108.891 130.407C109.424 136.95 116.551 141.246 123.633 140.718C127.674 140.417 131.543 138.567 134.426 135.438C133.003 123.082 128.847 116.299 122.95 116.486Z"/></svg></button>
+        <button type="button" class="share-btn share-linkedin" data-share="linkedin" title="Share on LinkedIn" aria-label="Share on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></button>
+        <button type="button" class="share-btn share-reddit" data-share="reddit" title="Share on Reddit" aria-label="Share on Reddit"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.197-2.512-.73a.326.326 0 0 0-.232-.095z"/></svg></button>
+        <button type="button" class="share-btn share-wa" data-share="whatsapp" title="Share via WhatsApp" aria-label="Share via WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.276-.1-.476-.15-.676.15-.2.301-.777.978-.952 1.179-.176.2-.351.226-.652.075-.301-.15-1.272-.469-2.423-1.496-.896-.799-1.502-1.786-1.677-2.087-.176-.301-.019-.464.132-.614.136-.135.301-.351.451-.527.151-.176.201-.301.302-.502.1-.2.05-.376-.025-.526-.075-.15-.677-1.631-.927-2.233-.244-.587-.492-.507-.677-.516-.175-.009-.376-.011-.576-.011-.201 0-.527.075-.802.376-.276.301-1.053 1.028-1.053 2.508 0 1.48 1.078 2.909 1.229 3.109.15.2 2.122 3.24 5.141 4.544.718.31 1.279.496 1.716.635.722.23 1.38.197 1.9-.12.58-.354 1.78-1.454 2.032-2.863.251-1.41.251-2.617.176-2.868-.076-.251-.276-.376-.577-.526zM12.04 2C6.505 2 2.012 6.493 2.012 12.028c0 1.942.553 3.754 1.513 5.29L2 22l4.823-1.482A10.007 10.007 0 0 0 12.04 22c5.535 0 10.028-4.493 10.028-10.028C22.068 6.493 17.575 2 12.04 2z"/></svg></button>
+        <button type="button" class="share-btn share-link" data-share="copy" title="Copy Sigil Forge Link" aria-label="Copy Sigil Forge Link"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg></button>
       </div>
     </div>
   </div>
@@ -1302,6 +1363,7 @@ function drawSubstrate(subKey){
   X.fillStyle='rgba(0,0,0,0.12)';
   X.fillRect(0,0,W,H);
   X.restore();
+  if(typeof recordUserMark==='function'&&Math.random()<0.35)recordUserMark(x,y,40);
 }
 
 function blank(){
@@ -1979,7 +2041,8 @@ const STENCIL_DATA={
   taki183:   {name:'TAKI 183 Tag (1971)',            w:460, h:240, epoch:'Washington Hts', glyph:'TAKI 183'},
   stayhigh:  {name:'Stay High 149 Smokin\' Stickman',w:380, h:360, epoch:'Subway Era',     glyph:'STAY HIGH 149'},
   rammellzee:{name:'Rammellzee Panzer Arrow',        w:520, h:260, epoch:'Gothic Futurism',glyph:'IKONOKLAST PANZER'},
-  commons:   {name:'Reclaim The Commons Pochoir',    w:480, h:260, epoch:'Urban Pochoir',  glyph:'RECLAIM COMMONS'}
+  commons:   {name:'Reclaim The Commons Pochoir',    w:480, h:260, epoch:'Urban Pochoir',  glyph:'RECLAIM COMMONS'},
+  sigil:     {name:'Resonance Sigil Stencil',        w:440, h:440, epoch:'Resonance',      glyph:'SIGIL FORGE', points:[]}
 };
 
 function loadStencil(key){
@@ -2054,7 +2117,41 @@ function drawStencilOutline(key,x,y){
   O.fillStyle='rgba(20,15,10,0.90)';
   O.lineWidth=1.8;
 
-  if(key==='pompeii'){
+  if(key==='sigil'&&st.points&&st.points.length>1){
+    O.save();
+    O.strokeStyle='rgba(20,15,10,0.92)';
+    O.lineWidth=2.0;
+    O.beginPath();
+    for(let i=0;i<st.points.length;i++){
+      const px=x+st.points[i].x;
+      const py=y+st.points[i].y;
+      if(i===0)O.moveTo(px,py);else O.lineTo(px,py);
+    }
+    O.stroke();
+    O.font="italic 700 15px 'Fraunces',serif";
+    O.textAlign='center';
+    O.fillText(st.name,x,y+st.h/2-22);
+    O.restore();
+  } else if(key==='sigil'&&st.points&&st.points.length>1){
+    X.save();
+    X.strokeStyle=sc.stroke;
+    X.lineWidth=2.4;
+    X.lineCap='round';
+    X.lineJoin='round';
+    X.beginPath();
+    for(let i=0;i<st.points.length;i++){
+      const px=x+st.points[i].x;
+      const py=y+st.points[i].y;
+      if(i===0)X.moveTo(px,py);else X.lineTo(px,py);
+    }
+    X.stroke();
+    X.font="italic 600 14px 'Fraunces',serif";
+    X.fillStyle=sc.stroke;
+    X.textAlign='center';
+    X.fillText(st.name,x,y+st.h/2-20);
+    X.restore();
+    if(typeof recordUserMark==='function')recordUserMark(x,y,st.w/2);
+  } else if(key==='pompeii'){
     // Classical Lapidary Monumental Inscription with Ivy Leaf Stops (Hederae)
     O.font="italic 700 24px 'Fraunces',serif";
     O.textAlign='center';
@@ -3174,7 +3271,7 @@ function loop(ts){
     wall.forEach(P=>P.n<P.N?Math.random()<.014&&emit(P):P.fa-=.005);
     wall=wall.filter(P=>P.n<P.N||P.fa>0);
 
-    if(wall.filter(P=>P.n<P.N).length===0 && (ts-lastAmbTime>28000)){
+    if(wall.filter(P=>P.n<P.N).length===0 && (ts-lastAmbTime>35000)){
       lastAmbTime=ts;
       amb();
     }
@@ -3358,12 +3455,75 @@ function seed(words){
   msg(`Weather planted with ${words.length} terms across ${SCHEMES[activeScheme].name}.`);
 }
 
-function amb(){
-  const z=ZONES[Math.floor(Math.random()*ZONES.length)];
-  const [x,y]=slot(ZONES.indexOf(z));
-  const P=piece(x,y,z.kd,z.sh,0.6,0,false);
-  shape(P);
-  for(let i=0;i<8;i++)emit(P);
+// User Inscriptions Tracker for Ambient Machine Conservator
+let userInscriptions = [];
+function recordUserMark(x, y, radius = 50) {
+  if (userInscriptions.length > 80) userInscriptions.shift();
+  const near = userInscriptions.find(p => Math.hypot(p.x - x, p.y - y) < 45);
+  if (near) {
+    near.time = Date.now();
+    near.count = (near.count || 1) + 1;
+  } else {
+    userInscriptions.push({ x, y, radius, time: Date.now(), count: 1 });
+  }
+}
+
+// Ambient Machine Conservator (Slow & Contextual AI Growth)
+function amb() {
+  // Attracted strictly to areas where user-made inscriptions or tags exist
+  if (!userInscriptions.length) return;
+
+  const target = userInscriptions[Math.floor(Math.random() * userInscriptions.length)];
+  const mode = Math.random();
+
+  if (mode < 0.38) {
+    // 1. Slow Weather Drips settling from user strokes into wall crevices
+    const dripCount = Math.floor(R(1, 3));
+    for (let d = 0; d < dripCount; d++) {
+      activeDrips.push({
+        curX: target.x + R(-25, 25),
+        curY: target.y + R(5, 30),
+        vx: R(-0.08, 0.08),
+        vy: R(0.35, 0.75),
+        len: 0,
+        maxLen: R(25, 65),
+        width: R(0.9, 1.6),
+        color: Math.random() < 0.5 ? 'rgba(99, 78, 58, 0.22)' : 'rgba(27, 94, 90, 0.18)'
+      });
+    }
+  } else if (mode < 0.72) {
+    // 2. Patina Glaze Wash settling into wall tooth around user tags
+    X.save();
+    X.globalCompositeOperation = 'multiply';
+    const rad = R(45, 100);
+    const grad = X.createRadialGradient(target.x, target.y, 10, target.x, target.y, rad);
+    grad.addColorStop(0, 'rgba(190, 170, 142, 0.07)');
+    grad.addColorStop(0.65, 'rgba(99, 78, 58, 0.035)');
+    grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+    X.fillStyle = grad;
+    X.beginPath();
+    X.arc(target.x, target.y, rad, 0, 6.28);
+    X.fill();
+    X.restore();
+  } else {
+    // 3. Lichen Crystal Blooms clinging to the outer contours of user tags
+    X.save();
+    X.globalAlpha = 0.30;
+    const count = Math.floor(R(5, 12));
+    const startAng = Math.random() * 6.28;
+    for (let k = 0; k < count; k++) {
+      const ang = startAng + (k / count) * 6.28 + R(-0.25, 0.25);
+      const dist = target.radius * R(0.75, 1.3);
+      const bx = target.x + Math.cos(ang) * dist;
+      const by = target.y + Math.sin(ang) * dist;
+      const size = R(1.1, 2.4);
+      X.fillStyle = Math.random() < 0.5 ? 'rgba(212, 175, 55, 0.30)' : 'rgba(27, 94, 90, 0.25)';
+      X.beginPath();
+      X.arc(bx, by, size, 0, 6.28);
+      X.fill();
+    }
+    X.restore();
+  }
 }
 
 // Initialize Substrate & Start Animation Loop
@@ -3373,7 +3533,7 @@ rC();
 requestAnimationFrame(loop);
 
 // ==========================================
-// THE RESONANCE CANVAS · SCRIPTORIUM HARMONOGRAPH
+// THE RESONANCE CANVAS · SCRIPTORIUM HARMONOGRAPH & SIGIL FORGE
 // ==========================================
 (function() {
   const rcv = document.getElementById('res-cv');
@@ -3388,7 +3548,7 @@ requestAnimationFrame(loop);
   let p1 = Math.PI / 2, p2 = 0;
   let damp = 0.0014;
   let strokeWidth = 1.2;
-  let inkKey = 'gold'; // gold, oxblood, lapis, verdigris, bichrome
+  let inkKey = 'gold';
   let activeRatioName = "3:2 (Perfect Fifth)";
 
   // Amplitudes
@@ -3399,7 +3559,7 @@ requestAnimationFrame(loop);
   let maxTime = 1600;
   let dt = 0.015;
   let isSimulating = false;
-  let simSpeed = 16; // points per animation frame
+  let simSpeed = 16;
   let allPoints = [];
   let prevPt = null;
   let animId = null;
@@ -3413,294 +3573,106 @@ requestAnimationFrame(loop);
   let audioEnabled = false;
   let osc1 = null, osc2 = null, osc3 = null, masterGain = null;
 
-  // Presets definition
   const PRESETS = {
-    fifth:    { f1: 3.00, f2: 2.00, f3: 0.00, p1: 90, damp: 0.0014, name: "3:2 Perfect Fifth" },
-    octave:   { f1: 2.00, f2: 1.00, f3: 0.00, p1: 90, damp: 0.0012, name: "2:1 Celestial Octave" },
+    fifth:    { f1: 3.00, f2: 2.00, f3: 0.00, p1: 90, damp: 0.0014, name: "3:2 Radiant Solar (Fifth)" },
+    octave:   { f1: 2.00, f2: 1.00, f3: 0.00, p1: 90, damp: 0.0012, name: "2:1 Nocturne Wave (Octave)" },
     fourth:   { f1: 4.00, f2: 3.00, f3: 0.00, p1: 0,  damp: 0.0015, name: "4:3 Pythagorean Fourth" },
     third:    { f1: 5.00, f2: 4.00, f3: 0.00, p1: 90, damp: 0.0016, name: "5:4 Major Third" },
-    rose:     { f1: 5.00, f2: 6.00, f3: -1.00, p1: 0, damp: 0.0010, name: "5:6 Cathedral Rose" },
+    rose:     { f1: 5.00, f2: 6.00, f3: -1.00, p1: 45, damp: 0.0010, name: "5:6 Cathedral Rose" },
     guilloche:{ f1: 11.00,f2: 12.00,f3: -1.00, p1: 45,damp: 0.0008, name: "11:12 Banknote Guilloché" },
-    golden:   { f1: 1.618,f2: 1.00, f3: 0.01, p1: 90, damp: 0.0006, name: "1.618:1 Golden Spiral (Φ)" },
+    golden:   { f1: 1.618,f2: 1.00, f3: 0.01, p1: 90, damp: 0.0006, name: "1.618:1 Alchemical Spiral (Φ)" },
     nebula:   { f1: 3.01, f2: 2.00, f3: 0.04, p1: 60, damp: 0.0011, name: "3.01:2.00 Galactic Precession" }
   };
 
-  // Color mapping
   const INKS = {
-    gold:      { stroke: '#d4af37', shadow: 'rgba(212,175,55,0.4)', name: 'Oxidized Gold Leaf' },
-    oxblood:   { stroke: '#8b1c28', shadow: 'rgba(139,28,40,0.35)', name: 'Oxblood Carmine' },
-    lapis:     { stroke: '#264380', shadow: 'rgba(38,67,128,0.35)', name: 'Ultramarine Lapis' },
-    verdigris: { stroke: '#1b5e5a', shadow: 'rgba(27,94,90,0.35)',  name: 'Verdigris Teal' },
-    bichrome:  { stroke: '#d4af37', alt: '#8b1c28', shadow: 'rgba(212,175,55,0.3)', name: 'Bichrome (Gold & Oxblood)' }
+    gold:      { stroke: "#d4af37", shadow: "rgba(212, 175, 55, 0.4)", name: "Oxidized Gold Leaf" },
+    oxblood:   { stroke: "#8b1c28", shadow: "rgba(139, 28, 40, 0.4)",  name: "Oxblood Carmine" },
+    lapis:     { stroke: "#264380", shadow: "rgba(38, 67, 128, 0.4)",  name: "Ultramarine Lapis" },
+    verdigris: { stroke: "#1b5e5a", shadow: "rgba(27, 94, 90, 0.4)",   name: "Verdigris Teal" },
+    bichrome:  { stroke: "#d4af37", shadow: "rgba(139, 28, 40, 0.35)", name: "Bichrome (Gold & Oxblood)", alt: "#8b1c28" }
   };
 
-  // DOM Elements
-  const lblRatio = document.getElementById('resRatioLabel');
-  const lblEnergy = document.getElementById('resEnergyLabel');
-  const sF1 = document.getElementById('sliderF1');
-  const sF2 = document.getElementById('sliderF2');
-  const sF3 = document.getElementById('sliderF3');
-  const sPhase = document.getElementById('sliderPhase');
-  const sDamp = document.getElementById('sliderDamp');
-  const sWidth = document.getElementById('sliderWidth');
-  const valF1 = document.getElementById('valF1');
-  const valF2 = document.getElementById('valF2');
-  const valF3 = document.getElementById('valF3');
-  const valPhase = document.getElementById('valPhase');
-  const valDamp = document.getElementById('valDamp');
-  const valWidth = document.getElementById('valWidth');
-  const btnAudio = document.getElementById('btnResAudio');
+  // Word-to-Sigil Deterministic Cipher Hashing
+  function hashWordToSigil(word) {
+    word = (word || 'QWEIRDO').trim();
+    if (!word) word = 'QWEIRDO';
+    let h = 0;
+    for (let i = 0; i < word.length; i++) {
+      h = ((h << 5) - h) + word.charCodeAt(i);
+      h |= 0;
+    }
+    const uh = Math.abs(h);
+    const harmonicRatios = [
+      { f1: 3.00, f2: 2.00, f3: 0.00, p1: 90, name: "3:2 Radiant Solar" },
+      { f1: 2.00, f2: 1.00, f3: 0.00, p1: 90, name: "2:1 Nocturne Wave" },
+      { f1: 4.00, f2: 3.00, f3: 0.00, p1: 0,  name: "4:3 Pythagorean Fourth" },
+      { f1: 5.00, f2: 4.00, f3: 0.00, p1: 90, name: "5:4 Major Third" },
+      { f1: 5.00, f2: 6.00, f3: -1.0, p1: 45, name: "5:6 Cathedral Rose" },
+      { f1: 1.618, f2: 1.00, f3: 0.01, p1: 90, name: "1.618:1 Alchemical Spiral" },
+      { f1: 7.00, f2: 4.00, f3: 0.02, p1: 60, name: "7:4 Septimal Harmonic" },
+      { f1: 8.00, f2: 5.00, f3: 0.00, p1: 90, name: "8:5 Minor Sixth" },
+      { f1: 11.0, f2: 12.0, f3: -1.0, p1: 45, name: "11:12 Banknote Guilloché" },
+      { f1: 3.01, f2: 2.00, f3: 0.04, p1: 60, name: "3.01:2.00 Precession" }
+    ];
+    const base = harmonicRatios[uh % harmonicRatios.length];
+    const phaseOffset = (uh % 12) * 15;
+    const f3Perturb = ((uh % 11) - 5) * 0.004;
+    return {
+      f1: base.f1,
+      f2: base.f2,
+      f3: base.f3 + f3Perturb,
+      p1: (base.p1 + phaseOffset) % 360,
+      damp: 0.0009 + ((uh % 10) * 0.0001),
+      ratioName: `Sigil: "${word}" (${base.name})`
+    };
+  }
 
-  // Background Vellum Renderer
-  function renderPlateBackground() {
+  function getHarmonicPoint(time) {
+    const decay = Math.exp(-damp * time);
+    const x = ampX * Math.sin(f1 * time + p1) * decay;
+    const y = ampY * Math.sin(f2 * time + p2) * decay;
+    if (f3 !== 0) {
+      const rot = f3 * time * 0.15;
+      const cosR = Math.cos(rot), sinR = Math.sin(rot);
+      return {
+        x: CX + (x * cosR - y * sinR),
+        y: CY + (x * sinR + y * cosR)
+      };
+    }
+    return { x: CX + x, y: CY + y };
+  }
+
+  function renderVellumBackground() {
     rx.fillStyle = '#d8c4a4';
     rx.fillRect(0, 0, RW, RH);
 
-    // Subtle laid lines
-    rx.strokeStyle = 'rgba(190, 170, 142, 0.25)';
-    rx.lineWidth = 0.5;
-    rx.beginPath();
-    for (let y = 30; y < RH; y += 36) {
-      rx.moveTo(25, y); rx.lineTo(RW - 25, y);
-    }
-    for (let x = 40; x < RW; x += 120) {
-      rx.moveTo(x, 25); rx.lineTo(x, RH - 25);
-    }
-    rx.stroke();
-
-    // Antique double border
-    rx.strokeStyle = 'rgba(132, 76, 28, 0.4)';
-    rx.lineWidth = 1.2;
-    rx.strokeRect(20, 20, RW - 40, RH - 40);
-    rx.strokeStyle = 'rgba(212, 175, 55, 0.5)';
-    rx.lineWidth = 0.6;
-    rx.strokeRect(25, 25, RW - 50, RH - 50);
-
-    // Corner rosette accents
-    const corners = [[25, 25], [RW - 25, 25], [25, RH - 25], [RW - 25, RH - 25]];
-    rx.fillStyle = 'rgba(212, 175, 55, 0.7)';
-    corners.forEach(([cx, cy]) => {
-      rx.beginPath(); rx.arc(cx, cy, 3, 0, Math.PI * 2); rx.fill();
-    });
-  }
-
-  // Calculate Coordinate at time t
-  function calcPoint(t) {
-    const decay = Math.exp(-damp * t);
-    const xBase = ampX * Math.sin(f1 * t + p1) * decay;
-    const yBase = ampY * Math.sin(f2 * t + p2) * decay;
-    const alpha = f3 * t * 0.2;
-    const x = xBase * Math.cos(alpha) - yBase * Math.sin(alpha) + CX;
-    const y = xBase * Math.sin(alpha) + yBase * Math.cos(alpha) + CY;
-    return { x, y, decay };
-  }
-
-  // Web Audio System
-  function initAudio() {
-    if (audioCtx) return;
-    try {
-      const AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) return;
-      audioCtx = new AC();
-      masterGain = audioCtx.createGain();
-      masterGain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
-
-      const filter = audioCtx.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(700, audioCtx.currentTime);
-
-      masterGain.connect(filter);
-      filter.connect(audioCtx.destination);
-    } catch(e) {}
-  }
-
-  function startChimes() {
-    if (!audioEnabled) return;
-    initAudio();
-    if (!audioCtx) return;
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-
-    stopChimes();
-    try {
-      const now = audioCtx.currentTime;
-      masterGain.gain.cancelScheduledValues(now);
-      masterGain.gain.setValueAtTime(0.0001, now);
-      masterGain.gain.exponentialRampToValueAtTime(0.08, now + 0.3);
-
-      const baseFreq = 164.81; // E3
-
-      osc1 = audioCtx.createOscillator();
-      osc1.type = 'sine';
-      osc1.frequency.setValueAtTime(baseFreq * (f1 / 2), now);
-
-      osc2 = audioCtx.createOscillator();
-      osc2.type = 'sine';
-      osc2.frequency.setValueAtTime(baseFreq * (f2 / 2), now);
-
-      osc1.connect(masterGain);
-      osc2.connect(masterGain);
-
-      if (Math.abs(f3) > 0.05) {
-        osc3 = audioCtx.createOscillator();
-        osc3.type = 'triangle';
-        osc3.frequency.setValueAtTime(baseFreq * 1.5, now);
-        osc3.connect(masterGain);
-        osc3.start(now);
-      }
-
-      osc1.start(now);
-      osc2.start(now);
-    } catch(e) {}
-  }
-
-  function updateChimeEnergy(decay) {
-    if (!audioEnabled || !audioCtx || !masterGain) return;
-    try {
-      const now = audioCtx.currentTime;
-      const targetGain = Math.max(0.0001, 0.08 * decay);
-      masterGain.gain.setValueAtTime(targetGain, now);
-    } catch(e) {}
-  }
-
-  function stopChimes() {
-    if (!audioCtx) return;
-    try {
-      const now = audioCtx.currentTime;
-      if (masterGain) {
-        masterGain.gain.cancelScheduledValues(now);
-        masterGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
-      }
-      setTimeout(() => {
-        if (osc1) { try { osc1.stop(); osc1.disconnect(); } catch(e){} osc1 = null; }
-        if (osc2) { try { osc2.stop(); osc2.disconnect(); } catch(e){} osc2 = null; }
-        if (osc3) { try { osc3.stop(); osc3.disconnect(); } catch(e){} osc3 = null; }
-      }, 550);
-    } catch(e) {}
-  }
-
-  // Simulation Loop
-  function stepSimulation() {
-    if (!isSimulating) return;
-
     rx.save();
-    rx.lineWidth = strokeWidth;
-    rx.lineCap = 'round';
-    rx.lineJoin = 'round';
-
-    const ink = INKS[inkKey] || INKS.gold;
-    rx.shadowColor = ink.shadow;
-    rx.shadowBlur = 2;
-
-    let lastDecay = 1;
-
-    for (let s = 0; s < simSpeed; s++) {
-      simTime += dt;
-      const pt = calcPoint(simTime);
-      allPoints.push([Math.round(pt.x * 10) / 10, Math.round(pt.y * 10) / 10]);
-      lastDecay = pt.decay;
-
-      if (prevPt) {
-        rx.beginPath();
-        if (inkKey === 'bichrome') {
-          rx.strokeStyle = (Math.floor(allPoints.length / 40) % 2 === 0) ? ink.stroke : ink.alt;
-        } else {
-          rx.strokeStyle = ink.stroke;
-        }
-        rx.moveTo(prevPt.x, prevPt.y);
-        rx.lineTo(pt.x, pt.y);
-        rx.stroke();
-      }
-      prevPt = pt;
-
-      if (pt.decay < 0.015 || simTime >= maxTime) {
-        isSimulating = false;
-        break;
-      }
-    }
+    rx.strokeStyle = 'rgba(99, 78, 58, 0.12)';
+    rx.lineWidth = 1;
+    rx.beginPath();
+    rx.arc(CX, CY, 120, 0, Math.PI * 2);
+    rx.arc(CX, CY, 240, 0, Math.PI * 2);
+    rx.arc(CX, CY, 320, 0, Math.PI * 2);
+    rx.moveTo(CX - 340, CY); rx.lineTo(CX + 340, CY);
+    rx.moveTo(CX, CY - 240); rx.lineTo(CX, CY + 240);
+    rx.stroke();
     rx.restore();
-
-    updateChimeEnergy(lastDecay);
-
-    if (lblEnergy) {
-      if (isSimulating) {
-        lblEnergy.textContent = 'Energy: ' + Math.max(1, Math.round(lastDecay * 100)) + '%';
-      } else {
-        lblEnergy.textContent = 'Harmonic Equilibrium Reached';
-      }
-    }
-
-    if (isSimulating) {
-      animId = requestAnimationFrame(stepSimulation);
-    } else {
-      stopChimes();
-    }
   }
 
-  // Start / Restart Simulation
-  function launchSimulation() {
-    if (animId) cancelAnimationFrame(animId);
-    renderPlateBackground();
-    simTime = 0;
+  function clearSlate() {
+    stopSimulation();
     allPoints = [];
     prevPt = null;
-    isSimulating = true;
-
-    const pt0 = calcPoint(0);
-    prevPt = pt0;
-    allPoints.push([Math.round(pt0.x * 10) / 10, Math.round(pt0.y * 10) / 10]);
-
-    if (lblRatio) lblRatio.textContent = 'Harmonic Ratio: ' + f1.toFixed(2) + ':' + f2.toFixed(2) + ' (' + activeRatioName + ')';
-    if (lblEnergy) lblEnergy.textContent = 'Energy: 100%';
-
-    startChimes();
-    animId = requestAnimationFrame(stepSimulation);
+    simTime = 0;
+    renderVellumBackground();
+    updateEnergyHUD(1.0);
   }
 
-  // Instant Inscribe (Synchronously compute & render all points)
-  function instantInscribe() {
-    if (animId) cancelAnimationFrame(animId);
-    isSimulating = false;
-    stopChimes();
-    renderPlateBackground();
-
-    allPoints = [];
-    rx.save();
-    rx.lineWidth = strokeWidth;
-    rx.lineCap = 'round';
-    rx.lineJoin = 'round';
-
-    const ink = INKS[inkKey] || INKS.gold;
-    rx.shadowColor = ink.shadow;
-    rx.shadowBlur = 2;
-
-    const totalSteps = 6000;
-    let p = calcPoint(0);
-    allPoints.push([Math.round(p.x * 10) / 10, Math.round(p.y * 10) / 10]);
-
-    for (let i = 1; i < totalSteps; i++) {
-      const t = i * dt;
-      const next = calcPoint(t);
-      allPoints.push([Math.round(next.x * 10) / 10, Math.round(next.y * 10) / 10]);
-
-      rx.beginPath();
-      if (inkKey === 'bichrome') {
-        rx.strokeStyle = (Math.floor(i / 40) % 2 === 0) ? ink.stroke : ink.alt;
-      } else {
-        rx.strokeStyle = ink.stroke;
-      }
-      rx.moveTo(p.x, p.y);
-      rx.lineTo(next.x, next.y);
-      rx.stroke();
-
-      p = next;
-      if (p.decay < 0.015) break;
-    }
-    rx.restore();
-
-    if (lblEnergy) lblEnergy.textContent = 'Instant Inscription Complete';
+  function updateEnergyHUD(energy) {
+    const el = document.getElementById('resEnergyLabel');
+    if (el) el.textContent = `Oscillator Energy: ${Math.round(energy * 100)}%`;
   }
 
-  // Apply Preset Configuration
   function applyPreset(key) {
     const p = PRESETS[key];
     if (!p) return;
@@ -3709,286 +3681,344 @@ requestAnimationFrame(loop);
     damp = p.damp;
     activeRatioName = p.name;
 
-    if (sF1) { sF1.value = f1; if (valF1) valF1.textContent = f1.toFixed(2); }
-    if (sF2) { sF2.value = f2; if (valF2) valF2.textContent = f2.toFixed(2); }
-    if (sF3) { sF3.value = f3; if (valF3) valF3.textContent = f3.toFixed(2); }
-    if (sPhase) { sPhase.value = p.p1; if (valPhase) valPhase.textContent = p.p1 + '°'; }
-    if (sDamp) { sDamp.value = damp; if (valDamp) valDamp.textContent = damp.toFixed(4); }
+    updateSliderInputs();
+    const ratioEl = document.getElementById('resRatioLabel');
+    if (ratioEl) ratioEl.textContent = `Harmonic Ratio: ${activeRatioName}`;
 
-    document.querySelectorAll('.res-pill').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.preset === key);
-    });
-
-    launchSimulation();
+    instantInscribe();
   }
 
-  // Direct Interactive Dragging of Pendulum Bob
-  rcv.addEventListener('pointerdown', e => {
-    const rect = rcv.getBoundingClientRect();
-    const x = (e.clientX - rect.left) * (RW / rect.width);
-    const y = (e.clientY - rect.top) * (RH / rect.height);
+  function updateSliderInputs() {
+    const s1 = document.getElementById('sliderF1');
+    const s2 = document.getElementById('sliderF2');
+    const s3 = document.getElementById('sliderF3');
+    const sp = document.getElementById('sliderPhase');
+    const sd = document.getElementById('sliderDamp');
+    const sw = document.getElementById('sliderWidth');
 
-    isDragging = true;
-    dragPt = { x, y };
-    if (animId) cancelAnimationFrame(animId);
-    isSimulating = false;
-    stopChimes();
-    try { rcv.setPointerCapture(e.pointerId); } catch(err) {}
-  });
+    if (s1) s1.value = f1;
+    if (s2) s2.value = f2;
+    if (s3) s3.value = f3;
+    if (sp) sp.value = Math.round((p1 * 180) / Math.PI) % 360;
+    if (sd) sd.value = damp;
+    if (sw) sw.value = strokeWidth;
 
-  rcv.addEventListener('pointermove', e => {
-    if (!isDragging) return;
-    const rect = rcv.getBoundingClientRect();
-    dragPt = {
-      x: (e.clientX - rect.left) * (RW / rect.width),
-      y: (e.clientY - rect.top) * (RH / rect.height)
-    };
+    const v1 = document.getElementById('valF1');
+    const v2 = document.getElementById('valF2');
+    const v3 = document.getElementById('valF3');
+    const vp = document.getElementById('valPhase');
+    const vd = document.getElementById('valDamp');
+    const vw = document.getElementById('valWidth');
 
-    // Render tether line & brass bob over current drawing
-    renderPlateBackground();
-    if (allPoints.length > 1) {
+    if (v1) v1.textContent = Number(f1).toFixed(2);
+    if (v2) v2.textContent = Number(f2).toFixed(2);
+    if (v3) v3.textContent = Number(f3).toFixed(2);
+    if (vp) vp.textContent = Math.round((p1 * 180) / Math.PI) + '°';
+    if (vd) vd.textContent = Number(damp).toFixed(4);
+    if (vw) vw.textContent = Number(strokeWidth).toFixed(1) + 'px';
+  }
+
+  function instantInscribe() {
+    stopSimulation();
+    clearSlate();
+
+    rx.save();
+    const ink = INKS[inkKey] || INKS.gold;
+    rx.strokeStyle = ink.stroke;
+    rx.lineWidth = strokeWidth;
+    rx.lineCap = 'round';
+    rx.lineJoin = 'round';
+    rx.shadowColor = ink.shadow;
+    rx.shadowBlur = 4;
+
+    rx.beginPath();
+    allPoints = [];
+    let t = 0;
+    const maxT = 1800;
+    const step = 0.02;
+
+    while (t < maxT) {
+      const pt = getHarmonicPoint(t);
+      allPoints.push(pt);
+      if (t === 0) rx.moveTo(pt.x, pt.y);
+      else rx.lineTo(pt.x, pt.y);
+      t += step;
+    }
+    rx.stroke();
+    rx.restore();
+
+    updateEnergyHUD(0.04);
+  }
+
+  function startSimulation() {
+    if (isSimulating) return;
+    clearSlate();
+    isSimulating = true;
+    simTime = 0;
+    prevPt = null;
+    allPoints = [];
+    if (audioEnabled) startAudioNode();
+
+    function step() {
+      if (!isSimulating) return;
+
       rx.save();
-      rx.lineWidth = strokeWidth * 0.75;
-      rx.strokeStyle = 'rgba(132, 76, 28, 0.4)';
-      rx.beginPath();
-      rx.moveTo(allPoints[0][0], allPoints[0][1]);
-      for (let i = 1; i < allPoints.length; i++) rx.lineTo(allPoints[i][0], allPoints[i][1]);
-      rx.stroke();
+      const ink = INKS[inkKey] || INKS.gold;
+      rx.lineWidth = strokeWidth;
+      rx.lineCap = 'round';
+      rx.lineJoin = 'round';
+      rx.shadowColor = ink.shadow;
+      rx.shadowBlur = 3;
+
+      for (let s = 0; s < simSpeed; s++) {
+        const pt = getHarmonicPoint(simTime);
+        allPoints.push(pt);
+
+        if (prevPt) {
+          rx.beginPath();
+          if (inkKey === 'bichrome' && ink.alt) {
+            rx.strokeStyle = Math.sin(simTime * 0.4) > 0 ? ink.stroke : ink.alt;
+          } else {
+            rx.strokeStyle = ink.stroke;
+          }
+          rx.moveTo(prevPt.x, prevPt.y);
+          rx.lineTo(pt.x, pt.y);
+          rx.stroke();
+        }
+        prevPt = pt;
+        simTime += dt;
+
+        if (simTime >= maxTime) {
+          isSimulating = false;
+          break;
+        }
+      }
       rx.restore();
+
+      const decayEnergy = Math.exp(-damp * simTime);
+      updateEnergyHUD(decayEnergy);
+      if (audioEnabled) updateAudioFrequency(decayEnergy);
+
+      if (isSimulating) {
+        animId = requestAnimationFrame(step);
+      } else {
+        stopAudioNode();
+      }
     }
 
-    // Draw suspension tether & bob
-    rx.save();
-    rx.strokeStyle = 'rgba(212, 175, 55, 0.7)';
-    rx.lineWidth = 1.5;
-    rx.setLineDash([4, 4]);
-    rx.beginPath();
-    rx.moveTo(CX, CY);
-    rx.lineTo(dragPt.x, dragPt.y);
-    rx.stroke();
-    rx.setLineDash([]);
+    animId = requestAnimationFrame(step);
+  }
 
-    // Glowing brass bob
-    rx.fillStyle = '#d4af37';
-    rx.shadowColor = '#d4af37';
-    rx.shadowBlur = 10;
-    rx.beginPath();
-    rx.arc(dragPt.x, dragPt.y, 11, 0, Math.PI * 2);
-    rx.fill();
-    rx.fillStyle = '#22140a';
-    rx.beginPath();
-    rx.arc(dragPt.x, dragPt.y, 3, 0, Math.PI * 2);
-    rx.fill();
-    rx.restore();
-  });
+  function stopSimulation() {
+    isSimulating = false;
+    if (animId) cancelAnimationFrame(animId);
+    stopAudioNode();
+  }
 
-  const stopDrag = e => {
-    if (!isDragging) return;
-    isDragging = false;
-    try { rcv.releasePointerCapture(e.pointerId); } catch(err) {}
+  function initAudio() {
+    if (!audioCtx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) audioCtx = new AC();
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+  }
 
-    const dx = dragPt.x - CX;
-    const dy = dragPt.y - CY;
-    ampX = Math.min(Math.max(Math.abs(dx), 60), 480);
-    ampY = Math.min(Math.max(Math.abs(dy), 60), 300);
+  function startAudioNode() {
+    if (!audioEnabled || !audioCtx) return;
+    stopAudioNode();
 
-    const rad = Math.atan2(dy, dx);
-    p1 = rad;
+    masterGain = audioCtx.createGain();
+    masterGain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+    masterGain.connect(audioCtx.destination);
 
-    launchSimulation();
-  };
+    const baseFreq = 110;
+    osc1 = audioCtx.createOscillator();
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(baseFreq * f1, audioCtx.currentTime);
+    osc1.connect(masterGain);
+    osc1.start();
 
-  rcv.addEventListener('pointerup', stopDrag);
-  rcv.addEventListener('pointercancel', stopDrag);
+    osc2 = audioCtx.createOscillator();
+    osc2.type = 'triangle';
+    osc2.frequency.setValueAtTime(baseFreq * f2, audioCtx.currentTime);
+    osc2.connect(masterGain);
+    osc2.start();
 
-  // Sliders Input Listeners
-  if (sF1) sF1.addEventListener('input', e => {
-    f1 = parseFloat(e.target.value);
-    if (valF1) valF1.textContent = f1.toFixed(2);
-    activeRatioName = 'Custom (' + f1.toFixed(2) + ':' + f2.toFixed(2) + ')';
-    launchSimulation();
-  });
-  if (sF2) sF2.addEventListener('input', e => {
-    f2 = parseFloat(e.target.value);
-    if (valF2) valF2.textContent = f2.toFixed(2);
-    activeRatioName = 'Custom (' + f1.toFixed(2) + ':' + f2.toFixed(2) + ')';
-    launchSimulation();
-  });
-  if (sF3) sF3.addEventListener('input', e => {
-    f3 = parseFloat(e.target.value);
-    if (valF3) valF3.textContent = f3.toFixed(2);
-    launchSimulation();
-  });
-  if (sPhase) sPhase.addEventListener('input', e => {
-    const deg = parseFloat(e.target.value);
-    p1 = (deg * Math.PI) / 180;
-    if (valPhase) valPhase.textContent = deg + '°';
-    launchSimulation();
-  });
-  if (sDamp) sDamp.addEventListener('input', e => {
-    damp = parseFloat(e.target.value);
-    if (valDamp) valDamp.textContent = damp.toFixed(4);
-    launchSimulation();
-  });
-  if (sWidth) sWidth.addEventListener('input', e => {
-    strokeWidth = parseFloat(e.target.value);
-    if (valWidth) valWidth.textContent = strokeWidth.toFixed(1) + 'px';
-  });
+    if (f3 !== 0) {
+      osc3 = audioCtx.createOscillator();
+      osc3.type = 'sine';
+      osc3.frequency.setValueAtTime(baseFreq * Math.abs(f3) * 0.5, audioCtx.currentTime);
+      osc3.connect(masterGain);
+      osc3.start();
+    }
+  }
 
-  // Presets Buttons
+  function updateAudioFrequency(energy) {
+    if (!audioEnabled || !masterGain || !audioCtx) return;
+    masterGain.gain.setValueAtTime(0.08 * energy, audioCtx.currentTime);
+  }
+
+  function stopAudioNode() {
+    if (osc1) { try { osc1.stop(); osc1.disconnect(); } catch (e) {} osc1 = null; }
+    if (osc2) { try { osc2.stop(); osc2.disconnect(); } catch (e) {} osc2 = null; }
+    if (osc3) { try { osc3.stop(); osc3.disconnect(); } catch (e) {} osc3 = null; }
+    if (masterGain) { try { masterGain.disconnect(); } catch (e) {} masterGain = null; }
+  }
+
+  // Word-to-Sigil Deterministic Cipher Trigger
+  function forgeWordSigil() {
+    const input = document.getElementById('sigilWordInput');
+    const word = input ? input.value.trim() : 'QWEIRDO';
+    const sig = hashWordToSigil(word);
+
+    f1 = sig.f1; f2 = sig.f2; f3 = sig.f3;
+    p1 = (sig.p1 * Math.PI) / 180;
+    damp = sig.damp;
+    activeRatioName = sig.ratioName;
+
+    updateSliderInputs();
+    const ratioEl = document.getElementById('resRatioLabel');
+    if (ratioEl) ratioEl.textContent = `Harmonic Ratio: ${activeRatioName}`;
+
+    instantInscribe();
+    msg(`Forged Harmonic Sigil for "${word}"! Ready to load as stencil.`);
+    playCanRattle();
+  }
+
+  const btnForge = document.getElementById('btnForgeSigil');
+  if (btnForge) btnForge.addEventListener('click', forgeWordSigil);
+
+  const sigilInput = document.getElementById('sigilWordInput');
+  if (sigilInput) {
+    sigilInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        forgeWordSigil();
+      }
+    });
+  }
+
+  // Preset Buttons (Pills)
   document.querySelectorAll('.res-pill').forEach(btn => {
-    btn.addEventListener('click', () => applyPreset(btn.dataset.preset));
-  });
-
-  // Mineral Ink Selection
-  document.querySelectorAll('.res-ink-dot').forEach(btn => {
     btn.addEventListener('click', () => {
-      inkKey = btn.dataset.ink;
-      document.querySelectorAll('.res-ink-dot').forEach(b => b.classList.toggle('active', b === btn));
-      launchSimulation();
+      document.querySelectorAll('.res-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyPreset(btn.dataset.preset);
     });
   });
+
+  // Mineral Ink Chips
+  document.querySelectorAll('.res-ink-dot').forEach(dot => {
+    dot.addEventListener('click', () => {
+      document.querySelectorAll('.res-ink-dot').forEach(d => d.classList.remove('active'));
+      dot.classList.add('active');
+      inkKey = dot.dataset.ink;
+      if (allPoints.length > 2) instantInscribe();
+    });
+  });
+
+  // 1-Click Action: Load as Wall Stencil
+  const btnLoadStencil = document.getElementById('btnLoadWallStencil');
+  if (btnLoadStencil) {
+    btnLoadStencil.addEventListener('click', () => {
+      if (allPoints.length < 2) instantInscribe();
+
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
+      allPoints.forEach(p => {
+        if (p.x < minX) minX = p.x;
+        if (p.x > maxX) maxX = p.x;
+        if (p.y < minY) minY = p.y;
+        if (p.y > maxY) maxY = p.y;
+      });
+      const cx = (minX + maxX) / 2;
+      const cy = (minY + maxY) / 2;
+      const spanX = Math.max(1, maxX - minX);
+      const spanY = Math.max(1, maxY - minY);
+      const scale = Math.min(360 / spanX, 360 / spanY);
+
+      const stencilPts = allPoints.map(p => ({
+        x: (p.x - cx) * scale,
+        y: (p.y - cy) * scale
+      }));
+
+      const word = document.getElementById('sigilWordInput') ? document.getElementById('sigilWordInput').value.trim() : 'QWEIRDO';
+      const sigilTitle = word ? `Sigil "${word}"` : activeRatioName;
+
+      STENCIL_DATA.sigil = {
+        name: sigilTitle,
+        w: 440,
+        h: 440,
+        epoch: 'Resonance',
+        glyph: 'SIGIL ' + (word || 'RESONANCE').toUpperCase(),
+        points: stencilPts
+      };
+
+      loadStencil('sigil');
+      const cvEl = document.getElementById('cv');
+      if (cvEl) cvEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      msg(`Harmonic Sigil "${sigilTitle}" loaded as pochoir wall stencil! Position, lock, or click Transfer Pochoir Print.`);
+    });
+  }
+
+  // Collapsible Pro Plotter Mode Drawer Toggle
+  const btnTogglePro = document.getElementById('btnToggleProMode');
+  const proControls = document.getElementById('resProControls');
+  if (btnTogglePro && proControls) {
+    btnTogglePro.addEventListener('click', () => {
+      const isHidden = proControls.style.display === 'none';
+      proControls.style.display = isHidden ? 'block' : 'none';
+      btnTogglePro.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+      const arrow = btnTogglePro.querySelector('.res-pro-arrow');
+      if (arrow) arrow.textContent = isHidden ? '▴' : '▾';
+    });
+  }
+
+  // Sliders Wiring
+  function wireSlider(id, onInput) {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', e => {
+      onInput(parseFloat(e.target.value));
+      document.querySelectorAll('.res-pill').forEach(b => b.classList.remove('active'));
+      const ratioEl = document.getElementById('resRatioLabel');
+      if (ratioEl) ratioEl.textContent = `Custom Ratio: ${f1.toFixed(2)}:${f2.toFixed(2)}`;
+    });
+  }
+
+  wireSlider('sliderF1', v => { f1 = v; const el = document.getElementById('valF1'); if(el) el.textContent = v.toFixed(2); });
+  wireSlider('sliderF2', v => { f2 = v; const el = document.getElementById('valF2'); if(el) el.textContent = v.toFixed(2); });
+  wireSlider('sliderF3', v => { f3 = v; const el = document.getElementById('valF3'); if(el) el.textContent = v.toFixed(2); });
+  wireSlider('sliderPhase', v => { p1 = (v * Math.PI) / 180; const el = document.getElementById('valPhase'); if(el) el.textContent = Math.round(v) + '°'; });
+  wireSlider('sliderDamp', v => { damp = v; const el = document.getElementById('valDamp'); if(el) el.textContent = v.toFixed(4); });
+  wireSlider('sliderWidth', v => { strokeWidth = v; const el = document.getElementById('valWidth'); if(el) el.textContent = v.toFixed(1) + 'px'; });
 
   // Action Buttons
   const btnFling = document.getElementById('btnResFling');
-  if (btnFling) btnFling.addEventListener('click', () => {
-    ampX = 240 + Math.random() * 180;
-    ampY = 160 + Math.random() * 120;
-    p1 = Math.random() * Math.PI * 2;
-    launchSimulation();
-  });
+  if (btnFling) btnFling.addEventListener('click', () => { initAudio(); startSimulation(); });
 
   const btnInstant = document.getElementById('btnResInstant');
   if (btnInstant) btnInstant.addEventListener('click', instantInscribe);
 
   const btnClear = document.getElementById('btnResClear');
-  if (btnClear) btnClear.addEventListener('click', () => {
-    if (animId) cancelAnimationFrame(animId);
-    isSimulating = false;
-    stopChimes();
-    renderPlateBackground();
-    allPoints = [];
-    if (lblEnergy) lblEnergy.textContent = 'Plate Cleared';
-  });
+  if (btnClear) btnClear.addEventListener('click', clearSlate);
 
+  const btnAudio = document.getElementById('btnResAudio');
   if (btnAudio) btnAudio.addEventListener('click', () => {
+    initAudio();
     audioEnabled = !audioEnabled;
-    btnAudio.textContent = audioEnabled ? '🔊 Chimes: On' : '🔈 Chimes: Off';
-    btnAudio.style.background = audioEnabled ? 'linear-gradient(135deg,#1b5e5a,#287a74)' : 'var(--bg)';
-    btnAudio.style.color = audioEnabled ? '#fff' : 'var(--tx)';
-    if (audioEnabled) {
-      initAudio();
-      if (isSimulating) startChimes();
-    } else {
-      stopChimes();
-    }
+    btnAudio.textContent = audioEnabled ? '🔊 Chimes: On' : '🔇 Chimes: Off';
+    btnAudio.classList.toggle('active', audioEnabled);
+    if (!audioEnabled) stopAudioNode();
+    else if (isSimulating) startAudioNode();
   });
 
-  // ==========================================
-  // EXPORT UTILITIES & LIVING CANVAS IMPRINTING
-  // ==========================================
-
-  // 1. Export Scalable Vector Graphics (SVG)
-  const btnSvg = document.getElementById('btnResSvg');
-  if (btnSvg) btnSvg.addEventListener('click', () => {
-    if (allPoints.length < 2) instantInscribe();
-
-    let pathD = 'M ' + allPoints[0][0] + ' ' + allPoints[0][1];
-    for (let i = 1; i < allPoints.length; i++) {
-      pathD += ' L ' + allPoints[i][0] + ' ' + allPoints[i][1];
-    }
-
-    const strokeColor = (INKS[inkKey] || INKS.gold).stroke;
-    const svgContent = `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${RW} ${RH}" width="${RW}" height="${RH}">
-  <!-- Project Qweirdo · Harmonia Mundi · Resonance Canvas -->
-  <rect width="100%" height="100%" fill="#ebe0ce"/>
-  <rect x="20" y="20" width="${RW - 40}" height="${RH - 40}" fill="none" stroke="#beaa8e" stroke-width="1.2"/>
-  <path d="${pathD}" fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="32" y="${RH - 32}" font-family="'Fraunces', Georgia, serif" font-size="14" fill="#634e3a">Project Qweirdo · ${activeRatioName} · Harmonic Harmonograph</text>
-</svg>`;
-
-    const blob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `qweirdo-resonance-${f1.toFixed(2)}-${f2.toFixed(2)}.svg`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    if (typeof msg === 'function') msg(`✦ Vector SVG exported: ${activeRatioName} (${allPoints.length} nodes).`);
-  });
-
-  // 2. Export High-Resolution Archival PNG
-  const btnPng = document.getElementById('btnResPng');
-  if (btnPng) btnPng.addEventListener('click', () => {
-    if (allPoints.length < 2) instantInscribe();
-
-    const oc = document.createElement('canvas');
-    oc.width = 2400; oc.height = 1400;
-    const ox = oc.getContext('2d');
-    const scale = 2;
-
-    // Rich parchment wash
-    ox.fillStyle = '#ebe0ce';
-    ox.fillRect(0, 0, oc.width, oc.height);
-
-    // Gilded double frame
-    ox.strokeStyle = '#d4af37';
-    ox.lineWidth = 3;
-    ox.strokeRect(40, 40, oc.width - 80, oc.height - 80);
-    ox.strokeStyle = '#844c1c';
-    ox.lineWidth = 1;
-    ox.strokeRect(48, 48, oc.width - 96, oc.height - 96);
-
-    // Draw scaled path
-    ox.save();
-    ox.lineWidth = strokeWidth * scale;
-    ox.lineCap = 'round';
-    ox.lineJoin = 'round';
-    const ink = INKS[inkKey] || INKS.gold;
-    ox.shadowColor = ink.shadow;
-    ox.shadowBlur = 4;
-
-    ox.beginPath();
-    ox.moveTo(allPoints[0][0] * scale, allPoints[0][1] * scale);
-    for (let i = 1; i < allPoints.length; i++) {
-      if (inkKey === 'bichrome') {
-        ox.strokeStyle = (Math.floor(i / 40) % 2 === 0) ? ink.stroke : ink.alt;
-      } else {
-        ox.strokeStyle = ink.stroke;
-      }
-      ox.lineTo(allPoints[i][0] * scale, allPoints[i][1] * scale);
-    }
-    ox.strokeStyle = ink.stroke;
-    ox.stroke();
-    ox.restore();
-
-    // Colophon typography
-    ox.fillStyle = '#22140a';
-    ox.font = '300 32px "Fraunces", Georgia, serif';
-    ox.fillText('HARMONIA MUNDI · RESONANCE FOLIO', 70, oc.height - 70);
-    ox.font = '400 18px "Hanken Grotesk", sans-serif';
-    ox.fillStyle = '#634e3a';
-    ox.fillText(`Ratio ${f1.toFixed(2)}:${f2.toFixed(2)} (${activeRatioName}) · Scriptorium Digitalis · Project Qweirdo`, 70, oc.height - 40);
-
-    const a = document.createElement('a');
-    a.href = oc.toDataURL('image/png');
-    a.download = `qweirdo-resonance-${f1.toFixed(2)}-${f2.toFixed(2)}.png`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    if (typeof msg === 'function') msg(`✦ High-res PNG exported: ${activeRatioName}.`);
-  });
-
-  // 3. Imprint onto Living Canvas as Illuminated Watermark
+  // Imprint onto Living Canvas as Illuminated Watermark
   const btnImprint = document.getElementById('btnResImprint');
   if (btnImprint) btnImprint.addEventListener('click', () => {
     if (allPoints.length < 2) instantInscribe();
     if (typeof saveUndo === 'function') saveUndo();
 
-    // Scale and center points onto the 1600x800 main canvas C (context X)
     X.save();
     X.globalCompositeOperation = 'source-over';
     X.globalAlpha = 0.65;
@@ -4001,58 +4031,100 @@ requestAnimationFrame(loop);
     X.shadowColor = ink.shadow;
     X.shadowBlur = 4;
 
-    const scaleX = 1600 / RW;
-    const scaleY = 800 / RH;
-    const scale = Math.min(scaleX, scaleY) * 0.95;
-    const offX = (1600 - RW * scale) / 2;
-    const offY = (800 - RH * scale) / 2;
+    const scaleX = (W * 0.72) / RW;
+    const scaleY = (H * 0.72) / RH;
+    const offsetX = (W - RW * scaleX) / 2;
+    const offsetY = (H - RH * scaleY) / 2;
 
     X.beginPath();
-    X.moveTo(allPoints[0][0] * scale + offX, allPoints[0][1] * scale + offY);
-    for (let i = 1; i < allPoints.length; i++) {
-      X.lineTo(allPoints[i][0] * scale + offX, allPoints[i][1] * scale + offY);
+    for (let i = 0; i < allPoints.length; i++) {
+      const px = offsetX + allPoints[i].x * scaleX;
+      const py = offsetY + allPoints[i].y * scaleY;
+      if (i === 0) X.moveTo(px, py);
+      else X.lineTo(px, py);
     }
     X.stroke();
-
-    // Rubrication stamp
-    X.font = '500 13px "Fraunces", Georgia, serif';
-    X.fillStyle = ink.stroke;
-    X.fillText(`✦ RES · ${activeRatioName}`, 1600 - 320, 770);
     X.restore();
 
-    steps += 100;
-    if (typeof prog === 'function') prog();
-    if (typeof msg === 'function') msg(`✦ Harmonic geometry (${activeRatioName}) imprinted onto Living Canvas as celestial watermark.`);
-
-    C.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (typeof recordUserMark === 'function') recordUserMark(W / 2, H / 2, 220);
+    playCanRattle();
+    const cvEl = document.getElementById('cv');
+    if (cvEl) cvEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    msg(`Imprinted harmonic watermark (${activeRatioName}) onto the Palimpsest Wall!`);
   });
 
-  // Initial draw
-  renderPlateBackground();
-  launchSimulation();
+  // Vector SVG Export for Pen Plotters
+  const btnSvg = document.getElementById('btnResSvg');
+  if (btnSvg) btnSvg.addEventListener('click', () => {
+    if (allPoints.length < 2) instantInscribe();
+
+    let d = '';
+    allPoints.forEach((pt, i) => {
+      d += (i === 0 ? 'M' : 'L') + pt.x.toFixed(2) + ' ' + pt.y.toFixed(2) + ' ';
+    });
+
+    const ink = INKS[inkKey] || INKS.gold;
+    const svgStr = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${RW} ${RH}" width="${RW}" height="${RH}">
+  <rect width="${RW}" height="${RH}" fill="#d8c4a4"/>
+  <path d="${d.trim()}" fill="none" stroke="${ink.stroke}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`;
+
+    const blob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `qweirdo-resonance-${activeRatioName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.svg`;
+    a.click();
+    URL.revokeObjectURL(url);
+    msg('Exported Scalable Vector Graphics (.svg) for pen-plotter!');
+  });
+
+  // Archival PNG Export
+  const btnPng = document.getElementById('btnResPng');
+  if (btnPng) btnPng.addEventListener('click', () => {
+    if (allPoints.length < 2) instantInscribe();
+    const a = document.createElement('a');
+    a.href = rcv.toDataURL('image/png');
+    a.download = `qweirdo-resonance-${activeRatioName.toLowerCase().replace(/[^a-z0-9]+/g, '-')}.png`;
+    a.click();
+    msg('Exported Archival PNG!');
+  });
+
+  // Interactive Dragging of Pendulum Bob
+  rcv.addEventListener('pointerdown', e => {
+    const rect = rcv.getBoundingClientRect();
+    const x = (e.clientX - rect.left) * (RW / rect.width);
+    const y = (e.clientY - rect.top) * (RH / rect.height);
+
+    isDragging = true;
+    dragPt = { x, y };
+    stopSimulation();
+  });
+
+  window.addEventListener('pointermove', e => {
+    if (!isDragging) return;
+    const rect = rcv.getBoundingClientRect();
+    dragPt.x = Math.max(40, Math.min(RW - 40, (e.clientX - rect.left) * (RW / rect.width)));
+    dragPt.y = Math.max(40, Math.min(RH - 40, (e.clientY - rect.top) * (RH / rect.height)));
+
+    ampX = Math.abs(dragPt.x - CX);
+    ampY = Math.abs(dragPt.y - CY);
+    instantInscribe();
+  });
+
+  window.addEventListener('pointerup', () => {
+    if (isDragging) {
+      isDragging = false;
+      initAudio();
+      startSimulation();
+    }
+  });
+
+  // Initial Inscription on Load
+  renderVellumBackground();
+  applyPreset('fifth');
 })();
 
-
-// Saved Canvas State Restoration & Autosave
-const savedImg=ld('qw_i',null);
-if(savedImg){
-  const img=new Image();
-  img.onload=()=>X.drawImage(img,0,0,W,H);
-  img.src=savedImg;
-} else {
-  amb();
-}
-
-let lastSaved=0;
-setInterval(()=>{
-  if(!done&&steps!=lastSaved){
-    lastSaved=steps;
-    sv('qw_i',C.toDataURL('image/jpeg',.82));
-    sv('qw_s',steps);
-  }
-},10000);
-
-updateUndoUI();
 
 // ==========================================
 // SITE-WIDE FLUID TEAL WAVES ENGINE
@@ -4374,77 +4446,57 @@ updateUndoUI();
 
 
 // ==========================================
-// LIVE SHARED WALL 50-SLOT RING BUFFER ENGINE
-// Synchronizes inscriptions across all visitors via SSE / REST / BroadcastChannel
-// Maintains exactly 50 slots, recycling oldest entries FIFO
+// LIVE SHARED PALIMPSEST WALL (SERVERLESS PUB/SUB VIA NTFY.SH)
+// 50-Slot Rolling Buffer with Global SSE Streaming & Soft Alpha Compositing
 // ==========================================
-(function initLiveSharedWall() {
+(function initLivePalimpsestWall() {
+  const RELAY_TOPIC = 'https://ntfy.sh/qweirdo_palimpsest_wall_v2';
   const MAX_SLOTS = 50;
-  const BACKEND_URL = (window.location.protocol === 'http:' || window.location.protocol === 'https:') 
-    ? (window.location.port ? window.location.origin : 'http://localhost:3000')
-    : 'http://localhost:3000';
-
   let livePaintings = [];
   let sseSource = null;
-  const channel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('qweirdo_palimpsest_wall') : null;
-
-  // Local storage cache key
-  const STORAGE_KEY = 'qweirdo_live_paintings_v1';
 
   function loadLocalPaintings() {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        livePaintings = JSON.parse(raw);
-        if (!Array.isArray(livePaintings)) livePaintings = [];
-        if (livePaintings.length > MAX_SLOTS) livePaintings = livePaintings.slice(0, MAX_SLOTS);
-      }
-    } catch (e) {
-      livePaintings = [];
-    }
+      const stored = localStorage.getItem('qweirdo_live_paintings');
+      if (stored) livePaintings = JSON.parse(stored);
+    } catch (e) {}
+    if (!Array.isArray(livePaintings)) livePaintings = [];
   }
 
   function saveLocalPaintings() {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(livePaintings.slice(0, MAX_SLOTS)));
+      localStorage.setItem('qweirdo_live_paintings', JSON.stringify(livePaintings.slice(0, MAX_SLOTS)));
     } catch (e) {}
-  }
-
-  function updateSlotCountBadge() {
-    const el = document.getElementById('liveSlotCount');
-    if (el) el.textContent = livePaintings.length;
   }
 
   function renderArchiveTray() {
     const scrollEl = document.getElementById('liveArchiveScroll');
+    const countEl = document.getElementById('liveSlotCount');
     const emptyHint = document.getElementById('liveEmptyHint');
     if (!scrollEl) return;
 
-    updateSlotCountBadge();
+    if (countEl) countEl.textContent = livePaintings.length;
+    scrollEl.innerHTML = '';
 
-    if (!livePaintings.length) {
-      if (emptyHint) emptyHint.style.display = 'block';
-      scrollEl.innerHTML = '';
-      if (emptyHint) scrollEl.appendChild(emptyHint);
+    if (livePaintings.length === 0) {
+      if (emptyHint) {
+        emptyHint.style.display = 'block';
+        scrollEl.appendChild(emptyHint);
+      }
       return;
     }
 
-    if (emptyHint) emptyHint.style.display = 'none';
-    scrollEl.innerHTML = '';
-
-    livePaintings.forEach((piece, idx) => {
+    livePaintings.forEach((piece) => {
       const card = document.createElement('div');
       card.className = 'live-card';
-      card.title = `Slot ${idx + 1}/50 · ${piece.title} by ${piece.writer}`;
-
       const timeAgo = formatTimeAgo(piece.timestamp);
 
       card.innerHTML = `
-        <img class="live-card-thumb" src="${piece.image}" alt="${piece.title}" loading="lazy">
+        <img class="live-card-thumb" src="${piece.image}" alt="${piece.title || 'Inscription'}" loading="lazy">
         <div class="live-card-info">
-          <div class="live-card-title">${piece.title}</div>
+          <div class="live-card-title">${piece.title || 'Untitled Burner'}</div>
           <div class="live-card-sub">
-            <span>${piece.writer}</span>
+            <span>${piece.writer || 'Anonymous Scribe'}</span>
             <span>${timeAgo}</span>
           </div>
         </div>
@@ -4472,10 +4524,11 @@ updateUndoUI();
     const img = new Image();
     img.onload = () => {
       X.save();
-      // Render as palimpsest layer over current wall
+      X.globalCompositeOperation = 'source-over';
       X.globalAlpha = 0.88;
       X.drawImage(img, 0, 0, W, H);
       X.restore();
+      if (typeof recordUserMark === 'function') recordUserMark(W / 2, H / 2, 200);
       playCanRattle();
       msg(`Layered shared inscription "${piece.title}" by ${piece.writer} onto the wall!`);
     };
@@ -4483,8 +4536,8 @@ updateUndoUI();
   }
 
   function addPaintingToBuffer(piece) {
-    // Avoid exact duplicate IDs
-    if (livePaintings.some(p => p.id === piece.id || (p.hash && p.hash === piece.hash))) return;
+    if (!piece || !piece.image) return;
+    if (livePaintings.some(p => (piece.id && p.id === piece.id) || (p.hash && piece.hash && p.hash === piece.hash))) return;
 
     livePaintings.unshift(piece);
     if (livePaintings.length > MAX_SLOTS) {
@@ -4494,7 +4547,40 @@ updateUndoUI();
     renderArchiveTray();
   }
 
-  // Connect to SSE stream
+  // Composite incoming global piece onto canvas automatically with soft alpha blending
+  function compositeLivePieceOntoCanvas(piece) {
+    if (!piece || !piece.image) return;
+    const img = new Image();
+    img.onload = () => {
+      saveUndo();
+      X.save();
+      X.globalCompositeOperation = 'source-over';
+      X.globalAlpha = 0.55;
+
+      const zoneIdx = Math.floor(Math.random() * 6);
+      const [cx, cy] = slot(zoneIdx);
+      const w = 440, h = 220;
+      const x = Math.max(30, Math.min(W - w - 30, cx - w / 2 + (Math.random() * 80 - 40)));
+      const y = Math.max(30, Math.min(H - h - 30, cy - h / 2 + (Math.random() * 60 - 30)));
+
+      X.drawImage(img, x, y, w, h);
+
+      if (piece.title || piece.writer) {
+        X.font = "italic 600 13px 'Fraunces', serif";
+        X.fillStyle = 'rgba(212, 175, 55, 0.78)';
+        X.shadowColor = 'rgba(0,0,0,0.6)';
+        X.shadowBlur = 4;
+        X.fillText(`✦ ${piece.title || 'Burner'} · ${piece.writer || 'Anonymous'}`, x + 10, y + h - 10);
+      }
+      X.restore();
+      if (typeof recordUserMark === 'function') recordUserMark(x + w / 2, y + h / 2, w / 2);
+      playCanRattle();
+      msg(`📡 Global live inscription: "${piece.title || 'Burner'}" by ${piece.writer || 'Anonymous Scribe'}!`);
+    };
+    img.src = piece.image;
+  }
+
+  // Connect to SSE stream via ntfy
   function connectLiveStream() {
     const statusEl = document.getElementById('liveSyncStatus');
     const dotEl = document.getElementById('livePulseDot');
@@ -4502,135 +4588,125 @@ updateUndoUI();
 
     try {
       if (sseSource) sseSource.close();
-      sseSource = new EventSource(BACKEND_URL + '/api/stream');
+      sseSource = new EventSource(RELAY_TOPIC + '/sse');
 
-      sseSource.addEventListener('connected', () => {
-        if (statusEl) statusEl.textContent = '● Live Server Active';
+      sseSource.onopen = () => {
+        if (statusEl) statusEl.textContent = '● Global Relay Active (ntfy)';
         if (dotEl) { dotEl.style.background = '#10b981'; dotEl.style.boxShadow = '0 0 8px #10b981'; }
         if (indEl) indEl.style.background = '#10b981';
-      });
+      };
 
-      sseSource.addEventListener('new_painting', (e) => {
+      sseSource.onmessage = (e) => {
         try {
           const data = JSON.parse(e.data);
-          if (data && data.piece) {
-            addPaintingToBuffer(data.piece);
-            msg(`📡 Live update: "${data.piece.title}" inscribed by ${data.piece.writer}!`);
-            playCanRattle();
+          if (data && data.event === 'message' && data.message) {
+            let piece = null;
+            try {
+              piece = typeof data.message === 'string' ? JSON.parse(data.message) : data.message;
+            } catch (err) {}
+            if (piece && piece.image) {
+              const isNew = !livePaintings.some(p => p.id === piece.id);
+              addPaintingToBuffer(piece);
+              if (isNew) {
+                compositeLivePieceOntoCanvas(piece);
+              }
+            }
           }
         } catch (err) {}
-      });
+      };
 
       sseSource.onerror = () => {
-        if (statusEl) statusEl.textContent = '○ Local Peer Sync';
+        if (statusEl) statusEl.textContent = '○ Reconnecting Relay…';
         if (dotEl) { dotEl.style.background = '#f59e0b'; dotEl.style.boxShadow = '0 0 8px #f59e0b'; }
         if (indEl) indEl.style.background = '#f59e0b';
       };
     } catch (err) {
-      if (statusEl) statusEl.textContent = '○ Local Peer Sync';
+      if (statusEl) statusEl.textContent = '○ Local Peer Archive';
     }
   }
 
-  // Fetch initial paintings from server or local
+  // Fetch initial global inscriptions via ntfy poll=1&since=all
   async function syncPaintings() {
     loadLocalPaintings();
     renderArchiveTray();
 
     try {
-      const res = await fetch(BACKEND_URL + '/api/paintings');
+      const res = await fetch(RELAY_TOPIC + '/json?poll=1&since=all');
       if (res.ok) {
-        const json = await res.json();
-        if (json.paintings && Array.isArray(json.paintings)) {
-          // Merge server paintings
-          json.paintings.forEach(p => {
-            if (!livePaintings.some(lp => lp.id === p.id)) {
-              livePaintings.push(p);
+        const text = await res.text();
+        const lines = text.trim().split('\n');
+        lines.forEach(line => {
+          if (!line.trim()) return;
+          try {
+            const data = JSON.parse(line);
+            if (data && data.event === 'message' && data.message) {
+              let piece = null;
+              try {
+                piece = typeof data.message === 'string' ? JSON.parse(data.message) : data.message;
+              } catch (err) {}
+              if (piece && piece.image && !livePaintings.some(lp => lp.id === piece.id)) {
+                livePaintings.push(piece);
+              }
             }
-          });
-          livePaintings.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-          if (livePaintings.length > MAX_SLOTS) livePaintings = livePaintings.slice(0, MAX_SLOTS);
-          saveLocalPaintings();
-          renderArchiveTray();
-        }
+          } catch (err) {}
+        });
+        livePaintings.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+        if (livePaintings.length > MAX_SLOTS) livePaintings = livePaintings.slice(0, MAX_SLOTS);
+        saveLocalPaintings();
+        renderArchiveTray();
       }
-    } catch (err) {
-      // Offline fallback: rely on local storage
-    }
-  }
-
-  // Listen to cross-tab BroadcastChannel
-  if (channel) {
-    channel.onmessage = (e) => {
-      if (e.data && e.data.type === 'new_painting' && e.data.piece) {
-        addPaintingToBuffer(e.data.piece);
-        msg(`📡 Local broadcast: "${e.data.piece.title}" inscribed by ${e.data.piece.writer}!`);
-      }
-    };
+    } catch (err) {}
   }
 
   // Action Button: Inscribe current canvas to live shared wall
   const btnBroadcast = document.getElementById('btnLiveBroadcast');
   if (btnBroadcast) {
     btnBroadcast.onclick = async () => {
+      const tagPrompt = prompt('Enter your tag moniker or crew name:', 'Anonymous Scribe');
+      if (tagPrompt === null) return;
+      const writerTag = tagPrompt.trim() || 'Anonymous Scribe';
+
       let title = $('#wd') ? $('#wd').value.trim() : '';
-      if (!title) {
-        title = prompt('Enter a title or moniker for this shared wall inscription:', 'Palimpsest Burner');
-        if (title === null) return;
-        title = title.trim();
-        if (!title) title = 'Untitled Inscription';
-      }
+      if (!title) title = 'Palimpsest Burner';
 
-      const coauth = (typeof cred !== 'undefined' && cred.length) 
-        ? cred.map(c => c.name).join(', ') 
-        : 'Subway Writer';
-
-      // Capture medium-res thumbnail for efficient 50-slot streaming
-      const snapCanvas = document.createElement('canvas');
-      snapCanvas.width = 800; snapCanvas.height = 400;
-      const snapCtx = snapCanvas.getContext('2d');
-      snapCtx.drawImage(C, 0, 0, 800, 400);
-      const imgData = snapCanvas.toDataURL('image/png', 0.82);
+      // Capture compact WebP thumbnail (220x110)
+      const thumbCanvas = document.createElement('canvas');
+      thumbCanvas.width = 220; thumbCanvas.height = 110;
+      const thumbCtx = thumbCanvas.getContext('2d');
+      thumbCtx.drawImage(C, 0, 0, 220, 110);
+      const webpData = thumbCanvas.toDataURL('image/webp', 0.82);
 
       const piecePayload = {
+        id: 'pw_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
         title: title,
-        writer: coauth,
+        writer: writerTag,
+        timestamp: Date.now(),
         substrate: currentSubstrate,
         cap: currentCap,
         scheme: activeScheme,
-        customTag: title,
-        image: imgData,
+        image: webpData,
         inspirers: (typeof cred !== 'undefined' && cred.length) ? cred.map(c => c.name) : []
       };
 
-      msg('Transmitting piece to live shared wall (50-slot buffer)…');
+      msg('Transmitting piece to global shared wall via serverless pub/sub…');
 
-      let savedToServer = false;
+      let savedToRelay = false;
       try {
-        const postRes = await fetch(BACKEND_URL + '/api/paintings', {
+        const postRes = await fetch(RELAY_TOPIC, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(piecePayload)
         });
         if (postRes.ok) {
-          savedToServer = true;
-          const json = await postRes.json();
-          msg(`✓ Successfully inscribed to live wall! Slot ${json.slot}/${json.maxSlots}.`);
+          savedToRelay = true;
+          addPaintingToBuffer(piecePayload);
+          msg(`✓ Inscribed to live global wall! Broadcast worldwide.`);
         }
       } catch (err) {}
 
-      if (!savedToServer) {
-        // Fallback to local storage & BroadcastChannel
-        const localPiece = {
-          ...piecePayload,
-          id: 'local_' + Date.now(),
-          timestamp: Date.now(),
-          hash: 'local_hash_' + Date.now().toString(16)
-        };
-        addPaintingToBuffer(localPiece);
-        if (channel) {
-          channel.postMessage({ type: 'new_painting', piece: localPiece });
-        }
-        msg(`✓ Inscribed to local 50-slot archive & broadcasted across open browser tabs!`);
+      if (!savedToRelay) {
+        addPaintingToBuffer(piecePayload);
+        msg(`✓ Inscribed to local 50-slot archive (Relay offline, saved locally).`);
       }
 
       playCanRattle();
@@ -4661,7 +4737,7 @@ updateUndoUI();
   if (btnRefresh) {
     btnRefresh.onclick = () => {
       syncPaintings();
-      msg('Synchronized 50-slot shared archive.');
+      msg('Synchronized 50-slot global archive.');
     };
   }
 
