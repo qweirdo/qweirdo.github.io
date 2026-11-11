@@ -16,7 +16,7 @@
 
 ### Core Capabilities
 
-- **The Palimpsest Wall & Deckled Mini-Canvases:** A tactile paper-and-wall substrate with laid chain lines, wire watermark grids, rag fibers, and craquelure. Form focused mini-canvases in illuminated cartouches and blend them into the master wall with deckled edges.
+- **The Living Urban Wall & Deckled Mini-Canvases:** A tactile paper-and-wall substrate with laid chain lines, wire watermark grids, rag fibers, and craquelure. Form focused mini-canvases in illuminated cartouches and blend them into the master wall with deckled edges.
 - **Philatelic & Geometric Stamp Forge:** 8 procedural motifs inspired by stamps of philately (perforated postage stamps, circular postmarks, heraldic wax seals) and mathematical wonders (Metatron's cube, golden ratio nautilus spirals, Penrose decagrams, Guilloché banknote rosettes, flower of life).
 - **Premium Scriptorium Palette:** 10 curated mineral enamels (Illuminated Gold, Lapis Lazuli, Venetian Oxblood, Verdigris Teal, Florentine Sage, Tyrian Purple, Walnut Bistre, Pompeian Terracotta, Sterling Silver, Opal Obsidian) plus an infinite spectral color picker.
 - **Art by Issue & Static Edition Ledger:** Public offerings submitted via GitHub Issues are validated and committed to `data/edition.json` via GitHub Actions. Every visitor renders the exact same wall deterministically through a seeded PRNG derived from offering IDs and words. (`server.js` is preserved as an optional, unused standalone relay; GitHub Pages runs 100% static).

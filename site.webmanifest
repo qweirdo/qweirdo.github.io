@@ -1,7 +1,7 @@
 {
-  "name": "Project Qweirdo · The Palimpsest Wall",
+  "name": "Project Qweirdo · Living Urban Wall",
   "short_name": "Qweirdo",
-  "description": "Interactive generative street-art studio on aged manuscript vellum with sacred geometry stamps, algorithmic wildstyle, and collaborative epigraphy.",
+  "description": "A digital sanctuary: a place to drift, doodle, and leave anonymous marks across a living, shared urban wall that breathes with time.",
   "start_url": "/",
   "display": "standalone",
   "orientation": "any",

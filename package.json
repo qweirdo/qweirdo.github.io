@@ -1,7 +1,7 @@
 {
   "name": "project-qweirdo",
   "version": "1.0.0",
-  "description": "The Palimpsest Wall: Digitally Aided Graffiti Canvas & Manifesto Archive",
+  "description": "The Living Urban Wall: Digitally Aided Graffiti Canvas & Manifesto Archive",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

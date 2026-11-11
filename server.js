@@ -78,7 +78,7 @@ const server = http.createServer((req, res) => {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({
       status: 'ok',
-      service: 'Project Qweirdo Palimpsest Live Engine',
+      service: 'Project Qweirdo Live Engine',
       slots: paintings.length,
       maxSlots: MAX_SLOTS,
       connectedClients: sseClients.size,
@@ -116,7 +116,7 @@ const server = http.createServer((req, res) => {
       try {
         const payload = JSON.parse(body);
         const {
-          title = 'Palimpsest Inscription',
+          title = 'Wall Inscription',
           writer = 'Anonymous Writer',
           image,
           substrate = 'mta',
@@ -148,7 +148,7 @@ const server = http.createServer((req, res) => {
           hash,
           timestamp,
           provenance: {
-            engine: 'Project Qweirdo Palimpsest Studio',
+            engine: 'Project Qweirdo Studio',
             license: 'CC BY-NC 4.0 (Attribution-NonCommercial)',
             attribution: 'Project Qweirdo (https://qweirdo.github.io)',
             educationalUse: 'Free for non-commercial & educational purposes with attribution',
@@ -178,7 +178,7 @@ const server = http.createServer((req, res) => {
           recycledId: recycledPiece ? recycledPiece.id : null
         });
 
-        console.log(`[Palimpsest] Stored painting "${newPiece.title}" by "${newPiece.writer}" (Slot ${paintings.length}/${MAX_SLOTS})`);
+        console.log(`[Wall] Stored painting "${newPiece.title}" by "${newPiece.writer}" (Slot ${paintings.length}/${MAX_SLOTS})`);
 
         res.writeHead(201, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({
@@ -257,7 +257,7 @@ setInterval(() => {
 if (require.main === module) {
   server.listen(PORT, () => {
     console.log(`=======================================================`);
-    console.log(`  Project Qweirdo Palimpsest Live Backend Active`);
+    console.log(`  Project Qweirdo Live Backend Active`);
     console.log(`  Port: http://localhost:${PORT}`);
     console.log(`  Storage: 50-slot FIFO ring buffer (${DATA_FILE})`);
     console.log(`  SSE Live Stream: http://localhost:${PORT}/api/stream`);
