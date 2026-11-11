@@ -428,7 +428,8 @@ main,nav,footer{position:relative;z-index:1}
 .tool-btn.active-fluid{border-color:var(--teal);background:var(--tx);color:#38a3a5;box-shadow:0 0 8px rgba(56,163,165,0.4)}
 #btnPulseWave{background:linear-gradient(135deg,#1b5e5a,#287a74);color:#fff;border-color:transparent}
 #btnPulseWave:hover{background:linear-gradient(135deg,#287a74,#38a3a5);transform:translateY(-1px);box-shadow:0 6px 16px rgba(27,94,90,0.4)}
-
+body.studio-simple #capMop,body.studio-simple #capSpatter,body.studio-simple #toolBuff,body.studio-simple #toolLoupe,body.studio-simple #btnFluidity,body.studio-simple #btnPulseWave,body.studio-simple #btnAudio,body.studio-simple #btnWildstyle,body.studio-simple #btnBubble,body.studio-simple #btnHandstyle{display:none!important}
+.res-pro-drawer[hidden]{display:none!important}
 </style></head><body>
 <svg style="display:none" aria-hidden="true"><defs>
 <g id="ico-x"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></g>
@@ -4238,9 +4239,16 @@ function recordUserMark(x, y, radius = 50) {
 // Ambient Machine Conservator (Slow & Contextual AI Growth)
 function amb() {
   // Attracted strictly to areas where user-made inscriptions or tags exist
-  if (!userInscriptions.length) return;
+  const c = Array.isArray(window.__lastUserMarkCentroid) ? window.__lastUserMarkCentroid : null;
+  if (!c && !userInscriptions.length) return;
 
-  const target = userInscriptions[Math.floor(Math.random() * userInscriptions.length)];
+  const target = c
+    ? {
+        x: Math.max(40, Math.min(W - 40, c[0] + R(-140, 140))),
+        y: Math.max(40, Math.min(H - 40, c[1] + R(-140, 140))),
+        radius: R(35, 95)
+      }
+    : userInscriptions[Math.floor(Math.random() * userInscriptions.length)];
   const mode = Math.random();
 
   if (mode < 0.38) {
@@ -4939,8 +4947,17 @@ if (btnRefresh) {
   };
 }
 
-// Load on initialization
-loadEditionLedger();
+// Global bridge & live co-working module
+window.__QW = {
+  C, X, O, W, H, SCHEMES,
+  getState: () => ({ cap: currentCap, substrate: currentSubstrate, scheme: activeScheme }),
+  saveUndo, addDrip, drawAerosol,
+  stampWildstyleBurner, stampBubbleSoftie, stampHandstyle,
+  msg, playCanRattle, isBad
+};
+loadEditionLedger().finally(() => {
+  import('./wall-live.js').catch(() => {});
+});
 
 // AESTHETIC SOCIAL MEDIA SHARING ENGINE
 // Seamless sharing to X, Facebook, Bluesky, Threads, LinkedIn, Reddit, WhatsApp, and Direct Copy
