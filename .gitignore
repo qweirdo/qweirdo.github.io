@@ -14,5 +14,6 @@ node_modules/
 Thumbs.db
 Desktop.ini
 
-# Local runtime data
+# Local runtime data & build outputs
 data/paintings.json
+_site/

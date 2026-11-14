@@ -4,6 +4,7 @@
   "description": "The Living Urban Wall: Digitally Aided Graffiti Canvas & Sanctuary Archive",
   "type": "module",
   "scripts": {
+    "build": "node scripts/build-site.mjs",
     "test": "node --test test/*.test.mjs",
     "check:schema": "node scripts/check-schema.mjs",
     "deploy:qweirdo": "npx wrangler pages deploy . --project-name=qweirdo --branch=main"
