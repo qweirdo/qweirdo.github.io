@@ -4,6 +4,13 @@ const CREDITS_ENDPOINT=''; // optional: paste endpoint to receive credit submiss
 const $=s=>document.querySelector(s),C=$('#cv'),X=C.getContext('2d'),O=$('#ov').getContext('2d'),W=1600,H=800,TARGET=150000,R=(a,b)=>a+Math.random()*(b-a);
 const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
 let steps=ld('qw_s',0),cred=ld('qw_c',[]),arch=ld('qw_a',[]),ag=[],wall=[],vivid=.7,done=false,t=0,pt=null,hoverPos=null,lastAmbTime=0;
+let currentNftMetadata = null;
+let currentNftHash = '';
+let activeEdition = [];
+let lastHumanMarkTime = 0, lastAiSketchTime = 0;
+let cov = Array(128).fill(0);
+const fmt = d => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+function msg(m, w) { const e = $('#msg'); if (!e) return; e.textContent = m; e.className = w ? 'warn' : ''; }
 
 // Topographic Stratigraphy & Subterranean Zones
 const ZONES=[
@@ -2369,8 +2376,6 @@ $('#btnExportFolio').onclick=()=>{
 };
 
 $('#btnCloseFolio').onclick=()=>$('#folioModal').classList.remove('open');
-let currentNftMetadata = null;
-let currentNftHash = '';
 
 async function computeSha256(text) {
   try {
@@ -2992,8 +2997,6 @@ function rC(){
   });
 }
 
-const fmt=d=>new Date(d).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
-
 
 // ==========================================
 // HIGHLY DETAILED INTRICATE PROCEDURAL ART GENERATORS
@@ -3120,8 +3123,6 @@ const AI_SHAPE_NAMES={
   nature:'Golden Ratio Nautilus'
 };
 
-let lastHumanMarkTime=0,lastAiSketchTime=0;
-
 function spawnAiIdea(category,cx,cy,schemeKey){
   const cat=category||AI_SHAPE_KEYS[Math.floor(Math.random()*AI_SHAPE_KEYS.length)];
   const drawer=INTRICATE_AI_SHAPES[cat]||drawIntricateCastle;
@@ -3201,9 +3202,6 @@ const SH={
 };
 const STOP=new Set('the a an and or of to in is it test hello hi asdf abc lol ok'.split(' '));
 const hs=w=>[...w].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
-
-let cov=Array(128).fill(0);
-function msg(m,w){const e=$('#msg');if(!e)return;e.textContent=m;e.className=w?'warn':'';}
 
 function slot(zonePref){
   let order=[0,1,2,3,4,5];
@@ -3769,8 +3767,6 @@ function hashSeed(id, words) {
   }
   return h;
 }
-
-let activeEdition = [];
 
 async function loadEditionLedger() {
   const statusEl = document.getElementById('liveSyncStatus');
