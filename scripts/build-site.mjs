@@ -12,6 +12,7 @@ export function buildSite(rootDir = '.', outDirName = '_site') {
 
   const allowlist = [
     'index.html',
+    'studio.js',
     'wall-live.js',
     'replay.js',
     'robots.txt',
@@ -19,6 +20,7 @@ export function buildSite(rootDir = '.', outDirName = '_site') {
     'site.webmanifest',
     'og-image.png',
     'og-image.svg',
+    '_headers',
     'CNAME'
   ];
 

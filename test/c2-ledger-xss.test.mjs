@@ -32,11 +32,13 @@ class MockElement {
 }
 
 test('C2: Ledger row with XSS payload renders strictly as literal text without DOM injection', async () => {
-  const html = fs.readFileSync('I:/qweirdo.github.io/index.html', 'utf8');
+  const code = fs.existsSync('I:/qweirdo.github.io/studio.js')
+    ? fs.readFileSync('I:/qweirdo.github.io/studio.js', 'utf8')
+    : fs.readFileSync('I:/qweirdo.github.io/index.html', 'utf8');
 
   // Match async function loadEditionLedger
-  const ledgerMatch = html.match(/async function loadEditionLedger\(\)[\s\S]*?\n\}/);
-  assert.ok(ledgerMatch, 'async function loadEditionLedger must be present in index.html');
+  const ledgerMatch = code.match(/async function loadEditionLedger\(\)[\s\S]*?\n\}/);
+  assert.ok(ledgerMatch, 'async function loadEditionLedger must be present in codebase');
 
   const scrollMock = new MockElement('div');
   const mockDoc = {
