@@ -1,21 +1,12 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
+import { isBad } from '../src/filter.js';
 
 export const WORD_REGEX = /^[\p{L}\p{M}\p{N}'’-]{1,24}$/u;
 export const NAME_REGEX = /^[\p{L}\p{M}\p{N} .,'’_-]{1,40}$/u;
 
-// Core blocklist for word validation (auto-block per D2)
-const BAD_SET = new Set('ass sex cum tits piss'.split(' '));
-const SUB_LIST = 'fuck shit bitch cunt pussy asshole whore slut dick cock retard rape porn wank twat fck fuk nigg fag kike chink spic gook nazi hitler swastik aryan whitepower kkk fascis gestapo holocaust apartheid genocid terror jihad isis isil daesh alqaeda taliban hamas hezbollah insurrect assassin boko blasphem sacrileg desecrat defile burnquran burnbible kaffir kafir infidel sedition extremist dhimmi heretic'.split(' ');
-
-export function isBadTerm(term) {
-  if (!term) return true;
-  const str = String(term).toLowerCase();
-  const norm = str.replace(/0/g,'o').replace(/[1!|]/g,'i').replace(/3/g,'e').replace(/[4@]/g,'a').replace(/[5$]/g,'s').replace(/[^a-z]/g,'');
-  if (BAD_SET.has(norm)) return true;
-  return SUB_LIST.some(sub => norm.includes(sub));
-}
+export const isBadTerm = isBad;
 
 export function parseOffering(body) {
   if (typeof body !== 'string') return { words: [], name: '', link: '' };

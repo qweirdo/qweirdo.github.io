@@ -1,3 +1,5 @@
+import { isBad, filterText } from './src/filter.js';
+
 const CREDITS_ENDPOINT=''; // optional: paste endpoint to receive credit submissions
 const $=s=>document.querySelector(s),C=$('#cv'),X=C.getContext('2d'),O=$('#ov').getContext('2d'),W=1600,H=800,TARGET=150000,R=(a,b)=>a+Math.random()*(b-a);
 const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
@@ -3197,10 +3199,6 @@ const SH={
   tree:CI(0,0,18)
 };
 const STOP=new Set('the a an and or of to in is it test hello hi asdf abc lol ok'.split(' '));
-const SUB='fuck shit bitch cunt pussy asshole whore slut dick cock retard rape porn wank twat fck fuk nigg fag kike chink spic gook nazi hitler swastik aryan whitepower kkk fascis gestapo holocaust apartheid genocid terror jihad isis isil daesh alqaeda taliban hamas hezbollah insurrect assassin boko blasphem sacrileg desecrat defile burnquran burnbible kaffir kafir infidel sedition extremist dhimmi heretic'.split(' ');
-const BAD=new Set('ass sex cum tits piss'.split(' '));
-const norm=w=>String(w).toLowerCase().replace(/0/g,'o').replace(/[1!|]/g,'i').replace(/3/g,'e').replace(/[4@]/g,'a').replace(/[5$]/g,'s').replace(/[^a-z]/g,'');
-const isBad=w=>{const n=norm(w);return !n||BAD.has(n)||SUB.some(s=>n.includes(s))};
 const hs=w=>[...w].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
 
 let cov=Array(128).fill(0);

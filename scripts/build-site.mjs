@@ -42,6 +42,11 @@ export function buildSite(rootDir = '.', outDirName = '_site') {
     fs.cpSync(assetsSrc, path.join(outDir, 'assets'), { recursive: true });
   }
 
+  const srcDir = path.join(root, 'src');
+  if (fs.existsSync(srcDir)) {
+    fs.cpSync(srcDir, path.join(outDir, 'src'), { recursive: true });
+  }
+
   const rootFiles = fs.readdirSync(root);
   rootFiles.forEach(f => {
     if (/^(favicon|apple-touch-icon|icon-).*\.(png|svg|ico)$/i.test(f)) {

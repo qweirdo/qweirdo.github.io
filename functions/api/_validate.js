@@ -8,20 +8,9 @@ export const ALLOWED_PRIM_TYPES = new Set(['bezier', 'poly']);
 
 export const SAFE_THUMB_REGEX = /^data:image\/(?:png|jpeg|webp);base64,[A-Za-z0-9+/]+={0,2}$/;
 
-// Shared anti-abuse term list
-const BAD_SET = new Set('ass sex cum tits piss'.split(' '));
-const SUB_LIST = 'fuck shit bitch cunt pussy asshole whore slut dick cock retard rape porn wank twat fck fuk nigg fag kike chink spic gook nazi hitler swastik aryan whitepower kkk fascis gestapo holocaust apartheid genocid terror jihad isis isil daesh alqaeda taliban hamas hezbollah insurrect assassin boko blasphem sacrileg desecrat defile burnquran burnbible kaffir kafir infidel sedition extremist dhimmi heretic'.split(' ');
+import { isBad } from '../../src/filter.js';
 
-export function isBadText(str) {
-  if (!str) return false;
-  const words = String(str).toLowerCase().split(/\s+/);
-  return words.some(w => {
-    const norm = w.replace(/0/g, 'o').replace(/[1!|]/g, 'i').replace(/3/g, 'e').replace(/[4@]/g, 'a').replace(/[5$]/g, 's').replace(/[^a-z]/g, '');
-    if (!norm) return false;
-    if (BAD_SET.has(norm)) return true;
-    return SUB_LIST.some(s => norm.includes(s));
-  });
-}
+export const isBadText = isBad;
 
 export function cleanStr(s, max = 48, def = '') {
   if (typeof s !== 'string') return def;
