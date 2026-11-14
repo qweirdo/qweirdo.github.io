@@ -2680,6 +2680,7 @@ window.addEventListener('keydown',e=>{
 
 // Canvas Overlay loop (renders stencil mask, cursor cap reticle, and loupe)
 let overlayClean=false;
+function drawOverlay(){ over(); }
 function over(){
   if(!hoverPos&&!activeStencil&&!activeMiniCanvas){
     if(!overlayClean){O.clearRect(0,0,W,H);overlayClean=true;}
