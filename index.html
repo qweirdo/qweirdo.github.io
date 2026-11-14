@@ -3804,15 +3804,15 @@ function rA(){
     const cap=document.createElement('figcaption');
     const meta=document.createElement('div');
     meta.className='archive-meta';
-    const coauthors=(a.n&&a.n.length)?a.n.map(x=>x.name).join(', '):'Anonymous Scribes';
-    const dateSpan=document.createElement('span');
-    dateSpan.className='archive-date';
-    dateSpan.textContent=fmt(a.d);
-    const provSpan=document.createElement('span');
-    provSpan.className='archive-prov';
-    provSpan.title=coauthors;
-    provSpan.textContent=`Co-creators: ${coauthors}`;
-    meta.append(dateSpan,provSpan);
+    const coauthors = (a.n && a.n.length) ? a.n.map(x => String(x.name || '')).filter(Boolean).join(', ') : 'Anonymous Scribes';
+    const dateSpan = document.createElement('span');
+    dateSpan.className = 'archive-date';
+    dateSpan.textContent = fmt(a.d);
+    const provSpan = document.createElement('span');
+    provSpan.className = 'archive-prov';
+    provSpan.setAttribute('title', coauthors);
+    provSpan.textContent = `Co-creators: ${coauthors}`;
+    meta.append(dateSpan, provSpan);
 
     const rpBtn=document.createElement('button');
     rpBtn.type='button';
@@ -4689,9 +4689,16 @@ async function loadEditionLedger() {
       scrollEl.appendChild(empty);
     } else {
       activeEdition.forEach(item => {
+        if (!item || typeof item !== 'object') return;
+        if (!Array.isArray(item.words)) return;
+        const wordsList = item.words.filter(w => typeof w === 'string');
+        if (!wordsList.length) return;
+        const wordsStr = wordsList.join(' ');
+        const safeName = String(item.name || 'Anonymous Scribe');
+        const safeId = Number(item.id) || 0;
+
         const card = document.createElement('div');
         card.className = 'live-card';
-        const wordsStr = Array.isArray(item.words) ? item.words.join(' ') : String(item.words);
         const info = document.createElement('div');
         info.className = 'live-card-info';
         info.style.padding = '.6rem';
@@ -4704,9 +4711,9 @@ async function loadEditionLedger() {
         sub.className = 'live-card-sub';
         sub.style.marginTop = '.4rem';
         const nameSpan = document.createElement('span');
-        nameSpan.textContent = item.name || 'Anonymous Scribe';
+        nameSpan.textContent = safeName;
         const idSpan = document.createElement('span');
-        idSpan.textContent = `#${item.id}`;
+        idSpan.textContent = `#${safeId}`;
         sub.append(nameSpan, idSpan);
         info.append(titleEl, sub);
         card.appendChild(info);
