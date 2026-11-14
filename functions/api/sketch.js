@@ -1,4 +1,4 @@
-// Cloudflare Pages Function: Workers AI Vector Sketch & Seam-Bridge Generator
+// Cloudflare Pages Function: Sub-Second Workers AI Vector Sketch & Seam-Bridge Generator
 const CORS = {
   'Content-Type': 'application/json; charset=utf-8',
   'Access-Control-Allow-Origin': '*',
@@ -23,46 +23,46 @@ function seededRng(seedStr) {
 function buildProceduralMural(prompt, cx, cy, nx, ny, scheme) {
   const rng = seededRng(prompt + '_' + cx + '_' + cy);
   const primitives = [];
-  const rings = 3 + Math.floor(rng() * 3);
+  const rings = 3 + Math.floor(rng() * 2);
 
   for (let r = 0; r < rings; r++) {
-    const rad = 28 + r * 24 + rng() * 12;
+    const rad = 26 + r * 24 + rng() * 10;
     const pts = [];
     const steps = 16;
     for (let i = 0; i <= steps; i++) {
       const a = (i / steps) * Math.PI * 2;
-      const wobble = 1 + Math.sin(a * (3 + r)) * 0.18;
+      const wobble = 1 + Math.sin(a * (3 + r)) * 0.2;
       pts.push([
         Math.round(cx + Math.cos(a) * rad * wobble),
         Math.round(cy + Math.sin(a) * rad * wobble)
       ]);
     }
-    primitives.push({ type: 'poly', pts, scheme, width: 1.8 - r * 0.3, alpha: 0.72 - r * 0.12 });
+    primitives.push({ type: 'poly', closed: true, pts, scheme, width: 1.9 - r * 0.25, alpha: 0.85 - r * 0.1 });
   }
 
-  for (let k = 0; k < 6; k++) {
-    const a = (k / 6) * Math.PI * 2 + rng() * 0.5;
-    const len = 45 + rng() * 65;
-    const x1 = Math.round(cx + Math.cos(a) * 14);
-    const y1 = Math.round(cy + Math.sin(a) * 14);
-    const ctrlX = Math.round(cx + Math.cos(a + 0.35) * (len * 0.6));
-    const ctrlY = Math.round(cy + Math.sin(a + 0.35) * (len * 0.6));
+  for (let k = 0; k < 8; k++) {
+    const a = (k / 8) * Math.PI * 2 + rng() * 0.4;
+    const len = 42 + rng() * 68;
+    const x1 = Math.round(cx + Math.cos(a) * 12);
+    const y1 = Math.round(cy + Math.sin(a) * 12);
+    const ctrlX = Math.round(cx + Math.cos(a + 0.38) * (len * 0.6));
+    const ctrlY = Math.round(cy + Math.sin(a + 0.38) * (len * 0.6));
     const x2 = Math.round(cx + Math.cos(a) * len);
     const y2 = Math.round(cy + Math.sin(a) * len);
-    primitives.push({ type: 'bezier', pts: [[x1, y1], [ctrlX, ctrlY], [x2, y2]], scheme, width: 2.2, alpha: 0.78 });
+    primitives.push({ type: 'bezier', pts: [[x1, y1], [ctrlX, ctrlY], [x2, y2]], scheme, width: 2.1, alpha: 0.88 });
   }
 
   const bridges = [];
-  if (nx && ny && Math.hypot(nx - cx, ny - cy) < 680) {
+  if (nx && ny && Math.hypot(nx - cx, ny - cy) < 520) {
     for (let b = 0; b < 3; b++) {
-      const midX = Math.round((cx + nx) / 2 + (rng() - 0.5) * 90);
-      const midY = Math.round((cy + ny) / 2 + (rng() - 0.5) * 70);
+      const midX = Math.round((cx + nx) / 2 + (rng() - 0.5) * 85);
+      const midY = Math.round((cy + ny) / 2 + (rng() - 0.5) * 65);
       bridges.push({
         type: 'bezier',
         pts: [[Math.round(cx), Math.round(cy)], [midX, midY], [Math.round(nx), Math.round(ny)]],
         scheme,
-        width: 1.1 + b * 0.4,
-        alpha: 0.36
+        width: 1.2 + b * 0.35,
+        alpha: 0.48
       });
     }
   }
@@ -82,18 +82,18 @@ export async function onRequestPost(context) {
     const cy = Math.max(100, Math.min(700, Math.round(Number(body.cy) || 400)));
     const nx = Number(body.neighborX) || 0;
     const ny = Number(body.neighborY) || 0;
-    const scheme = ['gold','chrome','oxblood','tealsage','matte'].includes(body.scheme) ? body.scheme : 'gold';
+    const scheme = String(body.scheme || 'gold').slice(0, 20);
 
     if (context.env && context.env.AI) {
       try {
-        const sys = `You are a generative 2D vector muralist for a 1600x800 urban graffiti wall. Output ONLY valid JSON with key "primitives": an array of 10 to 16 vector objects centered near (${cx}, ${cy}) within radius 110 representing "${prompt}". Each object must be {"type":"bezier"|"poly"|"arc","pts":[[x,y],...],"width":1..3.5,"alpha":0.35..0.9}. No markdown, no prose.`;
+        const sys = `You are a 2D vector muralist for a 1600x800 street wall. Output ONLY compact valid JSON with key "primitives": an array of 10 to 14 vector objects centered near (${cx},${cy}) within radius 115 representing "${prompt}". Each item: {"type":"bezier"|"poly","closed":true|false,"pts":[[x,y],...],"width":1.2..3.2}. No markdown.`;
         const aiRes = await context.env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
           messages: [
             { role: 'system', content: sys },
-            { role: 'user', content: `Generate vector mural for "${prompt}" at (${cx},${cy}).` }
+            { role: 'user', content: `Draw "${prompt}" at (${cx},${cy}).` }
           ],
-          max_tokens: 700,
-          temperature: 0.65
+          max_tokens: 420,
+          temperature: 0.72
         });
 
         const rawTxt = (aiRes && aiRes.response) ? aiRes.response : '';
@@ -102,15 +102,16 @@ export async function onRequestPost(context) {
           const parsed = JSON.parse(match[0]);
           if (Array.isArray(parsed.primitives) && parsed.primitives.length > 0) {
             const fallback = buildProceduralMural(prompt, cx, cy, nx, ny, scheme);
-            const cleanPrims = parsed.primitives.slice(0, 20).map(p => ({
-              type: ['bezier','poly','arc'].includes(p.type) ? p.type : 'poly',
-              pts: Array.isArray(p.pts) ? p.pts.slice(0, 24).map(pt => [
+            const cleanPrims = parsed.primitives.slice(0, 18).map(p => ({
+              type: p.type === 'bezier' ? 'bezier' : 'poly',
+              closed: Boolean(p.closed),
+              pts: Array.isArray(p.pts) ? p.pts.slice(0, 20).map(pt => [
                 Math.max(20, Math.min(1580, Math.round(Number(pt[0]) || cx))),
                 Math.max(20, Math.min(780, Math.round(Number(pt[1]) || cy)))
               ]) : [[cx, cy], [cx + 25, cy + 25]],
               scheme,
-              width: Math.max(0.8, Math.min(4, Number(p.width) || 1.8)),
-              alpha: Math.max(0.25, Math.min(0.92, Number(p.alpha) || 0.7))
+              width: Math.max(1.0, Math.min(3.5, Number(p.width) || 1.9)),
+              alpha: 0.9
             }));
             return new Response(JSON.stringify({
               ok: true,

@@ -1,0 +1,18 @@
+# Cloudflare & Wrangler local caches
+.wrangler/
+
+# Environment files and credentials
+.env
+.env.*
+.dev.vars
+
+# Dependencies
+node_modules/
+
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Local runtime data
+data/paintings.json

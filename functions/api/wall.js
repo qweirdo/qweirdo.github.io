@@ -1,4 +1,4 @@
-// Cloudflare Pages Function: Global Shared Fresco Ledger (KV + Memory Fallback)
+// Cloudflare Pages Function: Global Shared Fresco Ledger (KV + Delta Sync)
 const MAX_SLOTS = 50;
 const KV_KEY = 'qweirdo_global_fresco_v2';
 let memoryFallback = [];
@@ -50,11 +50,16 @@ export async function onRequestOptions() {
 }
 
 export async function onRequestGet(context) {
-  const paintings = await readWall(context.env);
+  const url = new URL(context.request.url);
+  const since = Number(url.searchParams.get('since') || 0);
+  const all = await readWall(context.env);
+  const paintings = since > 0 ? all.filter(p => (p.timestamp || 0) > since) : all;
+
   return new Response(JSON.stringify({
     ok: true,
     maxSlots: MAX_SLOTS,
-    count: paintings.length,
+    total: all.length,
+    serverTime: Date.now(),
     paintings
   }), { status: 200, headers: CORS });
 }
@@ -73,7 +78,7 @@ export async function onRequestPost(context) {
     const customTag = cleanStr(body.customTag, 32, '');
     const substrate = ['mta','tile','brick','billboard'].includes(body.substrate) ? body.substrate : 'mta';
     const cap = ['fat','skinny','mop','spatter','waves','buff'].includes(body.cap) ? body.cap : 'fat';
-    const scheme = ['gold','chrome','oxblood','tealsage','matte'].includes(body.scheme) ? body.scheme : 'gold';
+    const scheme = ['gold','chrome','oxblood','tealsage','matte','lapis','teal','obsidian'].includes(body.scheme) ? body.scheme : 'gold';
     const tagStyle = ['wildstyle','bubble','handstyle','none'].includes(body.tagStyle) ? body.tagStyle : 'none';
 
     const cx = Math.max(80, Math.min(1520, Number(body.cx) || 800));
@@ -85,8 +90,6 @@ export async function onRequestPost(context) {
 
     const aiPrimitives = Array.isArray(body.aiPrimitives) ? body.aiPrimitives.slice(0, 32) : [];
     const bridgePrimitives = Array.isArray(body.bridgePrimitives) ? body.bridgePrimitives.slice(0, 12) : [];
-    const sigilPts = Array.isArray(body.sigilPts) ? body.sigilPts.slice(0, 300) : [];
-
     const image = (typeof body.image === 'string' && body.image.startsWith('data:image/') && body.image.length < 28000)
       ? body.image
       : '';
@@ -106,7 +109,6 @@ export async function onRequestPost(context) {
       strokes,
       aiPrimitives,
       bridgePrimitives,
-      sigilPts,
       image
     };
 

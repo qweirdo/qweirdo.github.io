@@ -221,7 +221,7 @@ button:hover{background:var(--a);transform:translateY(-1px)}
 .sf button.btn-alt:hover{background:rgba(212,175,55,.18);color:#fff;border-color:var(--gold)}
 
 #msg{min-height:1.6em;margin:2.4rem 0 0;padding:0 6vw;font-size:.9rem;color:var(--a)}#msg.warn{color:#9a3528;font-weight:600}
-section{padding:7rem 6vw 0;content-visibility:auto;contain-intrinsic-size:auto 600px}
+section{padding:4.5rem 6vw 0}
 .big{font:300 clamp(1.6rem,3.4vw,2.9rem)/1.2 var(--fd);letter-spacing:-.015em;max-width:26em}
 .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:2rem;margin-top:4rem;list-style:none}
 .steps li{border-top:1px solid var(--tx);padding-top:1rem;color:var(--mu);font-size:.95rem}
@@ -428,7 +428,7 @@ main,nav,footer{position:relative;z-index:1}
 .tool-btn.active-fluid{border-color:var(--teal);background:var(--tx);color:#38a3a5;box-shadow:0 0 8px rgba(56,163,165,0.4)}
 #btnPulseWave{background:linear-gradient(135deg,#1b5e5a,#287a74);color:#fff;border-color:transparent}
 #btnPulseWave:hover{background:linear-gradient(135deg,#287a74,#38a3a5);transform:translateY(-1px);box-shadow:0 6px 16px rgba(27,94,90,0.4)}
-body.studio-simple #capMop,body.studio-simple #capSpatter,body.studio-simple #toolBuff,body.studio-simple #toolLoupe,body.studio-simple #btnFluidity,body.studio-simple #btnPulseWave,body.studio-simple #btnAudio,body.studio-simple #btnWildstyle,body.studio-simple #btnBubble,body.studio-simple #btnHandstyle{display:none!important}
+body.studio-simple #capMop,body.studio-simple #capSpatter,body.studio-simple #toolBuff,body.studio-simple #toolLoupe,body.studio-simple .mini-canvas-group,body.studio-simple [data-mini],body.studio-simple [data-scheme="sage"],body.studio-simple [data-scheme="tyrian"],body.studio-simple [data-scheme="bistre"],body.studio-simple [data-scheme="terracotta"],body.studio-simple [data-scheme="silver"],body.studio-simple [data-scheme="spectrum"],body.studio-simple #btnFluidity,body.studio-simple #btnPulseWave,body.studio-simple #btnManifesto,body.studio-simple #btnStampForge,body.studio-simple #btnAudio,body.studio-simple #btnReplayEdition,body.studio-simple #btnExportFolio,body.studio-simple #btnRemix,body.studio-simple #btnWildstyle,body.studio-simple #btnBubble,body.studio-simple #btnHandstyle{display:none!important}
 .res-pro-drawer[hidden]{display:none!important}
 </style></head><body>
 <svg style="display:none" aria-hidden="true"><defs>
@@ -444,7 +444,7 @@ body.studio-simple #capMop,body.studio-simple #capSpatter,body.studio-simple #to
 
 <a href="#studio" class="skip-link">Skip to Living Wall Studio</a>
 <canvas id="site-waves" aria-hidden="true"></canvas>
-<nav aria-label="Main Navigation"><a class="lk" href="#" aria-label="Qweirdo, back to top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true"><defs><mask id="nd"><rect width="100" height="100" fill="#fff"/><g fill="#000"><path d="M19.9 48.0L21.4 48.2L22.9 48.5L24.4 48.9L25.9 49.3L27.5 49.7L29.1 50.2L30.7 50.8L32.3 51.4L33.9 52.0L35.5 52.6L37.1 53.2L38.8 53.9L40.4 54.6L42.0 55.2L43.6 55.9L45.2 56.5L46.8 57.1L48.4 57.7L49.9 58.3L51.5 58.8L52.8 59.1L53.9 59.2L55.0 59.2L56.0 59.2L57.0 59.1L57.9 58.9L58.8 58.6L59.6 58.2L60.3 57.8L61.0 57.3L61.6 56.7L62.1 56.0L62.5 55.2L62.7 54.3L62.7 53.4L62.5 52.5L62.1 51.6L61.6 50.9L60.9 50.2L60.2 49.6L59.3 49.1L58.4 48.8L57.4 48.6L56.4 48.6L55.5 48.7L54.6 49.0L53.7 49.4L52.9 50.0L52.3 50.6L51.7 51.5L51.3 52.4L51.0 53.3L50.8 54.4L50.8 55.5L51.0 56.6L51.3 57.7L51.8 58.8L52.4 60.0L53.2 61.1L54.2 62.4L55.4 63.3L56.3 64.0L57.2 64.7L58.2 65.4L59.1 66.1L60.1 66.8L61.0 67.5L62.0 68.2L63.0 68.9L63.9 69.7L64.9 70.4L65.9 71.2L66.9 72.0L67.8 72.8L68.8 73.6L69.8 74.5L70.8 75.4L71.7 76.3L72.7 77.3L73.7 78.3L74.4 79.1L75.2 79.8L75.9 80.6L76.7 81.4L77.4 82.2L78.2 83.0L79.0 83.8L79.9 84.6L80.7 85.3L81.6 86.0L82.5 86.8L83.4 87.4L84.4 88.1L85.5 88.7L86.5 89.3L87.6 89.8L88.8 90.3L90.0 90.7L91.2 91.0L92.3 91.2L93.7 83.8L92.7 83.6L92.0 83.5L91.2 83.2L90.4 83.0L89.7 82.7L88.9 82.3L88.2 81.9L87.4 81.5L86.7 81.0L85.9 80.5L85.2 79.9L84.4 79.3L83.6 78.7L82.9 78.0L82.1 77.3L81.4 76.6L80.6 75.9L79.8 75.2L79.1 74.4L78.3 73.7L77.2 72.6L76.1 71.6L74.9 70.7L73.8 69.8L72.7 68.9L71.6 68.0L70.5 67.2L69.5 66.4L68.4 65.7L67.3 65.0L66.3 64.2L65.2 63.6L64.2 62.9L63.2 62.2L62.2 61.6L61.3 60.9L60.3 60.3L59.4 59.7L58.5 59.1L57.8 58.6L57.2 58.0L56.7 57.2L56.2 56.6L56.0 56.0L55.8 55.4L55.7 55.0L55.6 54.6L55.7 54.3L55.7 54.0L55.8 53.8L55.9 53.6L56.0 53.5L56.2 53.3L56.3 53.2L56.5 53.2L56.7 53.1L57.0 53.1L57.2 53.1L57.5 53.2L57.8 53.4L58.1 53.6L58.3 53.7L58.4 53.8L58.4 53.9L58.4 53.9L58.5 53.8L58.5 53.8L58.4 53.9L58.4 54.0L58.2 54.2L58.0 54.4L57.7 54.6L57.3 54.8L56.8 55.0L56.2 55.2L55.6 55.3L54.9 55.3L54.1 55.4L53.3 55.3L52.5 55.2L51.0 54.8L49.5 54.3L48.0 53.8L46.4 53.3L44.8 52.8L43.1 52.2L41.5 51.6L39.8 51.0L38.2 50.5L36.5 49.9L34.8 49.4L33.1 48.8L31.5 48.3L29.8 47.8L28.1 47.4L26.5 47.0L24.9 46.7L23.3 46.4L21.7 46.2L20.1 46.0Z"/><path d="M22.0 47.3C27.5 57.2 69.8 69.3 57.4 74.3M22.5 47.4C26.4 58.0 49.2 79.7 35.4 74.5M24.2 47.7C23.2 56.8 13.7 46.7 20.0 59.1M21.6 47.2C14.1 43.1 20.3 23.1 16.1 37.2M21.9 47.2C29.1 33.1 21.0 25.0 30.9 19.4M22.4 47.3C31.6 35.8 48.5 13.8 57.1 17.2M22.7 47.4C37.0 41.7 79.8 44.5 74.5 32.9" stroke="#000" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M17.6 35.4C20.5 32.1 21.1 29.0 23.9 26.4M31.2 36.4C34.6 35.8 36.8 36.1 39.7 35.4M53.1 42.7C55.6 40.8 56.0 38.3 58.4 37.0" stroke="#000" stroke-width="1" stroke-linecap="round" fill="none"/></g></mask></defs><circle cx="46" cy="46" r="34" fill="#22140a" mask="url(#nd)"/><path d="M71.5 68.2L72.5 69.1L73.6 70.0L74.7 71.0L75.8 71.9L76.9 73.0L78.0 74.0L78.7 74.8L79.5 75.6L80.2 76.3L81.0 77.0L81.7 77.8L82.4 78.5L83.2 79.2L83.9 79.8L84.7 80.5L85.4 81.1L86.2 81.6L87.0 82.1L87.7 82.6L88.5 83.1L89.3 83.5L90.1 83.8L90.9 84.1" stroke="#b38600" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M70.3 69.7L71.4 70.5L72.4 71.4L73.5 72.3L74.5 73.3L75.6 74.3L76.7 75.3L77.4 76.1L78.2 76.9L78.9 77.6L79.7 78.4L80.4 79.1L81.2 79.8L82.0 80.5L82.7 81.2L83.5 81.9L84.3 82.5L85.1 83.1L85.9 83.7L86.8 84.2L87.6 84.7L88.5 85.2L89.4 85.5L90.3 85.9L91.2 86.2L92.2 86.4L93.2 86.6" stroke="#844c1c" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M69.1 71.1L70.2 72.0L71.2 72.8L72.2 73.7L73.3 74.7L74.3 75.6L75.3 76.7L76.1 77.4L76.8 78.2L77.6 78.9L78.4 79.7L79.1 80.4L79.9 81.2L80.7 81.9L81.5 82.6L82.3 83.3L83.2 84.0L84.0 84.6L84.9 85.2L85.8 85.8L86.7 86.3L87.7 86.8L88.7 87.3L89.7 87.6L90.7 88.0" stroke="#d4af37" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M68.0 72.6L69.0 73.4L70.0 74.2L71.0 75.1L72.0 76.0L73.0 77.0L74.0 78.0L74.8 78.7L75.5 79.5L76.3 80.2L77.1 81.0L77.9 81.8L78.7 82.5L79.5 83.3L80.3 84.0L81.2 84.7L82.1 85.4L83.0 86.1L83.9 86.8L84.9 87.4L85.9 88.0L86.9 88.5L88.0 89.0" stroke="#9a3528" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span aria-hidden="true">weirdo</span></a><div><a href="javascript:void(0)" onclick="const b=document.getElementById('btnStampTool');if(b)b.click()">Stamp Forge</a><a href="#ethos">Ethos</a><a href="#about">About</a><a href="#credits">Credits</a><a href="#archive">Archive</a><button type="button" class="nav-share-btn" id="btnNavShare" title="Share Project Qweirdo & Living Wall Studio">✦ Share Tool</button></div></nav>
+<nav aria-label="Main Navigation"><a class="lk" href="#" aria-label="Qweirdo, back to top"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-hidden="true"><defs><mask id="nd"><rect width="100" height="100" fill="#fff"/><g fill="#000"><path d="M19.9 48.0L21.4 48.2L22.9 48.5L24.4 48.9L25.9 49.3L27.5 49.7L29.1 50.2L30.7 50.8L32.3 51.4L33.9 52.0L35.5 52.6L37.1 53.2L38.8 53.9L40.4 54.6L42.0 55.2L43.6 55.9L45.2 56.5L46.8 57.1L48.4 57.7L49.9 58.3L51.5 58.8L52.8 59.1L53.9 59.2L55.0 59.2L56.0 59.2L57.0 59.1L57.9 58.9L58.8 58.6L59.6 58.2L60.3 57.8L61.0 57.3L61.6 56.7L62.1 56.0L62.5 55.2L62.7 54.3L62.7 53.4L62.5 52.5L62.1 51.6L61.6 50.9L60.9 50.2L60.2 49.6L59.3 49.1L58.4 48.8L57.4 48.6L56.4 48.6L55.5 48.7L54.6 49.0L53.7 49.4L52.9 50.0L52.3 50.6L51.7 51.5L51.3 52.4L51.0 53.3L50.8 54.4L50.8 55.5L51.0 56.6L51.3 57.7L51.8 58.8L52.4 60.0L53.2 61.1L54.2 62.4L55.4 63.3L56.3 64.0L57.2 64.7L58.2 65.4L59.1 66.1L60.1 66.8L61.0 67.5L62.0 68.2L63.0 68.9L63.9 69.7L64.9 70.4L65.9 71.2L66.9 72.0L67.8 72.8L68.8 73.6L69.8 74.5L70.8 75.4L71.7 76.3L72.7 77.3L73.7 78.3L74.4 79.1L75.2 79.8L75.9 80.6L76.7 81.4L77.4 82.2L78.2 83.0L79.0 83.8L79.9 84.6L80.7 85.3L81.6 86.0L82.5 86.8L83.4 87.4L84.4 88.1L85.5 88.7L86.5 89.3L87.6 89.8L88.8 90.3L90.0 90.7L91.2 91.0L92.3 91.2L93.7 83.8L92.7 83.6L92.0 83.5L91.2 83.2L90.4 83.0L89.7 82.7L88.9 82.3L88.2 81.9L87.4 81.5L86.7 81.0L85.9 80.5L85.2 79.9L84.4 79.3L83.6 78.7L82.9 78.0L82.1 77.3L81.4 76.6L80.6 75.9L79.8 75.2L79.1 74.4L78.3 73.7L77.2 72.6L76.1 71.6L74.9 70.7L73.8 69.8L72.7 68.9L71.6 68.0L70.5 67.2L69.5 66.4L68.4 65.7L67.3 65.0L66.3 64.2L65.2 63.6L64.2 62.9L63.2 62.2L62.2 61.6L61.3 60.9L60.3 60.3L59.4 59.7L58.5 59.1L57.8 58.6L57.2 58.0L56.7 57.2L56.2 56.6L56.0 56.0L55.8 55.4L55.7 55.0L55.6 54.6L55.7 54.3L55.7 54.0L55.8 53.8L55.9 53.6L56.0 53.5L56.2 53.3L56.3 53.2L56.5 53.2L56.7 53.1L57.0 53.1L57.2 53.1L57.5 53.2L57.8 53.4L58.1 53.6L58.3 53.7L58.4 53.8L58.4 53.9L58.4 53.9L58.5 53.8L58.5 53.8L58.4 53.9L58.4 54.0L58.2 54.2L58.0 54.4L57.7 54.6L57.3 54.8L56.8 55.0L56.2 55.2L55.6 55.3L54.9 55.3L54.1 55.4L53.3 55.3L52.5 55.2L51.0 54.8L49.5 54.3L48.0 53.8L46.4 53.3L44.8 52.8L43.1 52.2L41.5 51.6L39.8 51.0L38.2 50.5L36.5 49.9L34.8 49.4L33.1 48.8L31.5 48.3L29.8 47.8L28.1 47.4L26.5 47.0L24.9 46.7L23.3 46.4L21.7 46.2L20.1 46.0Z"/><path d="M22.0 47.3C27.5 57.2 69.8 69.3 57.4 74.3M22.5 47.4C26.4 58.0 49.2 79.7 35.4 74.5M24.2 47.7C23.2 56.8 13.7 46.7 20.0 59.1M21.6 47.2C14.1 43.1 20.3 23.1 16.1 37.2M21.9 47.2C29.1 33.1 21.0 25.0 30.9 19.4M22.4 47.3C31.6 35.8 48.5 13.8 57.1 17.2M22.7 47.4C37.0 41.7 79.8 44.5 74.5 32.9" stroke="#000" stroke-width="1.5" stroke-linecap="round" fill="none"/><path d="M17.6 35.4C20.5 32.1 21.1 29.0 23.9 26.4M31.2 36.4C34.6 35.8 36.8 36.1 39.7 35.4M53.1 42.7C55.6 40.8 56.0 38.3 58.4 37.0" stroke="#000" stroke-width="1" stroke-linecap="round" fill="none"/></g></mask></defs><circle cx="46" cy="46" r="34" fill="#22140a" mask="url(#nd)"/><path d="M71.5 68.2L72.5 69.1L73.6 70.0L74.7 71.0L75.8 71.9L76.9 73.0L78.0 74.0L78.7 74.8L79.5 75.6L80.2 76.3L81.0 77.0L81.7 77.8L82.4 78.5L83.2 79.2L83.9 79.8L84.7 80.5L85.4 81.1L86.2 81.6L87.0 82.1L87.7 82.6L88.5 83.1L89.3 83.5L90.1 83.8L90.9 84.1" stroke="#b38600" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M70.3 69.7L71.4 70.5L72.4 71.4L73.5 72.3L74.5 73.3L75.6 74.3L76.7 75.3L77.4 76.1L78.2 76.9L78.9 77.6L79.7 78.4L80.4 79.1L81.2 79.8L82.0 80.5L82.7 81.2L83.5 81.9L84.3 82.5L85.1 83.1L85.9 83.7L86.8 84.2L87.6 84.7L88.5 85.2L89.4 85.5L90.3 85.9L91.2 86.2L92.2 86.4L93.2 86.6" stroke="#844c1c" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M69.1 71.1L70.2 72.0L71.2 72.8L72.2 73.7L73.3 74.7L74.3 75.6L75.3 76.7L76.1 77.4L76.8 78.2L77.6 78.9L78.4 79.7L79.1 80.4L79.9 81.2L80.7 81.9L81.5 82.6L82.3 83.3L83.2 84.0L84.0 84.6L84.9 85.2L85.8 85.8L86.7 86.3L87.7 86.8L88.7 87.3L89.7 87.6L90.7 88.0" stroke="#d4af37" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M68.0 72.6L69.0 73.4L70.0 74.2L71.0 75.1L72.0 76.0L73.0 77.0L74.0 78.0L74.8 78.7L75.5 79.5L76.3 80.2L77.1 81.0L77.9 81.8L78.7 82.5L79.5 83.3L80.3 84.0L81.2 84.7L82.1 85.4L83.0 86.1L83.9 86.8L84.9 87.4L85.9 88.0L86.9 88.5L88.0 89.0" stroke="#9a3528" stroke-width="1.65" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span aria-hidden="true">weirdo</span></a><div><a href="javascript:void(0)" onclick="const b=document.getElementById('btnStampTool');if(b)b.click()">Stamp Forge</a><a href="#ethos">Ethos</a><a href="#about">About</a><a href="#credits">Credits</a><a href="#archive">Archive</a></div></nav>
 <main id="main-content" role="main">
 <div class="hero" role="region" aria-label="Hero Overview">
   <div class="hero-left">
@@ -459,7 +459,8 @@ body.studio-simple #capMop,body.studio-simple #capSpatter,body.studio-simple #to
         <stop offset="50%" stop-color="rgba(255,255,255,0.92)"/>
         <stop offset="100%" stop-color="rgba(255,255,255,0.15)"/>
       </linearGradient>
-    </defs><g mask="url(#hd)" id="qMaskGroup">
+      <clipPath id="qDiscClip"><circle cx="46" cy="46" r="34"/></clipPath>
+    </defs><g mask="url(#hd)" clip-path="url(#qDiscClip)" id="qMaskGroup">
       <!-- Underlying Base Circle of the Q (Current Color) -->
       <circle id="qCircleBase" cx="46" cy="46" r="34" fill="#181b22"/>
       <!-- Fluid Flood Wave (Harmonic fluid spline rising during color transitions) -->
@@ -476,7 +477,7 @@ body.studio-simple #capMop,body.studio-simple #capSpatter,body.studio-simple #to
   <div class="hero-right">
     <p class="kick">Charted by Chaos; Ordered by Code</p>
     <h1>Boundless pathways<br><em>Creative pistes</em></h1>
-    <p class="hero-lead">Shake the can, spray wild tags, and play on the living wall.</p>
+    <p class="hero-lead">A proudly purposeless digital sanctuary. Drift, doodle, and leave anonymous marks across a living global wall—free of feeds, algorithms, and modern web noise.</p>
     <div class="hero-share-bar" aria-label="Share Project Qweirdo">
       <span class="share-label">Share:</span>
       <button type="button" class="share-btn share-x" data-share="x" title="Share on X" aria-label="Share on X"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#ico-x"/></svg></button>
@@ -533,11 +534,10 @@ body.studio-simple #capMop,body.studio-simple #capSpatter,body.studio-simple #to
     <button type="button" class="action-btn" id="btnPulseWave" title="Send a fluid tidal wave across the wall">🌊 Pulse Wave</button>
     <button type="button" class="action-btn" id="btnStampTool" title="Stamp Forge: Transfer custom tags and geometric wonders onto the canvas" style="background:linear-gradient(135deg,#1b5e5a,#844c1c);color:#fff;font-weight:700">📐 Stamp & Geometry Forge</button>
     <button type="button" class="tool-btn" id="btnAudio" title="Toggle Sound Effects [Key A]">🔇 Audio: Off</button>
-    <button type="button" class="action-btn" id="btnLiveBroadcast" title="Submit your 5-word offering to the collective wall via GitHub">✦ Submit Offering via GitHub</button>
+    <button type="button" class="action-btn" id="btnLiveBroadcast" title="Publish current strokes & tag immediately to the worldwide wall">📡 Publish to Live Wall</button>
     <button type="button" class="action-btn" id="btnReplayWall" title="Launch deterministic replay of all edition offerings">🎬 Replay Edition</button>
     <button type="button" class="action-btn" id="btnToggleArchive" title="Toggle Live Archive Tray">🏛️ Live Archive (<span id="liveSlotCount">0</span>/50) <span id="liveIndicator" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#10b981;margin-left:4px;vertical-align:middle" title="Live Sync Active"></span></button>
     <button type="button" class="action-btn" id="btnExportFolio" title="Export Archival Folio & License">📷 Archival Folio & License</button>
-    <button type="button" class="action-btn" id="btnShareTool" title="Share Project Qweirdo">✦ Share Tool</button>
     <button type="button" class="action-btn" id="btnRemix" title="Remix vellum patina and texture [Key R]">✦ Remix Vellum</button>
     <button type="button" class="action-btn" id="btnUndo" title="Undo [Ctrl+Z]" disabled>↺ Undo</button>
   </div>
@@ -835,23 +835,17 @@ body.studio-simple #capMop,body.studio-simple #capSpatter,body.studio-simple #to
   </div>
 </div>
 
-<section id="ethos"><p class="big">A digital sanctuary for collective street art. No feeds, no algorithms. Your marks become part of a living wall that breathes with time.</p>
-<ul class="vals"><li><b>Slow</b><span>No rush. Weather, patina, and lichen gather slowly, giving your marks room to breathe.</span></li><li><b>Kind</b><span>No ads, no tracking, no feeds, and nothing sold.</span></li><li><b>Open</b><span>Free and anonymous. Real-time live sharing without accounts or cookies.</span></li></ul>
+<section id="ethos"><p class="big">Art made slowly, and together. No feeds, no metrics, no distractions—just shared marks settling into aged vellum across time.</p>
+<ul class="vals"><li><b>Slow</b><span>Unrushed by design. Ambient weather, patina, and ink gather gently around human marks.</span></li><li><b>Kind</b><span>Generous words bloom in gold and lapis; harsh terms dissolve into quiet geometry.</span></li><li><b>Open</b><span>Free, anonymous, and live worldwide—with zero cookies, zero trackers, and nothing sold.</span></li></ul>
 <p class="kick hw">How it works</p>
-<ol class="steps"><li><span>01</span><b>Spray & Ink Physics</b>Fat caps, skinny keylines, chisel mops, spatter flares, and buff washes.</li><li><span>02</span><b>Wildstyle & Mini-Canvases</b>Generate 3D wildstyle letterforms, or work on mini-canvases and blend them into the wall.</li><li><span>03</span><b>Stamp Transfer</b>Transfer postage stamps, postmarks, wax seals, and geometric wonders directly onto the canvas.</li><li><span>04</span><b>Archival Export</b>Download high-res artwork stamped with timestamps and SHA-256 cryptographic proof.</li><li><span>05</span><b>Mineral Palette</b>10 mineral pigments, an open spectrum color picker, and fluid wave effects.</li></ol></section>
+<ol class="steps"><li><span>01</span><b>Drift &amp; Doodle</b>Sketch with aerosol caps, mineral inks, and wildstyle stamps directly on the shared wall.</li><li><span>02</span><b>Plant Offerings</b>Drop up to five words or spin a personal geometric sigil to seed living wall motifs.</li><li><span>03</span><b>Breathe Together</b>Every stroke and tag syncs live across the globe, weaving into a perpetual collective fresco.</li></ol></section>
 
 <section id="about"><h2>About <em>Qweirdo</em></h2>
 <div class="ab"><div>
 <p class="lead">Project Qweirdo is a proudly pointless digital sanctuary—and by virtue of that exact refusal, entirely singular. Unencumbered by feeds, algorithmic friction, telemetry, or modern web pollution, it offers a rare pause: a place to drift, doodle, and leave anonymous marks across a living, shared urban wall that breathes with time.</p>
-<p><b>The Wall Canvas.</b> A parchment-like street wall with laid-paper textures and subtle craquelure. Sketch freely on the main surface or frame mini-canvases that blend back into the wall.</p>
-<p><b>Art by Pull Request.</b> Offerings are submitted publicly via GitHub Issues, approved into <code>data/edition.json</code>, and painted deterministically so all visitors experience the same shared wall. Canvas rendering, archive, and credits stay strictly in your browser.</p>
-<p><b>Ambient Weather.</b> A quiet background engine grows patina, lichen, and moisture runs around user marks, letting the wall age naturally over time without overpowering your art.</p>
-<p><b>Wildstyle & Inks.</b> Algorithmic street lettering with 3D drop blocks and arrowheads, paired with 10 mineral pigments and an open color picker.</p>
-<p><b>Stamp Forge.</b> Transfer custom postage stamps, postal cancellation marks, wax seals, and geometric wonders (Metatron's cube, golden spirals, Penrose decagrams) onto the canvas.</p>
-<p><b>Provenance & License.</b> Downloads include an immutable SHA-256 hash validating creation time and contributors. Free to share and exhibit under CC BY-NC 4.0 with attribution. Commercial and NFT use require inquiry.</p>
-<p><b>Privacy.</b> Zero ads, zero cookies, zero tracking. All physics, rendering, and cryptography run entirely in your browser.</p>
-<p><b>Maintainer.</b> Subhradeep Chatterjee.</p></div>
-<ul class="facts"><li><b>Stack</b>Vanilla HTML5 Canvas, CSS and JavaScript. Zero dependencies.</li><li><b>Hosting</b>GitHub Pages.</li><li><b>Editioning</b>Perpetual 150,000-stroke cycle.</li><li><b>Typography</b>Fraunces & Hanken Grotesk.</li></ul></div></section>
+<p><b>The Living Wall.</b> Every stroke, tag, and geometric stamp merges into a real-time global fresco powered by edge vector streaming and contextual AI patina—keeping the wall alive across all devices without accounts or tracking.</p>
+<p><b>Maintainer.</b> Subhradeep Chatterjee · Code under GNU AGPLv3 · Artwork &amp; prose under CC BY-NC 4.0.</p></div>
+<ul class="facts"><li><b>Stack</b>Vanilla HTML5 Canvas, CSS and JavaScript. Zero dependencies.</li><li><b>Hosting</b>Cloudflare Edge & GitHub Pages.</li><li><b>Editioning</b>Perpetual 150,000-stroke cycle.</li><li><b>Typography</b>Fraunces & Hanken Grotesk.</li></ul></div></section>
 
 <section id="credits"><div class="cols"><div><h2>Join the<br><em>canvas</em></h2></div><div>
 <p>Be credited as co-creator and inspiration for the current canvas edition. Your name is required; a link is optional.</p>
@@ -3101,12 +3095,14 @@ const btnExportStampSvg = document.getElementById('btnExportStampSvg');
 if (btnExportStampSvg) {
   btnExportStampSvg.onclick = () => {
     const sc = SCHEMES[activeScheme] || SCHEMES.gold;
+    const cleanTag = String(activeStampTag || 'QWEIRDO').replace(/[^a-zA-Z0-9 _-]/g, '').slice(0, 32);
+    const cleanMotif = String(activeStampMotif || 'penny_black').replace(/[^a-zA-Z0-9 _-]/g, '').slice(0, 32);
     const svgStr = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
   <rect width="500" height="500" fill="#f6eee1"/>
   <g stroke="${sc.stroke}" fill="${sc.stroke}">
-    <!-- Philatelic / Geometric Stamp: ${activeStampMotif} (${activeStampTag}) -->
+    <!-- Philatelic / Geometric Stamp: ${cleanMotif} (${cleanTag}) -->
     <circle cx="250" cy="250" r="220" fill="none" stroke="${sc.stroke}" stroke-width="2"/>
-    <text x="250" y="460" font-family="'Hanken Grotesk',sans-serif" font-size="12" font-weight="700" text-anchor="middle" fill="${sc.stroke}">PROJECT QWEIRDO · PHILATELIC &amp; GEOMETRIC STAMP FORGE · ${activeStampMotif.toUpperCase()}</text>
+    <text x="250" y="460" font-family="'Hanken Grotesk',sans-serif" font-size="12" font-weight="700" text-anchor="middle" fill="${sc.stroke}">PROJECT QWEIRDO · PHILATELIC &amp; GEOMETRIC STAMP FORGE · ${cleanMotif.toUpperCase()}</text>
   </g>
 </svg>`;
     const blob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' });
@@ -3787,7 +3783,7 @@ function rA(){
       if(!items.some(x=>x.num===def.num))items.push(def);
     }
   }
-  items.forEach((a,idx)=>{
+  items.slice(0, 9).forEach((a,idx)=>{
     const card=document.createElement('figure');
     card.className='archive-card';
     const num=a.num||(items.length-idx);
@@ -3809,7 +3805,14 @@ function rA(){
     const meta=document.createElement('div');
     meta.className='archive-meta';
     const coauthors=(a.n&&a.n.length)?a.n.map(x=>x.name).join(', '):'Anonymous Scribes';
-    meta.innerHTML=`<span class="archive-date">${fmt(a.d)}</span><span class="archive-prov" title="${coauthors}">Co-creators: ${coauthors}</span>`;
+    const dateSpan=document.createElement('span');
+    dateSpan.className='archive-date';
+    dateSpan.textContent=fmt(a.d);
+    const provSpan=document.createElement('span');
+    provSpan.className='archive-prov';
+    provSpan.title=coauthors;
+    provSpan.textContent=`Co-creators: ${coauthors}`;
+    meta.append(dateSpan,provSpan);
 
     const rpBtn=document.createElement('button');
     rpBtn.type='button';
@@ -4689,15 +4692,24 @@ async function loadEditionLedger() {
         const card = document.createElement('div');
         card.className = 'live-card';
         const wordsStr = Array.isArray(item.words) ? item.words.join(' ') : String(item.words);
-        card.innerHTML = `
-          <div class="live-card-info" style="padding:.6rem">
-            <div class="live-card-title" style="font-family:var(--fd);font-style:italic">"${wordsStr}"</div>
-            <div class="live-card-sub" style="margin-top:.4rem">
-              <span>${item.name || 'Anonymous Scribe'}</span>
-              <span>#${item.id}</span>
-            </div>
-          </div>
-        `;
+        const info = document.createElement('div');
+        info.className = 'live-card-info';
+        info.style.padding = '.6rem';
+        const titleEl = document.createElement('div');
+        titleEl.className = 'live-card-title';
+        titleEl.style.fontFamily = 'var(--fd)';
+        titleEl.style.fontStyle = 'italic';
+        titleEl.textContent = `"${wordsStr}"`;
+        const sub = document.createElement('div');
+        sub.className = 'live-card-sub';
+        sub.style.marginTop = '.4rem';
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = item.name || 'Anonymous Scribe';
+        const idSpan = document.createElement('span');
+        idSpan.textContent = `#${item.id}`;
+        sub.append(nameSpan, idSpan);
+        info.append(titleEl, sub);
+        card.appendChild(info);
         scrollEl.appendChild(card);
       });
     }

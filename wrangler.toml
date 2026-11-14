@@ -1,0 +1,10 @@
+name = "qweirdo"
+pages_build_output_dir = "."
+compatibility_date = "2026-11-01"
+
+[[kv_namespaces]]
+binding = "QWEIRDO_WALL"
+id = "4bc0e7c974344024ba43c7f08b522dd8"
+
+[ai]
+binding = "AI"

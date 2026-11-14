@@ -224,9 +224,36 @@ const server = http.createServer((req, res) => {
   }
 
   // 5. Static file serving (serve repository assets for full standalone execution)
-  let filePath = path.join(__dirname, pathname === '/' ? 'index.html' : pathname);
-  if (!fs.existsSync(filePath)) {
-    filePath = path.join(__dirname, 'index.html');
+  const rootDir = path.resolve(__dirname);
+  const rawPath = (req.url || '/').split('?')[0];
+  let decodedPath = '';
+  try {
+    decodedPath = decodeURIComponent(rawPath);
+  } catch (e) {
+    res.writeHead(400, { 'Content-Type': 'text/plain' });
+    res.end('400 Bad Request');
+    return;
+  }
+
+  // Strictly block any path traversal tokens
+  if (rawPath.includes('..') || decodedPath.includes('..')) {
+    res.writeHead(403, { 'Content-Type': 'text/plain' });
+    res.end('403 Forbidden');
+    return;
+  }
+
+  const normalizedPath = path.normalize(decodedPath === '/' ? '/index.html' : decodedPath);
+  let filePath = path.resolve(rootDir, '.' + normalizedPath);
+
+  // Confine requested file within repository root directory
+  if (!filePath.startsWith(rootDir)) {
+    res.writeHead(403, { 'Content-Type': 'text/plain' });
+    res.end('403 Forbidden');
+    return;
+  }
+
+  if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
+    filePath = path.join(rootDir, 'index.html');
   }
 
   const ext = path.extname(filePath).toLowerCase();

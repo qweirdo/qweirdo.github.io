@@ -93,7 +93,8 @@ jobs:
               return;
             }
 
-            const name = (rawName || 'Anonymous Scribe').slice(0, 60);
+            const cleanName = (rawName || 'Anonymous Scribe').replace(/[^a-zA-Z0-9 _.-]/g, '').trim().slice(0, 60);
+            const name = cleanName || 'Anonymous Scribe';
             let link = (rawLink === '_No response_' ? '' : rawLink).trim();
             if (link && !/^https?:\/\//i.test(link)) link = '';
 
@@ -125,12 +126,12 @@ jobs:
             fs.mkdirSync(editionDir, { recursive: true });
             fs.writeFileSync(editionFile, JSON.stringify(edition, null, 2) + '\n', 'utf8');
 
-            const { execSync } = require('child_process');
-            execSync('git config user.name "github-actions[bot]"');
-            execSync('git config user.email "github-actions[bot]@users.noreply.github.com"');
-            execSync('git add data/edition.json');
-            execSync(`git commit -m "Inscribe offering #${issue.number} by ${name}"`);
-            execSync('git push');
+            const { execFileSync } = require('child_process');
+            execFileSync('git', ['config', 'user.name', 'github-actions[bot]']);
+            execFileSync('git', ['config', 'user.email', 'github-actions[bot]@users.noreply.github.com']);
+            execFileSync('git', ['add', 'data/edition.json']);
+            execFileSync('git', ['commit', '-m', `Inscribe offering #${issue.number} by ${name}`]);
+            execFileSync('git', ['push']);
 
             await github.rest.issues.createComment({
               owner: context.repo.owner,
