@@ -125,6 +125,11 @@ export function inscribeOffering(editionFilePath, offering, options = {}) {
     execFileSync('git', ['add', editionFilePath], { cwd });
     execFileSync('git', ['commit', '-m', `Inscribe offering #${Number(offering.id)}`], { cwd });
     if (options.push) {
+      try {
+        execFileSync('git', ['pull', '--rebase', 'origin', 'main'], { cwd });
+      } catch (e) {
+        // Continue if offline or during testing
+      }
       execFileSync('git', ['push'], { cwd });
     }
   }
