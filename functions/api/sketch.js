@@ -1,10 +1,14 @@
-// Cloudflare Pages Function: Sub-Second Workers AI Vector Sketch & Seam-Bridge Generator
-const CORS = {
-  'Content-Type': 'application/json; charset=utf-8',
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type'
-};
+// Cloudflare Pages Function: Protected Workers AI Vector Sketch Generator
+import {
+  getCorsHeaders,
+  checkRateLimit,
+  verifyTurnstile,
+  isBadText,
+  cleanStr,
+  ALLOWED_SCHEMES
+} from './_validate.js';
+
+const sketchCache = new Map();
 
 function seededRng(seedStr) {
   let h = 2166136261 >>> 0;
@@ -70,20 +74,57 @@ function buildProceduralMural(prompt, cx, cy, nx, ny, scheme) {
   return { primitives, bridges, source: 'procedural-fallback' };
 }
 
-export async function onRequestOptions() {
-  return new Response(null, { status: 204, headers: CORS });
+export async function onRequestOptions(context) {
+  return new Response(null, { status: 204, headers: getCorsHeaders(context.request) });
 }
 
 export async function onRequestPost(context) {
+  const headers = getCorsHeaders(context.request);
+
+  // 1. Body size limit (max 16KB)
+  const contentLength = Number(context.request.headers.get('content-length') || 0);
+  if (contentLength > 16384) {
+    return new Response(JSON.stringify({ ok: false, error: 'Payload exceeds 16KB limit' }), { status: 413, headers });
+  }
+
+  // 2. Client IP Rate Limiting (max 15 sketch requests per minute)
+  const clientIp = context.request.headers.get('cf-connecting-ip') || '127.0.0.1';
+  if (!checkRateLimit('sketch_' + clientIp, 15, 60000)) {
+    return new Response(JSON.stringify({ ok: false, error: 'Too many sketch requests. Rate limit exceeded.' }), {
+      status: 429,
+      headers: { ...headers, 'Retry-After': '60' }
+    });
+  }
+
   try {
     const body = await context.request.json();
-    const prompt = String(body.prompt || 'urban sanctuary').replace(/[<>"'`]/g, '').trim().slice(0, 60);
+
+    // 3. Turnstile check
+    const turnstileToken = context.request.headers.get('CF-Turnstile-Token') || body.turnstileToken;
+    const isHuman = await verifyTurnstile(turnstileToken, context.env?.TURNSTILE_SECRET, clientIp);
+    if (!isHuman) {
+      return new Response(JSON.stringify({ ok: false, error: 'Turnstile verification failed' }), { status: 403, headers });
+    }
+
+    const rawPrompt = String(body.prompt || 'urban sanctuary');
+    if (isBadText(rawPrompt)) {
+      return new Response(JSON.stringify({ ok: false, error: 'Prompt contains restricted content' }), { status: 400, headers });
+    }
+
+    const prompt = cleanStr(rawPrompt, 50, 'urban sanctuary');
     const cx = Math.max(100, Math.min(1500, Math.round(Number(body.cx) || 800)));
     const cy = Math.max(100, Math.min(700, Math.round(Number(body.cy) || 400)));
     const nx = Number(body.neighborX) || 0;
     const ny = Number(body.neighborY) || 0;
-    const scheme = String(body.scheme || 'gold').slice(0, 20);
+    const scheme = (typeof body.scheme === 'string' && ALLOWED_SCHEMES.has(body.scheme)) ? body.scheme : 'gold';
 
+    // 4. In-memory caching
+    const cacheKey = `${prompt}_${cx}_${cy}_${scheme}`;
+    if (sketchCache.has(cacheKey)) {
+      return new Response(JSON.stringify({ ok: true, ...sketchCache.get(cacheKey) }), { status: 200, headers });
+    }
+
+    // 5. Cloudflare Workers AI Call
     if (context.env && context.env.AI) {
       try {
         const sys = `You are a 2D vector muralist for a 1600x800 street wall. Output ONLY compact valid JSON with key "primitives": an array of 10 to 14 vector objects centered near (${cx},${cy}) within radius 115 representing "${prompt}". Each item: {"type":"bezier"|"poly","closed":true|false,"pts":[[x,y],...],"width":1.2..3.2}. No markdown.`;
@@ -92,7 +133,7 @@ export async function onRequestPost(context) {
             { role: 'system', content: sys },
             { role: 'user', content: `Draw "${prompt}" at (${cx},${cy}).` }
           ],
-          max_tokens: 420,
+          max_tokens: 380,
           temperature: 0.72
         });
 
@@ -102,7 +143,7 @@ export async function onRequestPost(context) {
           const parsed = JSON.parse(match[0]);
           if (Array.isArray(parsed.primitives) && parsed.primitives.length > 0) {
             const fallback = buildProceduralMural(prompt, cx, cy, nx, ny, scheme);
-            const cleanPrims = parsed.primitives.slice(0, 18).map(p => ({
+            const cleanPrims = parsed.primitives.slice(0, 16).map(p => ({
               type: p.type === 'bezier' ? 'bezier' : 'poly',
               closed: Boolean(p.closed),
               pts: Array.isArray(p.pts) ? p.pts.slice(0, 20).map(pt => [
@@ -113,20 +154,23 @@ export async function onRequestPost(context) {
               width: Math.max(1.0, Math.min(3.5, Number(p.width) || 1.9)),
               alpha: 0.9
             }));
-            return new Response(JSON.stringify({
-              ok: true,
+
+            const result = {
               primitives: cleanPrims,
               bridges: fallback.bridges,
               source: 'workers-ai'
-            }), { status: 200, headers: CORS });
+            };
+            sketchCache.set(cacheKey, result);
+            return new Response(JSON.stringify({ ok: true, ...result }), { status: 200, headers });
           }
         }
-      } catch (aiErr) {}
+      } catch {}
     }
 
     const fallback = buildProceduralMural(prompt, cx, cy, nx, ny, scheme);
-    return new Response(JSON.stringify({ ok: true, ...fallback }), { status: 200, headers: CORS });
-  } catch (e) {
-    return new Response(JSON.stringify({ ok: false, error: 'Sketch synthesis failed' }), { status: 400, headers: CORS });
+    sketchCache.set(cacheKey, fallback);
+    return new Response(JSON.stringify({ ok: true, ...fallback }), { status: 200, headers });
+  } catch {
+    return new Response(JSON.stringify({ ok: false, error: 'Sketch synthesis failed' }), { status: 400, headers });
   }
 }
