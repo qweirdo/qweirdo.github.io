@@ -412,6 +412,9 @@
     } catch (e) {}
   }
 
+  const SAFE_THUMB = /^data:image\/(?:png|jpeg|webp);base64,[A-Za-z0-9+/]+={0,2}$/;
+  const safeThumb = s => typeof s === 'string' && s.length < 28000 && SAFE_THUMB.test(s);
+
   function renderArchiveTray() {
     const scrollEl = $('#liveArchiveScroll');
     const emptyHint = $('#liveEmptyHint');
@@ -431,17 +434,47 @@
     livePaintings.forEach((piece, idx) => {
       const card = document.createElement('div');
       card.className = 'live-card';
-      card.title = `Slot ${idx + 1}/50 · "${piece.title}" by ${piece.writer}`;
+      const pieceTitle = String(piece.title || 'Wall Mark');
+      const pieceWriter = String(piece.writer || 'Anon');
+      card.setAttribute('title', `Slot ${idx + 1}/50 · "${pieceTitle}" by ${pieceWriter}`);
+
       const thumbSrc = piece.image || '';
-      card.innerHTML = `
-        ${thumbSrc ? `<img class="live-card-thumb" src="${thumbSrc}" alt="${piece.title}" loading="lazy">` : `<div class="live-card-thumb" style="display:flex;align-items:center;justify-content:center;color:var(--gold);font:600 .75rem var(--fd)">✦ Live Mark</div>`}
-        <div class="live-card-info">
-          <div class="live-card-title"></div>
-          <div class="live-card-sub"><span></span><span>live</span></div>
-        </div>
-      `;
-      card.querySelector('.live-card-title').textContent = piece.title || 'Wall Mark';
-      card.querySelector('.live-card-sub span').textContent = piece.writer || 'Anon';
+      if (safeThumb(thumbSrc)) {
+        const img = document.createElement('img');
+        img.className = 'live-card-thumb';
+        img.src = thumbSrc;
+        img.alt = '';
+        img.loading = 'lazy';
+        card.appendChild(img);
+      } else {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'live-card-thumb';
+        placeholder.style.display = 'flex';
+        placeholder.style.alignItems = 'center';
+        placeholder.style.justifyContent = 'center';
+        placeholder.style.color = 'var(--gold)';
+        placeholder.style.font = '600 .75rem var(--fd)';
+        placeholder.textContent = '✦ Live Mark';
+        card.appendChild(placeholder);
+      }
+
+      const info = document.createElement('div');
+      info.className = 'live-card-info';
+      const titleDiv = document.createElement('div');
+      titleDiv.className = 'live-card-title';
+      titleDiv.textContent = pieceTitle;
+
+      const subDiv = document.createElement('div');
+      subDiv.className = 'live-card-sub';
+      const writerSpan = document.createElement('span');
+      writerSpan.textContent = pieceWriter;
+      const liveSpan = document.createElement('span');
+      liveSpan.textContent = 'live';
+      subDiv.append(writerSpan, liveSpan);
+
+      info.append(titleDiv, subDiv);
+      card.appendChild(info);
+
       card.addEventListener('click', () => {
         if (window.__QW && window.__QW.saveUndo) window.__QW.saveUndo();
         renderWallPacket(piece, true, 0.94);

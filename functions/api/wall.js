@@ -13,6 +13,34 @@ const cleanStr = (s, max = 48, def = '') => {
   return c;
 };
 
+const SAFE_THUMB = /^data:image\/(?:png|jpeg|webp);base64,[A-Za-z0-9+/]+={0,2}$/;
+
+export function isValidImage(dataUrl) {
+  if (typeof dataUrl !== 'string' || dataUrl.length > 28000 || !SAFE_THUMB.test(dataUrl)) {
+    return false;
+  }
+  try {
+    const commaIdx = dataUrl.indexOf(',');
+    if (commaIdx === -1) return false;
+    const base64Str = dataUrl.slice(commaIdx + 1);
+    const binaryStr = atob(base64Str.slice(0, 32));
+    const bytes = [];
+    for (let i = 0; i < Math.min(16, binaryStr.length); i++) {
+      bytes.push(binaryStr.charCodeAt(i));
+    }
+    // PNG: 89 50 4E 47
+    if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47) return true;
+    // JPEG: FF D8 FF
+    if (bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF) return true;
+    // WebP: RIFF (bytes 0..3) .... WEBP (bytes 8..11)
+    if (bytes[0] === 0x52 && bytes[1] === 0x49 && bytes[2] === 0x46 && bytes[3] === 0x46 &&
+        bytes[8] === 0x57 && bytes[9] === 0x45 && bytes[10] === 0x42 && bytes[11] === 0x50) return true;
+    return false;
+  } catch (e) {
+    return false;
+  }
+}
+
 const CORS = {
   'Content-Type': 'application/json; charset=utf-8',
   'Cache-Control': 'no-store, no-cache, must-revalidate',
@@ -73,6 +101,12 @@ export async function onRequestPost(context) {
     const body = JSON.parse(rawBody);
     const current = await readWall(context.env);
 
+    if (body.image) {
+      if (!isValidImage(body.image)) {
+        return new Response(JSON.stringify({ ok: false, error: 'Invalid image format or magic bytes' }), { status: 400, headers: CORS });
+      }
+    }
+
     const writer = cleanStr(body.writer, 40, 'Anonymous Scribe');
     const title = cleanStr(body.title, 50, 'Untitled Wall Mark');
     const customTag = cleanStr(body.customTag, 32, '');
@@ -90,9 +124,7 @@ export async function onRequestPost(context) {
 
     const aiPrimitives = Array.isArray(body.aiPrimitives) ? body.aiPrimitives.slice(0, 32) : [];
     const bridgePrimitives = Array.isArray(body.bridgePrimitives) ? body.bridgePrimitives.slice(0, 12) : [];
-    const image = (typeof body.image === 'string' && body.image.startsWith('data:image/') && body.image.length < 28000)
-      ? body.image
-      : '';
+    const image = body.image || '';
 
     const piece = {
       id: 'qw_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 7),
