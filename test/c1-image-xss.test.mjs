@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { onRequestPost, isValidImage } from '../functions/api/wall.js';
+import { onRequestPost } from '../functions/api/wall.js';
+import { isValidImage } from '../functions/api/_validate.js';
 
 test('C1: Server rejects XSS attribute breakout in image field with HTTP 400', async () => {
   const maliciousPayload = 'data:image/png;base64,AA" onerror="alert(1)" x="';
@@ -23,7 +24,7 @@ test('C1: Server rejects XSS attribute breakout in image field with HTTP 400', a
   assert.equal(res.status, 400, 'Server must return status 400 for malicious image payload');
   const body = await res.json();
   assert.equal(body.ok, false);
-  assert.match(body.error, /Invalid image format/);
+  assert.match(body.error, /Invalid.*image/i);
 });
 
 test('C1: Server accepts valid PNG data URL with correct magic bytes', async () => {

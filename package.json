@@ -1,11 +1,11 @@
 {
   "name": "project-qweirdo",
   "version": "1.0.0",
-  "description": "The Living Urban Wall: Digitally Aided Graffiti Canvas & Manifesto Archive",
-  "main": "server.js",
+  "description": "The Living Urban Wall: Digitally Aided Graffiti Canvas & Sanctuary Archive",
+  "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "test": "node test_server.js",
+    "test": "node --test test/*.test.mjs",
+    "check:schema": "node scripts/check-schema.mjs",
     "deploy:qweirdo": "npx wrangler pages deploy . --project-name=qweirdo --branch=main"
   },
   "keywords": [
@@ -14,11 +14,11 @@
     "aerosol-canvas",
     "subway-art",
     "realtime-canvas",
-    "nft-provenance"
+    "sanctuary"
   ],
   "author": "Project Qweirdo",
   "license": "AGPL-3.0-or-later",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   }
 }
