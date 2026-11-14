@@ -25,6 +25,58 @@
 
   const channel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('qweirdo_global_wall_v2') : null;
 
+  // Live-wall kill switch (configurable via D1)
+  const LIVE_WALL_ENABLED = true;
+
+  const ALLOWED_PRIM_TYPES = new Set(['bezier', 'poly']);
+
+  function validatePrimitive(p) {
+    if (!p || typeof p !== 'object' || Array.isArray(p)) return null;
+    const type = ALLOWED_PRIM_TYPES.has(p.type) ? p.type : 'poly';
+    if (!Array.isArray(p.pts) || p.pts.length < 2 || p.pts.length > 24) return null;
+
+    const cleanPts = [];
+    for (const pt of p.pts) {
+      if (!Array.isArray(pt) || pt.length < 2) return null;
+      const x = Number(pt[0]);
+      const y = Number(pt[1]);
+      if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+      cleanPts.push([x, y]);
+    }
+
+    const width = Math.max(0.5, Math.min(10, Number(p.width) || 1.8));
+    const alpha = Math.max(0.01, Math.min(1, Number(p.alpha) || 0.88));
+    const scheme = (typeof p.scheme === 'string') ? p.scheme : 'gold';
+    const closed = Boolean(p.closed);
+
+    return { type, pts: cleanPts, width, alpha, scheme, closed };
+  }
+
+  function validateWallPiece(p) {
+    if (!p || typeof p !== 'object' || Array.isArray(p)) return null;
+    const id = (typeof p.id === 'string' && /^qw_[a-z0-9_-]+$/i.test(p.id)) ? p.id : ('qw_' + Date.now().toString(36));
+    const title = typeof p.title === 'string' ? p.title.slice(0, 60) : 'Wall Mark';
+    const writer = typeof p.writer === 'string' ? p.writer.slice(0, 40) : 'Anon';
+    const scheme = typeof p.scheme === 'string' ? p.scheme : 'gold';
+    const cap = typeof p.cap === 'string' ? p.cap : 'fat';
+    const substrate = typeof p.substrate === 'string' ? p.substrate : 'mta';
+    const tagStyle = typeof p.tagStyle === 'string' ? p.tagStyle : 'none';
+    const customTag = typeof p.customTag === 'string' ? p.customTag.slice(0, 32) : '';
+    const cx = Number.isFinite(Number(p.cx)) ? Number(p.cx) : 800;
+    const cy = Number.isFinite(Number(p.cy)) ? Number(p.cy) : 400;
+    const timestamp = Number.isFinite(Number(p.timestamp)) ? Number(p.timestamp) : Date.now();
+    const image = (typeof p.image === 'string' && safeThumb(p.image)) ? p.image : '';
+
+    const strokes = Array.isArray(p.strokes) ? p.strokes.slice(0, 50) : [];
+    const aiPrimitives = Array.isArray(p.aiPrimitives) ? p.aiPrimitives.map(validatePrimitive).filter(Boolean) : [];
+    const bridgePrimitives = Array.isArray(p.bridgePrimitives) ? p.bridgePrimitives.map(validatePrimitive).filter(Boolean) : [];
+
+    return {
+      id, title, writer, scheme, cap, substrate, tagStyle, customTag,
+      cx, cy, timestamp, image, strokes, aiPrimitives, bridgePrimitives
+    };
+  }
+
   // =========================================================
   // 1. SIMPLE DOODLER (DEFAULT) vs. PRO WRITER MODE TOGGLE
   // =========================================================
@@ -69,14 +121,17 @@
   // 2. 4-PASS CHIAROSCURO & CROSS-HATCH RELIEF SHADER
   // =========================================================
   function resolveStrokeColor(schemeKey) {
-    if (window.__QW && window.__QW.SCHEMES && window.__QW.SCHEMES[schemeKey]) {
+    if (typeof schemeKey === 'string' && window.__QW && window.__QW.SCHEMES && Object.hasOwn(window.__QW.SCHEMES, schemeKey)) {
       return window.__QW.SCHEMES[schemeKey].stroke;
     }
     const fallbacks = {
       gold: '#b38600', lapis: '#264380', oxblood: '#8b1c28',
       teal: '#1b5e5a', tealsage: '#1b5e5a', obsidian: '#1a1c22', matte: '#1a1c22'
     };
-    return fallbacks[schemeKey] || '#844c1c';
+    if (typeof schemeKey === 'string' && Object.hasOwn(fallbacks, schemeKey)) {
+      return fallbacks[schemeKey];
+    }
+    return '#844c1c';
   }
 
   function drawChiaroscuroPrimitives(list, baseAlpha = 0.94, defaultScheme = 'gold') {
@@ -87,82 +142,89 @@
     X.lineCap = 'round';
     X.lineJoin = 'round';
 
-    list.forEach(p => {
-      const pts = p.pts || [];
-      if (pts.length < 2) return;
-      const color = resolveStrokeColor(p.scheme || defaultScheme);
-      const w = Math.max(1.2, p.width || 1.8);
-      const alpha = Math.min(1, (p.alpha || 0.88) * baseAlpha);
+    list.forEach(rawP => {
+      try {
+        const p = validatePrimitive(rawP);
+        if (!p) return;
+        const pts = p.pts;
+        const color = resolveStrokeColor(p.scheme || defaultScheme);
+        const w = p.width;
+        const alpha = Math.min(1, p.alpha * baseAlpha);
 
-      const tracePath = (dx = 0, dy = 0) => {
-        X.beginPath();
-        X.moveTo(pts[0][0] + dx, pts[0][1] + dy);
-        if (p.type === 'bezier' && pts.length >= 3) {
-          X.quadraticCurveTo(pts[1][0] + dx, pts[1][1] + dy, pts[2][0] + dx, pts[2][1] + dy);
-        } else {
-          for (let i = 1; i < pts.length; i++) X.lineTo(pts[i][0] + dx, pts[i][1] + dy);
-          if (p.closed) X.closePath();
-        }
-      };
+        const tracePath = (dx = 0, dy = 0) => {
+          X.beginPath();
+          X.moveTo(pts[0][0] + dx, pts[0][1] + dy);
+          if (p.type === 'bezier' && pts.length >= 3) {
+            X.quadraticCurveTo(pts[1][0] + dx, pts[1][1] + dy, pts[2][0] + dx, pts[2][1] + dy);
+          } else {
+            for (let i = 1; i < pts.length; i++) X.lineTo(pts[i][0] + dx, pts[i][1] + dy);
+            if (p.closed) X.closePath();
+          }
+        };
 
-      // Pass A: Umber Ground Shadow (+2.5px, +3px) for 3D relief on pale vellum/brick
-      X.strokeStyle = 'rgba(28, 16, 8, 0.28)';
-      X.lineWidth = w * 1.85;
-      X.globalAlpha = alpha * 0.85;
-      tracePath(2.5, 3.0);
-      X.stroke();
-
-      // Pass B: Interior 45-degree Engraving Hatching & Micro-Stipple Grain
-      if (p.closed && pts.length >= 4) {
-        X.save();
-        tracePath(0, 0);
-        X.clip();
-        let minX = 1e9, maxX = -1e9, minY = 1e9, maxY = -1e9;
-        pts.forEach(([x, y]) => {
-          if (x < minX) minX = x; if (x > maxX) maxX = x;
-          if (y < minY) minY = y; if (y > maxY) maxY = y;
-        });
-        X.strokeStyle = color;
-        X.lineWidth = 0.65;
-        X.globalAlpha = alpha * 0.26;
-        X.beginPath();
-        for (let d = minX - (maxY - minY); d < maxX + (maxY - minY); d += 7) {
-          X.moveTo(d, minY);
-          X.lineTo(d + (maxY - minY), maxY);
-        }
+        // Pass A: Umber Ground Shadow (+2.5px, +3px) for 3D relief on pale vellum/brick
+        X.strokeStyle = 'rgba(28, 16, 8, 0.28)';
+        X.lineWidth = w * 1.85;
+        X.globalAlpha = alpha * 0.85;
+        tracePath(2.5, 3.0);
         X.stroke();
-        X.restore();
-      }
 
-      // Micro-stipple ink dots around vertices
-      X.fillStyle = color;
-      X.globalAlpha = alpha * 0.55;
-      for (let i = 0; i < Math.min(pts.length, 10); i++) {
-        const [vx, vy] = pts[i];
-        for (let s = 0; s < 3; s++) {
-          const ang = (i * 2.1 + s * 2.09);
-          const rad = 4 + (s * 4);
-          X.fillRect(vx + Math.cos(ang) * rad, vy + Math.sin(ang) * rad, 1.3, 1.3);
+        // Pass B: Interior 45-degree Engraving Hatching & Micro-Stipple Grain
+        if (p.closed && pts.length >= 4) {
+          X.save();
+          tracePath(0, 0);
+          X.clip();
+          let minX = 1e9, maxX = -1e9, minY = 1e9, maxY = -1e9;
+          pts.forEach(([x, y]) => {
+            if (x < minX) minX = x; if (x > maxX) maxX = x;
+            if (y < minY) minY = y; if (y > maxY) maxY = y;
+          });
+          X.strokeStyle = color;
+          X.lineWidth = 0.65;
+          X.globalAlpha = alpha * 0.26;
+          X.beginPath();
+          for (let d = minX - (maxY - minY); d < maxX + (maxY - minY); d += 7) {
+            X.moveTo(d, minY);
+            X.lineTo(d + (maxY - minY), maxY);
+          }
+          X.stroke();
+          X.restore();
         }
-      }
 
-      // Pass C: Primary Variable-Taper Mineral Pigment
-      X.strokeStyle = color;
-      X.lineWidth = w;
-      X.globalAlpha = alpha;
-      tracePath(0, 0);
-      X.stroke();
+        // Micro-stipple ink dots around vertices
+        X.fillStyle = color;
+        X.globalAlpha = alpha * 0.55;
+        for (let i = 0; i < Math.min(pts.length, 10); i++) {
+          const [vx, vy] = pts[i];
+          for (let s = 0; s < 3; s++) {
+            const ang = (i * 2.1 + s * 2.09);
+            const rad = 4 + (s * 4);
+            X.fillRect(vx + Math.cos(ang) * rad, vy + Math.sin(ang) * rad, 1.3, 1.3);
+          }
+        }
 
-      // Pass D: Specular Leaf Glint (-1px, -1px) + Micro Gravity Drip on lowest vertex
-      X.strokeStyle = 'rgba(255, 250, 230, 0.72)';
-      X.lineWidth = 0.8;
-      X.globalAlpha = alpha * 0.75;
-      tracePath(-1, -1);
-      X.stroke();
+        // Pass C: Primary Variable-Taper Mineral Pigment
+        X.strokeStyle = color;
+        X.lineWidth = w;
+        X.globalAlpha = alpha;
+        tracePath(0, 0);
+        X.stroke();
 
-      if (addDrip && Math.random() < 0.22) {
-        const lowest = pts.reduce((a, b) => (b[1] > a[1] ? b : a), pts[0]);
-        addDrip(lowest[0], lowest[1], color, 2.2, 0.9);
+        // Pass D: Specular Leaf Glint (-1px, -1px) + Micro Gravity Drip on lowest vertex
+        X.strokeStyle = 'rgba(255, 250, 230, 0.72)';
+        X.lineWidth = 0.8;
+        X.globalAlpha = alpha * 0.75;
+        tracePath(-1, -1);
+        X.stroke();
+
+        if (addDrip && Math.random() < 0.22 && pts.length > 0) {
+          const lowest = pts.reduce((a, b) => (b[1] > a[1] ? b : a), pts[0]);
+          if (lowest && Number.isFinite(lowest[0]) && Number.isFinite(lowest[1])) {
+            addDrip(lowest[0], lowest[1], color, 2.2, 0.9);
+          }
+        }
+      } catch (err) {
+        // Individual primitive poison-pill guard
       }
     });
 
@@ -331,11 +393,21 @@
   }
 
   function renderWallPacket(piece, animate = false, ageAlpha = 0.92) {
+    if (!piece || typeof piece !== 'object') return;
     if (!window.__QW || !window.__QW.X) return;
     const { X, drawAerosol, stampWildstyleBurner, stampBubbleSoftie, stampHandstyle } = window.__QW;
 
-    drawChiaroscuroPrimitives(piece.bridgePrimitives, ageAlpha * 0.75, piece.scheme);
-    drawChiaroscuroPrimitives(piece.aiPrimitives, ageAlpha, piece.scheme);
+    try {
+      if (Array.isArray(piece.bridgePrimitives)) {
+        drawChiaroscuroPrimitives(piece.bridgePrimitives, ageAlpha * 0.75, piece.scheme);
+      }
+    } catch (e) {}
+
+    try {
+      if (Array.isArray(piece.aiPrimitives)) {
+        drawChiaroscuroPrimitives(piece.aiPrimitives, ageAlpha, piece.scheme);
+      }
+    } catch (e) {}
 
     const strokes = Array.isArray(piece.strokes) ? piece.strokes : [];
     if (strokes.length > 0 && typeof drawAerosol === 'function') {
@@ -343,11 +415,17 @@
         X.save();
         X.globalAlpha = ageAlpha;
         strokes.forEach(st => {
-          const cap = st[0] || piece.cap || 'fat';
-          const scheme = st[1] || piece.scheme || 'gold';
-          for (let i = 2; i < st.length - 2; i += 2) {
-            drawAerosol(st[i + 2], st[i + 3], st[i], st[i + 1], cap, scheme);
-          }
+          try {
+            if (!Array.isArray(st) || st.length < 4) return;
+            const cap = typeof st[0] === 'string' ? st[0] : (piece.cap || 'fat');
+            const scheme = typeof st[1] === 'string' ? st[1] : (piece.scheme || 'gold');
+            for (let i = 2; i < st.length - 2; i += 2) {
+              const x1 = Number(st[i]), y1 = Number(st[i + 1]), x2 = Number(st[i + 2]), y2 = Number(st[i + 3]);
+              if (Number.isFinite(x1) && Number.isFinite(y1) && Number.isFinite(x2) && Number.isFinite(y2)) {
+                drawAerosol(x2, y2, x1, y1, cap, scheme);
+              }
+            }
+          } catch (stErr) {}
         });
         X.restore();
       } else {
@@ -355,42 +433,58 @@
         const stepAnim = () => {
           if (sIdx >= strokes.length) return;
           const st = strokes[sIdx++];
-          const cap = st[0] || piece.cap || 'fat';
-          const scheme = st[1] || piece.scheme || 'gold';
-          for (let i = 2; i < st.length - 2; i += 2) {
-            drawAerosol(st[i + 2], st[i + 3], st[i], st[i + 1], cap, scheme);
-          }
+          try {
+            if (Array.isArray(st) && st.length >= 4) {
+              const cap = typeof st[0] === 'string' ? st[0] : (piece.cap || 'fat');
+              const scheme = typeof st[1] === 'string' ? st[1] : (piece.scheme || 'gold');
+              for (let i = 2; i < st.length - 2; i += 2) {
+                const x1 = Number(st[i]), y1 = Number(st[i + 1]), x2 = Number(st[i + 2]), y2 = Number(st[i + 3]);
+                if (Number.isFinite(x1) && Number.isFinite(y1) && Number.isFinite(x2) && Number.isFinite(y2)) {
+                  drawAerosol(x2, y2, x1, y1, cap, scheme);
+                }
+              }
+            }
+          } catch (stErr) {}
           requestAnimationFrame(stepAnim);
         };
         requestAnimationFrame(stepAnim);
       }
     }
 
-    const cx = piece.cx || 800, cy = piece.cy || 400;
-    registerAndWeaveNode(cx, cy, piece.scheme || 'gold', piece.writer || 'Anon');
+    try {
+      const cx = Number.isFinite(Number(piece.cx)) ? Number(piece.cx) : 800;
+      const cy = Number.isFinite(Number(piece.cy)) ? Number(piece.cy) : 400;
+      if (typeof registerAndWeaveNode === 'function') {
+        registerAndWeaveNode(cx, cy, piece.scheme || 'gold', piece.writer || 'Anon');
+      }
 
-    if (piece.customTag && piece.tagStyle === 'wildstyle' && stampWildstyleBurner) {
-      stampWildstyleBurner(piece.customTag, cx, cy, piece.scheme);
-    } else if (piece.customTag && piece.tagStyle === 'bubble' && stampBubbleSoftie) {
-      stampBubbleSoftie(piece.customTag, cx, cy, piece.scheme);
-    } else if (piece.customTag && piece.tagStyle === 'handstyle' && stampHandstyle) {
-      stampHandstyle(piece.customTag, cx, cy, piece.scheme);
-    }
+      if (piece.customTag) {
+        const tagText = String(piece.customTag);
+        const scheme = piece.scheme || 'gold';
+        if (piece.tagStyle === 'wildstyle' && typeof stampWildstyleBurner === 'function') {
+          stampWildstyleBurner(tagText, cx, cy, scheme);
+        } else if (piece.tagStyle === 'bubble' && typeof stampBubbleSoftie === 'function') {
+          stampBubbleSoftie(tagText, cx, cy, scheme);
+        } else if (piece.tagStyle === 'handstyle' && typeof stampHandstyle === 'function') {
+          stampHandstyle(tagText, cx, cy, scheme);
+        }
+      }
 
-    if (piece.writer || piece.title) {
-      X.save();
-      X.globalAlpha = Math.min(0.88, ageAlpha);
-      X.font = '600 11px "Hanken Grotesk", sans-serif';
-      const label = `✦ ${piece.title || 'Wall Mark'} · ${piece.writer || 'Anonymous Scribe'}`;
-      const tw = X.measureText(label).width;
-      const bx = Math.max(20, Math.min(1560 - tw, cx - tw / 2));
-      const by = Math.min(782, cy + 52);
-      X.fillStyle = 'rgba(20, 14, 8, 0.68)';
-      X.fillRect(bx - 6, by - 11, tw + 12, 16);
-      X.fillStyle = '#d4af37';
-      X.fillText(label, bx, by);
-      X.restore();
-    }
+      if (piece.writer || piece.title) {
+        X.save();
+        X.globalAlpha = Math.min(0.88, ageAlpha);
+        X.font = '600 11px "Hanken Grotesk", sans-serif';
+        const label = `✦ ${piece.title || 'Wall Mark'} · ${piece.writer || 'Anonymous Scribe'}`;
+        const tw = X.measureText(label).width;
+        const bx = Math.max(20, Math.min(1560 - tw, cx - tw / 2));
+        const by = Math.min(782, cy + 52);
+        X.fillStyle = 'rgba(20, 14, 8, 0.68)';
+        X.fillRect(bx - 6, by - 11, tw + 12, 16);
+        X.fillStyle = '#d4af37';
+        X.fillText(label, bx, by);
+        X.restore();
+      }
+    } catch (renderErr) {}
   }
 
   // =========================================================
@@ -487,6 +581,14 @@
     const statusEl = $('#liveSyncStatus');
     const dotEl = $('#livePulseDot');
     const indEl = $('#liveIndicator');
+
+    if (!LIVE_WALL_ENABLED) {
+      if (statusEl) statusEl.textContent = '○ Offline Sanctuary';
+      if (dotEl) dotEl.style.background = '#64748b';
+      if (indEl) indEl.style.background = '#64748b';
+      return;
+    }
+
     try {
       const query = (!isInitial && lastSyncTs > 0) ? `?since=${lastSyncTs}` : '';
       const res = await fetch(API_WALL + query, { cache: 'no-store' });
@@ -527,7 +629,9 @@
         }
       }
     } catch (e) {
-      if (statusEl) statusEl.textContent = '○ Local Cache';
+      if (statusEl) statusEl.textContent = '○ Live Wall Not Connected (Offline Mode)';
+      if (dotEl) dotEl.style.background = '#f59e0b';
+      if (indEl) indEl.style.background = '#f59e0b';
     }
   }
 
@@ -603,6 +707,9 @@
   function wireControls() {
     const btnBroadcast = $('#btnLiveBroadcast');
     if (btnBroadcast) {
+      if (!LIVE_WALL_ENABLED) {
+        btnBroadcast.style.display = 'none';
+      }
       btnBroadcast.onclick = () => publishToGlobalWall({ silent: false });
     }
 
@@ -624,17 +731,23 @@
 
     if (channel) {
       channel.onmessage = e => {
-        if (e.data && e.data.type === 'new_painting' && e.data.piece) {
-          const p = e.data.piece;
-          if (!renderedIds.has(p.id)) {
-            renderedIds.add(p.id);
-            livePaintings.unshift(p);
+        try {
+          if (!e || !e.data || e.data.type !== 'new_painting' || !e.data.piece) return;
+          const validated = validateWallPiece(e.data.piece);
+          if (!validated) return;
+          if (!renderedIds.has(validated.id)) {
+            renderedIds.add(validated.id);
+            livePaintings.unshift(validated);
             renderArchiveTray();
-            renderWallPacket(p, true, 0.96);
+            renderWallPacket(validated, true, 0.96);
           }
-        }
+        } catch (chanErr) {}
       };
     }
+  }
+
+  if (window.__QW) {
+    window.__QW.renderWallPacket = renderWallPacket;
   }
 
   function boot() {
