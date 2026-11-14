@@ -85,11 +85,12 @@
     if (!bar || $('#btnStudioMode')) return;
 
     // Default to Simple Doodler ('0') unless user explicitly locked Pro ('1')
-    let isPro = localStorage.getItem('qw_studio_pro') === '1';
+    let isPro = false;
+    try { isPro = localStorage.getItem('qw_studio_pro') === '1'; } catch (e) {}
     const applyMode = (pro) => {
       isPro = pro;
       document.body.classList.toggle('studio-simple', !pro);
-      localStorage.setItem('qw_studio_pro', pro ? '1' : '0');
+      try { localStorage.setItem('qw_studio_pro', pro ? '1' : '0'); } catch (e) {}
       const btn = $('#btnStudioMode');
       if (btn) {
         btn.setAttribute('aria-pressed', String(pro));
@@ -643,7 +644,12 @@
     try {
       const wdVal = ($('#wd') && $('#wd').value || '').trim();
       const title = (explicitPrompt || wdVal || 'Wall Gesture').slice(0, 50);
-      const savedCreds = JSON.parse(localStorage.getItem('qw_c') || '[]');
+      let savedCreds = [];
+      try {
+        const rawCreds = localStorage.getItem('qw_c');
+        if (rawCreds) savedCreds = JSON.parse(rawCreds);
+      } catch (e) { savedCreds = []; }
+      if (!Array.isArray(savedCreds)) savedCreds = [];
       const writer = ((savedCreds.length && savedCreds[savedCreds.length - 1].name) || 'Anonymous Scribe').slice(0, 40);
 
       const st = getState();

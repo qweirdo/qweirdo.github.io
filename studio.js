@@ -46,6 +46,7 @@ const SCHEMES={
   matte:      {name:'Opal Obsidian Pitch',   hue:220, sat:15, li:10, stroke:'#15171c', glow:'rgba(21,23,28,0.6)',    desc:'Deep carbon black pigment & raw charcoal pitch'},
   obsidian:   {name:'Opal Obsidian Pitch',   hue:220, sat:15, li:10, stroke:'#15171c', glow:'rgba(21,23,28,0.6)',    desc:'Deep carbon black pigment & raw charcoal pitch'}
 };
+const getScheme=k=>(k&&Object.hasOwn(SCHEMES,k)?SCHEMES[k]:SCHEMES.gold);
 let activeScheme='gold';
 let currentCap='fat';         // 'fat', 'skinny', 'mop', 'spatter', 'buff'
 let currentSubstrate='parchment'; // Unified Aged Scriptorium Vellum Wall
@@ -250,7 +251,7 @@ function updateUndoUI(){
 }
 
 function setScheme(key){
-  if(!SCHEMES[key])return;
+  if(!key||!Object.hasOwn(SCHEMES,key))return;
   activeScheme=key;
   document.querySelectorAll('.palette-chip').forEach(btn=>{
     btn.classList.toggle('active',btn.dataset.scheme===key);
@@ -462,7 +463,7 @@ function updateDrips(){
 
 // Aerosol Physics & Cap Engine
 function drawAerosol(x,y,px,py,cap,schemeKey){
-  const sc=SCHEMES[schemeKey]||SCHEMES.gold;
+  const sc=getScheme(schemeKey);
   const dist=Math.hypot(x-px,y-py);
   const steps=Math.max(1,Math.ceil(dist/3));
 
@@ -597,7 +598,7 @@ function drawAerosol(x,y,px,py,cap,schemeKey){
 function stampWildstyleBurner(text,x,y,schemeKey){
   if(!text||!text.trim())text='QWEIRDO';
   text=text.trim().toUpperCase().slice(0,24);
-  const sc=SCHEMES[schemeKey]||SCHEMES.gold;
+  const sc=getScheme(schemeKey);
 
   saveUndo();
   X.save();
@@ -835,7 +836,7 @@ function stampWildstyleBurner(text,x,y,schemeKey){
 function stampBubbleSoftie(text,x,y,schemeKey){
   if(!text||!text.trim())text='PHASE2';
   text=text.trim().toUpperCase().slice(0,20);
-  const sc=SCHEMES[schemeKey]||SCHEMES.gold;
+  const sc=getScheme(schemeKey);
 
   saveUndo();
   X.save();
@@ -956,7 +957,7 @@ function stampBubbleSoftie(text,x,y,schemeKey){
 function stampHandstyle(text,x,y,schemeKey){
   if(!text||!text.trim())text='TAKI 183';
   if(text.split(/\s+/).some(isBad)){msg('Restricted tag rejected.',true);return;}text=text.trim().slice(0,35);
-  const sc=SCHEMES[schemeKey]||SCHEMES.gold;
+  const sc=getScheme(schemeKey);
 
   saveUndo();
   X.save();
@@ -1573,7 +1574,7 @@ function renderStampPreview() {
     pCtx.stroke();
   }
 
-  const sc = SCHEMES[activeScheme] || SCHEMES.gold;
+  const sc = getScheme(activeScheme);
   pCtx.strokeStyle = sc.stroke;
   pCtx.fillStyle = sc.stroke;
 
@@ -2092,10 +2093,10 @@ async function downloadCanvasArchival(format = 'wall') {
     resolution: '3200x1600',
     license: 'CC BY-NC 4.0 (Free educational & non-commercial use with attribution to Project Qweirdo)'
   };
-  const downloadHistory = JSON.parse(localStorage.getItem('qweirdo_download_records') || '[]');
+  const downloadHistory = ld('qweirdo_download_records', []);
   downloadHistory.unshift(dlRecord);
   if (downloadHistory.length > 50) downloadHistory.length = 50;
-  localStorage.setItem('qweirdo_download_records', JSON.stringify(downloadHistory));
+  sv('qweirdo_download_records', downloadHistory);
 
   // 4. Download the image file
   const a = document.createElement('a');
@@ -2219,7 +2220,7 @@ if (btnLoadStampStencil) {
 const btnExportStampSvg = document.getElementById('btnExportStampSvg');
 if (btnExportStampSvg) {
   btnExportStampSvg.onclick = () => {
-    const sc = SCHEMES[activeScheme] || SCHEMES.gold;
+    const sc = getScheme(activeScheme);
     const cleanTag = String(activeStampTag || 'QWEIRDO').replace(/[^a-zA-Z0-9 _-]/g, '').slice(0, 32);
     const cleanMotif = String(activeStampMotif || 'penny_black').replace(/[^a-zA-Z0-9 _-]/g, '').slice(0, 32);
     const svgStr = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
@@ -2942,7 +2943,7 @@ function rA(){
     rpBtn.type='button';
     rpBtn.className='btn-archive-replay';
     rpBtn.setAttribute('aria-label',`Replay edition #${num}`);
-    rpBtn.innerHTML='🎬 Replay';
+    rpBtn.textContent='🎬 Replay';
     rpBtn.onclick=()=>launchReplay(a.edition||a.ed||activeEdition);
 
     cap.append(meta,rpBtn);
@@ -3127,7 +3128,7 @@ function spawnAiIdea(category,cx,cy,schemeKey){
   const cat=category||AI_SHAPE_KEYS[Math.floor(Math.random()*AI_SHAPE_KEYS.length)];
   const drawer=INTRICATE_AI_SHAPES[cat]||drawIntricateCastle;
   const schKey=schemeKey||activeScheme||'gold';
-  const sc=SCHEMES[schKey]||SCHEMES.gold;
+  const sc=getScheme(schKey);
   let x=cx,y=cy;
   if(x===undefined||y===undefined){
     if(activeMiniCanvas){
