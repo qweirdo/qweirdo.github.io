@@ -1,9 +1,9 @@
-import { isBad, filterText } from './src/filter.js';
+import { isBad } from './src/filter.js';
 
 const CREDITS_ENDPOINT=''; // optional: paste endpoint to receive credit submissions
 const $=s=>document.querySelector(s),C=$('#cv'),X=C.getContext('2d'),O=$('#ov').getContext('2d'),W=1600,H=800,TARGET=150000,R=(a,b)=>a+Math.random()*(b-a);
-const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
-let steps=ld('qw_s',0),cred=ld('qw_c',[]),arch=ld('qw_a',[]),ag=[],wall=[],vivid=.7,done=false,t=0,pt=null,hoverPos=null,lastAmbTime=0;
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(_e){}},ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(_e){return d}};
+let steps=ld('qw_s',0),cred=ld('qw_c',[]),arch=ld('qw_a',[]),ag=[],wall=[],vivid=.7,done=false,hoverPos=null,lastAmbTime=0;
 let currentNftMetadata = null;
 let currentNftHash = '';
 let activeEdition = [];
@@ -61,7 +61,6 @@ let stencilPos=[800,400];
 let stencilLocked=false;
 let isLoupeActive=false;
 let fluidityActive=true;
-let strokeBuf=[];
 
 // Fluid Teal Tidal Wave Pulse
 function pulseTealWave(){
@@ -273,7 +272,7 @@ function setCap(capKey){
   msg(`Aerosol Cap active: ${capNames[capKey]||capKey}.`);
 }
 
-function setSubstrate(subKey){
+function setSubstrate(){
   currentSubstrate='parchment';
   saveUndo();
   drawSubstrate();
@@ -1715,7 +1714,7 @@ function loadStampAsInteractiveStencil(motifKey, tagText) {
   msg('Loaded ' + m.name + ' as interactive stencil. Drag to position & spray through aperture.');
 }
 
-function loadStencil(key) {
+function loadStencil(_key) {
   loadStampAsInteractiveStencil(activeStampMotif, activeStampTag);
 }
 
@@ -1729,7 +1728,7 @@ function unloadStencil() {
 }
 const releaseStencil = unloadStencil;
 
-function stampPochoirStencil(key, x, y, schemeKey) {
+function stampPochoirStencil(_key, x, y, _schemeKey) {
   transferStampToWall(activeStampMotif, activeStampTag, x, y, activeStampStyle);
 }
 
@@ -1827,7 +1826,7 @@ function blendMiniCanvasIntoWall(){
   saveUndo();
   initAudio();
 
-  const { x, y, w, h, title } = activeMiniCanvas;
+  const { x, y, w, h } = activeMiniCanvas;
 
   X.save();
   // 1. Soft torn-paper drop shadow
@@ -1903,7 +1902,7 @@ function renderArchivalCanvas(format, provenance){
   FC.width=FW;FC.height=FH;
   const FX=FC.getContext('2d');
 
-  const { timestampIso, timestampUtc, timestampDate, inspirers, hashKey } = provenance;
+  const { timestampIso, timestampUtc, inspirers, hashKey } = provenance;
 
   if (format === 'wall') {
     // 1. Draw Master Living Wall (3200x1600)
@@ -2561,7 +2560,7 @@ $('#cf').onsubmit=e=>{
   rC();
   if(CREDITS_ENDPOINT)fetch(CREDITS_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...en,consent:true,date:new Date().toISOString()})}).catch(()=>{});
   e.target.reset();
-  msg('Thank you. Your moniker is now inscribed as co-creator of this canvas edition.');
+  msg('Thank you. Your moniker is inscribed in local canvas memory. To submit to the permanent global edition ledger, use the GitHub Issue Offering link.');
 };
 
 const xy=e=>{
@@ -2575,7 +2574,6 @@ const xy=e=>{
 // Canvas Pointer & Touch Events: Aerosol Spraying, Cap Dynamics, Stencil Masking
 const startDraw=(x,y)=>{
   initAudio();
-  pt=[x,y];
   hoverPos=[x,y];
   if(isLoupeActive)return;
   if(activeStencil&&!stencilLocked){
@@ -2602,7 +2600,6 @@ const moveDraw=(x,y)=>{
       drawAerosol(x,y,lastDrawPt[0],lastDrawPt[1],currentCap,activeScheme);
       updateSprayHiss(dist);
       lastDrawPt=[x,y];
-      pt=[x,y];
     }
   }
 };
@@ -2631,7 +2628,7 @@ const stopDrawing=e=>{
 };
 C.addEventListener('pointerup',stopDrawing);
 C.addEventListener('pointercancel',stopDrawing);
-C.addEventListener('pointerleave',e=>{if(!isDrawing)hoverPos=null;});
+C.addEventListener('pointerleave', ()=>{if(!isDrawing)hoverPos=null;});
 
 // High-fidelity touch event listeners for mobile gesture prevention & smooth strokes
 C.addEventListener('touchstart',e=>{
@@ -3149,7 +3146,6 @@ function spawnAiIdea(category,cx,cy,schemeKey){
 
 // Main Animation Loop
 function loop(ts){
-  t=ts;
   if(!done){
     updateDrips();
 
@@ -3177,7 +3173,6 @@ function loop(ts){
 }
 
 // Retain atmospheric seeding logic and word machinations
-const DEF={wave:'wave',water:'drop',fire:'flame',ember:'flame',light:'sun',plant:'leaf',root:'tree',star:'star',ice:'diamond',snow:'snowflake',bloom:'flower',sun:'sun',dream:'moon'};
 const K={
   wave:[[0,0],[12,8],[28,-6],[44,6],[60,-4]],
   drop:[[0,-18],[12,0],[0,18],[-12,0]],
@@ -3191,7 +3186,6 @@ const K={
   sun:[[0,0],[0,-20],[0,20],[0,0],[-20,0],[20,0],[0,0],[-14,-14],[14,14],[0,0],[-14,14],[14,-14]],
   moon:[[0,-18],[14,-10],[18,6],[8,18],[-6,18],[6,8],[6,-8]]
 };
-const KK=Object.keys(K),LEX={},SM={};
 const TP=6.28318,AR=(f,n=48)=>Array.from({length:n+1},(_,i)=>f(i/n)),CI=(cx,cy,r,n=40)=>AR(t=>[cx+r*Math.cos(t*TP),cy+r*Math.sin(t*TP)],n);
 const SH={
   star:CI(0,0,16),
@@ -3201,7 +3195,6 @@ const SH={
   flame:CI(0,0,16),
   tree:CI(0,0,18)
 };
-const STOP=new Set('the a an and or of to in is it test hello hi asdf abc lol ok'.split(' '));
 const hs=w=>[...w].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
 
 function slot(zonePref){
@@ -3325,7 +3318,6 @@ function step(a){
 }
 
 function seed(words){
-  const sc=SCHEMES[activeScheme];
   saveUndo();
   words.forEach(w=>{
     if(isBad(w))return;
@@ -3597,7 +3589,7 @@ requestAnimationFrame(loop);
   }
 
   // Circle Geometry: cx=46, cy=46, r=34
-  const cx = 46, cy = 46, r = 34;
+  const cx = 46, r = 34;
   function generateWave(p, time, slosh) {
     // p: 0.0 (bottom at y=84) to 1.0 (submerged at y=8)
     const yBase = 84 - p * 76;
@@ -3871,7 +3863,7 @@ function getWordClass(word) {
 // 18 drawn shapes: 11 in K + 7 procedural / geometric
 const ALL_SHAPE_KEYS = [...Object.keys(K), 'circle16', 'circle18', 'circle20', 'circle22', 'ring18', 'ring24', 'lozenge'];
 
-function getShapePoints(key, prng) {
+function getShapePoints(key) {
   if (K[key]) return K[key];
   if (SH[key]) return SH[key];
   return CI(0, 0, 18, 24);
@@ -4084,6 +4076,7 @@ window.__QW = {
   getState: () => ({ cap: currentCap, substrate: currentSubstrate, scheme: activeScheme }),
   saveUndo, addDrip, drawAerosol,
   stampWildstyleBurner, stampBubbleSoftie, stampHandstyle,
+  loadStampAsInteractiveStencil, unloadStencil, loadStencil, stampPochoirStencil,
   msg, playCanRattle, isBad
 };
 loadEditionLedger().finally(() => {

@@ -4,6 +4,7 @@
   "description": "The Living Urban Wall: Digitally Aided Graffiti Canvas & Sanctuary Archive",
   "type": "module",
   "scripts": {
+    "lint": "eslint .",
     "build": "node scripts/build-site.mjs",
     "test": "node --test test/*.test.mjs",
     "check:schema": "node scripts/check-schema.mjs",
@@ -21,5 +22,8 @@
   "license": "AGPL-3.0-or-later",
   "engines": {
     "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^10.15.0"
   }
 }

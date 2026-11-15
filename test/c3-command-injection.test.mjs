@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { parseOffering, validateOffering, inscribeOffering } from '../scripts/ingest-offering.mjs';
+import { validateOffering, inscribeOffering } from '../scripts/ingest-offering.mjs';
 
 test('C3: Malicious contributor name with shell injection payload is strictly rejected', () => {
   const maliciousName = 'x"; touch INJECTED; echo "';

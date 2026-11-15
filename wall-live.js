@@ -6,7 +6,6 @@
 
 (function initQweirdoLiveModule() {
   const $ = s => document.querySelector(s);
-  const $$ = s => Array.from(document.querySelectorAll(s));
   const CF_ORIGIN = window.location.hostname.endsWith('.pages.dev') ? '' : 'https://qweirdo.pages.dev';
   const API_WALL = CF_ORIGIN + '/api/wall';
   const API_SKETCH = CF_ORIGIN + '/api/sketch';
@@ -352,7 +351,6 @@
       sfForm.addEventListener('submit', () => {
         const wd = ($('#wd') && $('#wd').value || '').trim();
         if (!wd) return;
-        const st = window.__QW ? window.__QW.getState() : { scheme: 'gold' };
         setTimeout(() => {
           publishToGlobalWall({ silent: true, explicitPrompt: wd });
         }, 250);

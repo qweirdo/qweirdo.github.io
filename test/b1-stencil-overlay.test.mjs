@@ -17,12 +17,12 @@ test('B1: drawOverlay function is defined and bridges to over()', () => {
 test('B1: loadStampAsInteractiveStencil and unloadStencil execute without throwing drawOverlay ReferenceError', () => {
   let overCalled = 0;
   let rattleCalled = 0;
-  let msgText = '';
+  let _msgText = '';
 
   const mockContext = {
     drawOverlay: () => { overCalled++; },
     playCanRattle: () => { rattleCalled++; },
-    msg: (m) => { msgText = m; },
+    msg: (m) => { _msgText = m; },
     W: 1600,
     H: 800,
     activeStampStyle: 'pochoir',
@@ -34,7 +34,7 @@ test('B1: loadStampAsInteractiveStencil and unloadStencil execute without throwi
     stencilPos: null,
     stencilLocked: false,
     document: {
-      getElementById: (id) => ({
+      getElementById: (_id) => ({
         style: {},
         classList: { remove: () => {} },
         textContent: ''

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { filterText, isBad, INNOCENT_WORDS } from '../src/filter.js';
+import { filterText, isBad } from '../src/filter.js';
 
 test('M5/B3 Filter: Innocent words with substrings are never blocked', () => {
   const innocentList = [
