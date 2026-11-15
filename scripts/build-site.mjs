@@ -21,7 +21,8 @@ export function buildSite(rootDir = '.', outDirName = '_site') {
     'og-image.png',
     'og-image.svg',
     '_headers',
-    'CNAME'
+    'CNAME',
+    'SECURITY.md'
   ];
 
   allowlist.forEach(file => {
