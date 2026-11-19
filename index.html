@@ -153,10 +153,14 @@
 :root{--bg:#ebe0ce;--sf:#decbb1;--bd:#beaa8e;--tx:#22140a;--mu:#634e3a;--a:#844c1c;--s:#6b335a;--t:#9a3528;--g:#b38600;--gold:#d4af37;--oxblood:#8b1c28;--teal:#1b5e5a;--sage:#7da287;--fd:'Fraunces',Georgia,serif;--fb:'Hanken Grotesk',system-ui,sans-serif}
 html{scroll-behavior:smooth}
 body{background:var(--bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='.07'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");color:var(--tx);font:400 1rem/1.65 var(--fb);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-:focus-visible{outline:2px solid var(--a);outline-offset:3px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+@keyframes qBreathe{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-3px) rotate(1deg)}}
+@media(prefers-reduced-motion:no-preference){.hero-logo{animation:qBreathe 7s ease-in-out infinite}}
 nav{display:flex;justify-content:space-between;align-items:center;padding:1.4rem 6vw}
 .lk{display:flex;align-items:center;text-decoration:none;color:var(--tx);font:300 1.7rem var(--fd);letter-spacing:-.03em}.lk svg{width:46px;height:46px;margin-right:-6px}
-nav div{display:flex;gap:1.6rem}nav a{font-size:.9rem;text-decoration:none;color:var(--mu);transition:color .2s}nav a:hover{color:var(--a)}
+nav div{display:flex;gap:1.6rem}nav a{position:relative;font-size:.92rem;font-weight:500;text-decoration:none;color:var(--mu);transition:color .2s cubic-bezier(.2,.8,.2,1);padding:.25rem 0}nav a:hover{color:var(--a)}
+nav a::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:right;transition:transform .25s cubic-bezier(.2,.8,.2,1)}
+nav a:hover::after{transform:scaleX(1);transform-origin:left}
 .hero{display:grid;grid-template-columns:1.05fr 1.25fr;gap:4.5rem;align-items:center;padding:3.8rem 6vw 3.2rem}
 .hero>*{animation:up .9s cubic-bezier(.2,.7,.2,1) both}.hero>:nth-child(2){animation-delay:.15s}
 @keyframes up{from{opacity:0;transform:translateY(16px)}}
@@ -169,19 +173,21 @@ nav div{display:flex;gap:1.6rem}nav a{font-size:.9rem;text-decoration:none;color
 .hero-brand-name{font:300 clamp(3.6rem,7.5vw,6.4rem)/.86 var(--fd);letter-spacing:-.04em;color:var(--tx);display:inline-block}
 .hero-sub{color:var(--mu);font-size:.95rem;line-height:1.65;max-width:38ch}
 .hero-right{display:flex;flex-direction:column;justify-content:center}
-.kick{font-size:.85rem;color:var(--a);margin-bottom:.85rem;letter-spacing:.05em;text-transform:uppercase;font-weight:600}
-h1{font:300 clamp(2.3rem,4.6vw,4.1rem)/1.02 var(--fd);letter-spacing:-.035em;margin-bottom:1.1rem}
-h2{font:300 clamp(2rem,4.5vw,3.6rem)/1.05 var(--fd);letter-spacing:-.025em}
+.kick{font-size:.82rem;color:var(--a);margin-bottom:.85rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;display:inline-flex;align-items:center;gap:.4rem}
+.kick::before{content:'✦';color:var(--gold);font-size:.7rem}
+h1{font:300 clamp(2.4rem,4.8vw,4.4rem)/.98 var(--fd);letter-spacing:-.04em;margin-bottom:1.15rem;text-wrap:balance}
+h2{font:300 clamp(2rem,4.5vw,3.6rem)/1.05 var(--fd);letter-spacing:-.03em}
 h1 em,h2 em,.big em{font-style:italic;color:var(--a)}
-.hero-lead{color:var(--mu);font-size:.98rem;line-height:1.65;max-width:44ch}
+.hero-lead{color:var(--mu);font-size:clamp(.98rem,.92rem + .3vw,1.06rem);line-height:1.68;max-width:44ch}
 .stage{position:relative}
 
 /* Tapestry Studio Controls Bar */
 .studio-bar{display:flex;justify-content:space-between;align-items:center;gap:.7rem;flex-wrap:wrap;padding:0 6vw;margin-bottom:.8rem}
 .studio-group{display:flex;align-items:center;gap:.4rem;flex-wrap:wrap}
 .studio-lbl{font-size:.74rem;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;font-weight:600;margin-right:.1rem}
-.tool-btn,.palette-chip,.action-btn{font:600 .8rem var(--fb);min-height:36px;padding:0 .85rem;border-radius:99px;border:1px solid var(--bd);background:var(--sf);color:var(--tx);display:inline-flex;align-items:center;gap:.4rem;cursor:pointer;transition:transform .2s,background .2s,border-color .2s,box-shadow .2s;user-select:none}
-.tool-btn:hover,.palette-chip:hover,.action-btn:hover{background:var(--bg);border-color:var(--a);transform:translateY(-1px)}
+.tool-btn,.palette-chip,.action-btn{font:600 .8rem/1.2 var(--fb);min-height:38px;padding:0 .9rem;border-radius:99px;border:1px solid var(--bd);background:var(--sf);color:var(--tx);display:inline-flex;align-items:center;gap:.4rem;cursor:pointer;transition:transform .22s cubic-bezier(.2,.8,.2,1),background .2s,border-color .2s,box-shadow .2s;user-select:none}
+.tool-btn:hover,.palette-chip:hover,.action-btn:hover{background:#f6ede0;border-color:var(--gold);transform:translateY(-1.5px);box-shadow:0 4px 12px rgba(34,20,10,.12)}
+.tool-btn:active,.palette-chip:active,.action-btn:active{transform:translateY(0) scale(.98)}
 .tool-btn.active,.palette-chip.active{background:var(--tx);color:var(--bg);border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
 .tool-btn.active-candle{border-color:var(--gold);background:var(--tx);color:var(--gold);box-shadow:0 0 8px rgba(212,175,55,0.4)}
 .palette-chip i{display:inline-block;width:11px;height:11px;border-radius:50%;border:1px solid rgba(0,0,0,.2)}
@@ -275,11 +281,14 @@ footer p{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;fon
 .ab p.lead{font:300 clamp(1.4rem,2.4vw,2rem)/1.3 var(--fd);letter-spacing:-.01em;margin-bottom:1.6rem;max-width:28em}
 .facts{list-style:none;border-top:1px solid var(--tx);font-size:.92rem}.facts li{padding:.9rem 0;border-bottom:1px solid var(--bd);color:var(--mu)}.facts b{display:block;color:var(--tx);font-weight:600}
 
-/* Folio Modal */
-.folio-modal{position:fixed;inset:0;background:rgba(26,15,8,0.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:1000;padding:2rem}
-.folio-modal.open,.rp-modal.open{display:flex!important;animation:up .3s ease-out}
+/* Modern Native <dialog> Modal Architecture per Modern Web Guidance */
+dialog.folio-modal,dialog.share-modal,dialog.rp-modal{position:fixed;inset:0;margin:auto;padding:2rem;border:0;background:transparent;max-width:100vw;max-height:100vh;width:100%;height:100%;box-sizing:border-box;display:none;align-items:center;justify-content:center;z-index:1000}
+dialog.folio-modal:not([open]):not(.open),dialog.share-modal:not([open]):not(.open),dialog.rp-modal:not([open]):not(.open){display:none!important}
+dialog.folio-modal[open],dialog.share-modal[open],dialog.rp-modal[open],dialog.folio-modal.open,dialog.share-modal.open,dialog.rp-modal.open{display:flex!important;animation:up .3s cubic-bezier(.2,.8,.2,1)}
+dialog:modal{overscroll-behavior:contain}
+dialog::backdrop{background:rgba(20,12,6,0.85);backdrop-filter:blur(10px);overflow:hidden;overscroll-behavior:contain}
 .rp-modal{position:fixed!important;inset:0!important;z-index:1000!important}
-.folio-card{background:var(--bg);border:2px solid var(--gold);border-radius:12px;padding:1.6rem;max-width:960px;width:100%;box-shadow:0 25px 60px rgba(0,0,0,0.65)}
+.folio-card{background:var(--bg);border:2px solid var(--gold);border-radius:12px;padding:1.8rem;max-width:960px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 25px 60px rgba(0,0,0,0.65),0 0 0 1px rgba(212,175,55,0.4)}
 .folio-card img{width:100%;border:1px solid var(--bd);border-radius:6px;display:block;margin:1rem 0;box-shadow:0 10px 30px rgba(0,0,0,0.3)}
 
 /* Philatelic & Geometric Stamp Forge Modal */
@@ -348,10 +357,8 @@ footer p{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem;fon
 .folio-share-row{display:inline-flex;align-items:center;gap:.4rem}
 .footer-share-row{display:inline-flex;align-items:center;gap:.45rem;margin-bottom:.8rem}
 
-/* Share Modal Overlay & Card */
-.share-modal{position:fixed;inset:0;background:rgba(20,12,6,0.88);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;z-index:1000;padding:2rem}
-.share-modal.open{display:flex;animation:up .3s ease-out}
-.share-card{background:var(--bg);border:2px solid var(--gold);border-radius:14px;padding:2rem;max-width:760px;width:100%;box-shadow:0 30px 75px rgba(0,0,0,0.75)}
+/* Share Modal Card */
+.share-card{background:var(--bg);border:2px solid var(--gold);border-radius:14px;padding:2rem;max-width:760px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 30px 75px rgba(0,0,0,0.75),0 0 0 1px rgba(212,175,55,0.4)}
 .share-card-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--bd);padding-bottom:.8rem;margin-bottom:1rem}
 .share-modal-kicker{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--a);font-weight:700;display:block;margin-bottom:.2rem}
 .share-modal-title{font:300 1.6rem var(--fd);margin:0;letter-spacing:-.02em;color:var(--tx)}
@@ -494,7 +501,7 @@ body.studio-simple #capMop,body.studio-simple #capSpatter,body.studio-simple #to
 </div>
 
 <div class="stage" id="studio" role="region" aria-label="Living Wall Studio">
-<div class="studio-bar">
+<div class="studio-bar" role="toolbar" aria-label="Aerosol Studio Tools">
   <div class="studio-group">
     <span class="studio-lbl">Cap:</span>
     <button type="button" class="tool-btn active active-cap" id="capFat" data-cap="fat" title="Fat Cap: Broad spray with soft halo [Key F]">● Fat Cap</button>
@@ -582,12 +589,12 @@ body.studio-simple #capMop,body.studio-simple #capSpatter,body.studio-simple #to
 <div id="msg" role="status"></div></div>
 
 <!-- Subway Art Archival Broadside Modal Preview -->
-<div class="folio-modal" id="folioModal" role="dialog" aria-modal="true" aria-label="Subway Art Archival Wall Export">
+<dialog class="folio-modal" id="folioModal" closedby="any" aria-labelledby="folioModalTitle">
   <div class="folio-card">
     <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bd);padding-bottom:.8rem">
       <div>
         <span class="kick" style="margin-bottom:.2rem;display:block">Archival Documentation</span>
-        <h2 style="font:300 1.6rem var(--fd);margin:0;letter-spacing:-.02em">The Living Urban Wall · <em>Archival Folio</em></h2>
+        <h2 id="folioModalTitle" style="font:300 1.6rem var(--fd);margin:0;letter-spacing:-.02em">The Living Urban Wall · <em>Archival Folio</em></h2>
       </div>
       <button type="button" id="btnCloseFolio" style="min-height:36px;padding:0 1rem;background:transparent;color:var(--tx);border:1px solid var(--bd);cursor:pointer;border-radius:99px" aria-label="Close folio modal">✕ Close</button>
     </div>
@@ -642,15 +649,15 @@ body.studio-simple #capMop,body.studio-simple #capSpatter,body.studio-simple #to
       </div>
     </div>
   </div>
-</div>
+</dialog>
 
 <!-- Philatelic & Geometrical Wonder Stamp Forge Modal -->
-<div class="folio-modal" id="stampModal" role="dialog" aria-modal="true" aria-label="Philatelic & Geometric Transfer Studio">
+<dialog class="folio-modal" id="stampModal" closedby="any" aria-labelledby="stampModalTitle">
   <div class="folio-card" style="max-width:960px">
     <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--bd);padding-bottom:.8rem">
       <div>
         <span class="kick" style="margin-bottom:.2rem;display:block">Engraving & Philatelic Scriptorium</span>
-        <h2 style="font:300 1.6rem var(--fd);margin:0;letter-spacing:-.02em">Philatelic & Geometric · <em>Stamp Forge</em></h2>
+        <h2 id="stampModalTitle" style="font:300 1.6rem var(--fd);margin:0;letter-spacing:-.02em">Philatelic & Geometric · <em>Stamp Forge</em></h2>
       </div>
       <button type="button" id="btnCloseStampModal" style="min-height:36px;padding:0 1rem;background:transparent;color:var(--tx);border:1px solid var(--bd);cursor:pointer;border-radius:99px" aria-label="Close stamp forge">✕ Close</button>
     </div>
@@ -737,15 +744,15 @@ body.studio-simple #capMop,body.studio-simple #capSpatter,body.studio-simple #to
       </div>
     </div>
   </div>
-</div>
+</dialog>
 
 <!-- The Living Wall Studio & Project Qweirdo Share Modal -->
-<div class="share-modal" id="shareModal" role="dialog" aria-modal="true" aria-label="Share Project Qweirdo">
+<dialog class="share-modal" id="shareModal" closedby="any" aria-labelledby="shareModalTitle">
   <div class="share-card">
     <div class="share-card-header">
       <div>
         <span class="share-modal-kicker">Spread The Word · Open Street Humanities</span>
-        <h2 class="share-modal-title">Share <em>The Living Urban Wall</em></h2>
+        <h2 class="share-modal-title" id="shareModalTitle">Share <em>The Living Urban Wall</em></h2>
       </div>
       <button type="button" class="share-modal-close" id="btnCloseShareModal" aria-label="Close share dialog">✕ Close</button>
     </div>
@@ -834,7 +841,7 @@ body.studio-simple #capMop,body.studio-simple #capSpatter,body.studio-simple #to
       </div>
     </div>
   </div>
-</div>
+</dialog>
 
 <section id="ethos"><p class="big">Art made slowly, and together. No feeds, no metrics, no distractions—just shared marks settling into aged vellum across time.</p>
 <ul class="vals"><li><b>Slow</b><span>Unrushed by design. Ambient weather, patina, and ink gather gently around human marks.</span></li><li><b>Kind</b><span>Generous words bloom in gold and lapis; harsh terms dissolve into quiet geometry.</span></li><li><b>Open</b><span>Free, anonymous, and live worldwide—with zero cookies, zero trackers, and nothing sold.</span></li></ul>

@@ -37,6 +37,7 @@ export default [
         BroadcastChannel: 'readonly',
         AbortController: 'readonly',
         MediaRecorder: 'readonly',
+        HTMLDialogElement: 'readonly',
         addEventListener: 'readonly',
         removeEventListener: 'readonly',
         navigator: 'readonly',

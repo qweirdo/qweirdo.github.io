@@ -5,15 +5,17 @@ export function initReplay(edition, mountEl, options = {}) {
   const prev = document.querySelector('.rp-modal');
   if (prev) prev.remove();
 
-  const modal = document.createElement('div');
+  const modal = document.createElement('dialog');
   modal.className = 'folio-modal open rp-modal';
-  modal.role = 'dialog';
-  modal.setAttribute('aria-modal', 'true');
-  modal.setAttribute('aria-label', 'Edition Replay');
+  modal.setAttribute('closedby', 'any');
+  modal.setAttribute('aria-labelledby', 'rpTitle');
 
-  modal.innerHTML = `<div class="folio-card rp-card"><div class="rp-hdr"><div><h2 class="rp-title">Edition Replay · <em>${N} Offerings</em></h2></div><button type="button" class="tool-btn" id="rpClose">✕ Close</button></div><div class="rp-wrap"><canvas id="rpCv" width="1600" height="800"></canvas><div id="rpTip" class="rp-tip"></div></div><div class="rp-ctrls"><div class="rp-bar"><input type="range" id="rpRange" min="0" max="1" step="0.001" value="0" aria-label="Scrubber" class="rp-slider"><div id="rpTicks" class="rp-ticks"></div></div><div class="rp-row"><div class="rp-btns"><button type="button" class="tool-btn active" id="rpPlay" aria-label="Play">▶ Play</button><button type="button" class="tool-btn" id="rpBack" aria-label="Back">⏮ Back</button><button type="button" class="tool-btn" id="rpNext" aria-label="Next">⏭ Next</button><span id="rpLbl" class="rp-lbl"></span></div><div id="rpExpWrap"></div></div></div></div>`;
+  modal.innerHTML = `<div class="folio-card rp-card"><div class="rp-hdr"><div><h2 class="rp-title" id="rpTitle">Edition Replay · <em>${N} Offerings</em></h2></div><button type="button" class="tool-btn" id="rpClose">✕ Close</button></div><div class="rp-wrap"><canvas id="rpCv" width="1600" height="800"></canvas><div id="rpTip" class="rp-tip"></div></div><div class="rp-ctrls"><div class="rp-bar"><input type="range" id="rpRange" min="0" max="1" step="0.001" value="0" aria-label="Scrubber" class="rp-slider"><div id="rpTicks" class="rp-ticks"></div></div><div class="rp-row"><div class="rp-btns"><button type="button" class="tool-btn active" id="rpPlay" aria-label="Play">▶ Play</button><button type="button" class="tool-btn" id="rpBack" aria-label="Back">⏮ Back</button><button type="button" class="tool-btn" id="rpNext" aria-label="Next">⏭ Next</button><span id="rpLbl" class="rp-lbl"></span></div><div id="rpExpWrap"></div></div></div></div>`;
 
   document.body.appendChild(modal);
+  if (typeof modal.showModal === 'function') {
+    try { modal.showModal(); } catch { /* ignore */ }
+  }
 
   const $ = s => modal.querySelector(s);
   const cv = $('#rpCv'), ctx = cv.getContext('2d'), slider = $('#rpRange'), tip = $('#rpTip'), tickBox = $('#rpTicks'), btnPlay = $('#rpPlay'), lbl = $('#rpLbl'), expWrap = $('#rpExpWrap');
@@ -56,6 +58,9 @@ export function initReplay(edition, mountEl, options = {}) {
   function closeModal() {
     pause();
     removeEventListener('keydown', onKey);
+    if (typeof modal.close === 'function' && modal.open) {
+      try { modal.close(); } catch { /* ignore */ }
+    }
     modal.remove();
   }
 
@@ -79,7 +84,7 @@ export function initReplay(edition, mountEl, options = {}) {
   $('#rpBack').onclick = () => { pause(); draw(Math.max(0, (Math.floor(t * N) - 1) / N)); };
   $('#rpNext').onclick = () => { pause(); draw(Math.min(1, (Math.floor(t * N) + 1) / N)); };
   $('#rpClose').onclick = closeModal;
-  modal.onclick = (e) => { if (e.target === modal) closeModal(); };
+  modal.onclick = (e) => { if (!e.target.closest('.folio-card, .rp-card')) closeModal(); };
 
   if (typeof cv.captureStream === 'function' && typeof MediaRecorder !== 'undefined') {
     const btnExp = document.createElement('button');

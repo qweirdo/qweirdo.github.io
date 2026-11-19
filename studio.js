@@ -1702,7 +1702,10 @@ function loadStampAsInteractiveStencil(motifKey, tagText) {
   stencilLocked = false;
 
   const sModal = document.getElementById('stampModal');
-  if (sModal) sModal.classList.remove('open');
+  if (sModal) {
+    if (typeof sModal.close === 'function' && sModal.open) sModal.close();
+    sModal.classList.remove('open');
+  }
 
   const hud = document.getElementById('stencilHud');
   if (hud) hud.style.display = 'flex';
@@ -2135,6 +2138,32 @@ $('#btnAudio').onclick=()=>{
   msg(audioActive ? "Audio enabled." : "Audio muted.");
 };
 
+// Native <dialog> Modal Helpers per Modern Web Guidance
+function openModalDialog(el) {
+  if (!el) return;
+  if (typeof el.showModal === 'function') {
+    try {
+      if (!el.open) el.showModal();
+    } catch {
+      el.classList.add('open');
+    }
+  } else {
+    el.classList.add('open');
+  }
+}
+
+function closeModalDialog(el) {
+  if (!el) return;
+  if (typeof el.close === 'function' && el.open) {
+    try {
+      el.close();
+    } catch {
+      // ignore
+    }
+  }
+  el.classList.remove('open');
+}
+
 // Philatelic & Geometric Stamp Forge Modal Controller
 const btnStampTool = document.getElementById('btnStampTool');
 const stampModal = document.getElementById('stampModal');
@@ -2142,13 +2171,13 @@ const btnCloseStamp = document.getElementById('btnCloseStampModal');
 
 if (btnStampTool && stampModal) {
   btnStampTool.onclick = () => {
-    stampModal.classList.add('open');
+    openModalDialog(stampModal);
     renderStampPreview();
   };
 }
 
 if (btnCloseStamp && stampModal) {
-  btnCloseStamp.onclick = () => stampModal.classList.remove('open');
+  btnCloseStamp.onclick = () => closeModalDialog(stampModal);
 }
 
 // Motif Chips Selection
@@ -2203,7 +2232,7 @@ if (btnTransferStamp) {
     const ty = activeMiniCanvas ? (activeMiniCanvas.y + activeMiniCanvas.h / 2) : (H / 2);
     transferStampToWall(activeStampMotif, activeStampTag, tx, ty, activeStampStyle);
     if (activeMiniCanvas) activeMiniCanvas.strokesCount++;
-    if (stampModal) stampModal.classList.remove('open');
+    if (stampModal) closeModalDialog(stampModal);
   };
 }
 
@@ -2370,12 +2399,12 @@ $('#btnExportFolio').onclick=()=>{
   setTimeout(()=>{
     const url=generateSubwayArt(currentExportFmt);
     $('#folioPreview').src=url;
-    $('#folioModal').classList.add('open');
+    openModalDialog($('#folioModal'));
     msg('Archival Canvas generated with verified cryptographic provenance key.');
   },60);
 };
 
-$('#btnCloseFolio').onclick=()=>$('#folioModal').classList.remove('open');
+$('#btnCloseFolio').onclick=()=>closeModalDialog($('#folioModal'));
 
 async function computeSha256(text) {
   try {
@@ -4100,25 +4129,30 @@ loadEditionLedger().finally(() => {
   }
 
   function openShareModal() {
-    if (shareModal) shareModal.classList.add('open');
+    if (shareModal) openModalDialog(shareModal);
   }
 
   function closeShareModal() {
-    if (shareModal) shareModal.classList.remove('open');
+    if (shareModal) closeModalDialog(shareModal);
   }
 
   if (btnCloseModal) {
     btnCloseModal.addEventListener('click', closeShareModal);
   }
 
-  if (shareModal) {
-    shareModal.addEventListener('click', (e) => {
-      if (e.target === shareModal) closeShareModal();
+  // Light-dismiss fallback for <dialog closedby="any"> per Modern Web Guidance
+  if (typeof HTMLDialogElement !== 'undefined' && !('closedBy' in HTMLDialogElement.prototype)) {
+    document.querySelectorAll('dialog[closedby="any"]').forEach(dlg => {
+      dlg.addEventListener('click', (event) => {
+        if (!event.target.closest('.folio-card, .share-card, .rp-card')) {
+          closeModalDialog(dlg);
+        }
+      });
     });
   }
 
   window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && shareModal && shareModal.classList.contains('open')) {
+    if (e.key === 'Escape' && shareModal && (shareModal.open || shareModal.classList.contains('open'))) {
       closeShareModal();
     }
   });
@@ -4138,7 +4172,7 @@ loadEditionLedger().finally(() => {
 
   function handleShare(platform, btn) {
     let customText = BASE_TEXT;
-    const folioOpen = document.getElementById('folioModal') && document.getElementById('folioModal').classList.contains('open');
+    const folioOpen = document.getElementById('folioModal') && (document.getElementById('folioModal').open || document.getElementById('folioModal').classList.contains('open'));
 
     if (folioOpen) {
       const coauth = (typeof cred !== 'undefined' && cred.length) ? cred.map(c => c.name).join(', ') : 'Autonomous Writer';
