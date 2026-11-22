@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
 
 class MockContext2D {
@@ -22,7 +24,9 @@ class MockContext2D {
 }
 
 test('H3: Corrupted poison-pill primitives and strokes render without throwing', () => {
-  const code = fs.readFileSync('I:/qweirdo.github.io/wall-live.js', 'utf8');
+  const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  const wallLiveFile = path.resolve(__dirname, '../wall-live.js');
+  const code = fs.readFileSync(wallLiveFile, 'utf8');
 
   const mockCtx = new MockContext2D();
   const mockQW = {

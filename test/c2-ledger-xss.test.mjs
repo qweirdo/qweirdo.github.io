@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
 
 class MockElement {
@@ -32,9 +34,12 @@ class MockElement {
 }
 
 test('C2: Ledger row with XSS payload renders strictly as literal text without DOM injection', async () => {
-  const code = fs.existsSync('I:/qweirdo.github.io/studio.js')
-    ? fs.readFileSync('I:/qweirdo.github.io/studio.js', 'utf8')
-    : fs.readFileSync('I:/qweirdo.github.io/index.html', 'utf8');
+  const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  const studioFile = path.resolve(__dirname, '../studio.js');
+  const indexFile = path.resolve(__dirname, '../index.html');
+  const code = fs.existsSync(studioFile)
+    ? fs.readFileSync(studioFile, 'utf8')
+    : fs.readFileSync(indexFile, 'utf8');
 
   // Match async function loadEditionLedger
   const ledgerMatch = code.match(/async function loadEditionLedger\(\)[\s\S]*?\n\}/);

@@ -2,8 +2,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const studioPath = path.resolve('I:/qweirdo.github.io/studio.js');
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const studioPath = path.resolve(__dirname, '../studio.js');
 const studioCode = fs.readFileSync(studioPath, 'utf8');
 
 test('B1: drawOverlay function is defined and bridges to over()', () => {

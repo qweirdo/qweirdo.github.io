@@ -1,7 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const outDir = path.resolve('I:/qweirdo.github.io/assets/fonts');
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const outDir = path.resolve(__dirname, '../assets/fonts');
 if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
 
 const cssUrl = 'https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,500;0,600;1,300;1,500&family=Hanken+Grotesk:wght@400;500;600&display=swap';
